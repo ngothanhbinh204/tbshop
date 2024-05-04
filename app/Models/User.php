@@ -36,6 +36,7 @@ class User extends Authenticatable
         'description',
         'user_agent',
         'ip',
+        'status',
         'user_role'
     ];
 

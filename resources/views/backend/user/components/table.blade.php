@@ -67,7 +67,10 @@
                                                 <span class="label">Chưa xác định</span>
                                             @endif
                                         </td>
-                                        <td> <input type="checkbox" class="js-switch" checked />
+                                        <td>
+                                            {!! $user->status == 0
+                                                ? '<input type="checkbox" class="js-switch" />'
+                                                : '<input type="checkbox" class="js-switch" checked />' !!}
                                         </td>
                                         <td>
                                             <a href="{{ route('user.edit', ['id' => $user->id]) }}"

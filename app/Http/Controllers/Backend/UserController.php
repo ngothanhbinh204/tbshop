@@ -38,22 +38,51 @@ class UserController extends Controller
         $this->provinceReponsitory = $provinceReponsitory;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $template = 'backend.user.index';
-        // dd($config['seo']);
-        // $users = User::leftJoin('provinces', 'users.province_id', '=', 'provinces.code')
-        //     ->leftJoin('districts', 'users.district_id', '=', 'districts.code')
-        //     ->leftJoin('wards', 'users.ward_id', '=', 'wards.code')
-        //     ->select('users.*', 'provinces.name as province_name', 'districts.name as district_name', 'wards.name as ward_name')
-        //     ->paginate(10);
-        $users = User::with(['province', 'district', 'ward', 'role'])
-            ->select('users.*')
-            ->paginate(10);
+        // Lấy danh sách user roles
+        $roles = Role::all();
+        // Bắt đầu query users từ bảng 'users'
+        $usersQuery = User::with(['province', 'district', 'ward', 'role']);
+
+        // Tìm kiếm user
+        if ($request->has('keywords')) {
+            $keywords = $request->keywords;
+            if (!empty($request->keywords)) {
+                $usersQuery->where(function ($query) use ($keywords) {
+                    $query->where('username', 'like', "%$keywords%")
+                        ->orWhere('email', 'like', "%$keywords%");
+                });
+                // dd($request->keywords);
+            }
+        }
+
+        // lọc user theo role
+        if ($request->has('user_role')) {
+            if ($request->user_role !== null) {
+                $usersQuery->where('user_role', $request->user_role);
+            }
+            // dd($request->user_role);
+        }
+
+        // lọc user theo status
+        if ($request->has('status')) {
+            $status = $request->status == 'active' ? 1 : ($request->status == 'inactive' ? 0 : null);
+            if ($status !== null) {
+                $usersQuery->where('status', $status);
+            }
+            // dd($status);
+        }
+
+        // Lấy danh sách users đã qua lọc và phân trang
+        $users = $usersQuery->paginate(10);
+
 
         return view('backend.dashboard.layout', compact(
             'template',
-            'users'
+            'users',
+            'roles'
         ));
     }
 
