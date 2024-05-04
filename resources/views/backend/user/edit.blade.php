@@ -158,7 +158,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="form-horizontal">
-                            <h5><strong class="text-danger">Thông tin địa chỉ</strong> : {{ $user->province_name }}
+                            <h5><strong class="text-danger">Thông tin địa chỉ</strong> : {{ $user->province_name}}
                                 /
                                 {{ $user->district_name }} /
                                 {{ $user->ward_name }} </h5>

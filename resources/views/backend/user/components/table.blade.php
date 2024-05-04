@@ -1,8 +1,6 @@
-{{ $users->links('pagination::bootstrap-4') }}
-
 <div class="row">
     <div class="col-lg-12">
-        <div class="ibox text-center">
+        <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5> {{ $table }} </h5>
                 <div class="ibox-tools">
@@ -26,7 +24,7 @@
             <div class="ibox-content">
                 <div class="table-responsive">
                     <table class="table table-striped">
-                        <thead class="text-center">
+                        <thead>
                             <tr>
                                 <th></th>
                                 <th>Tên người dùng </th>
@@ -49,20 +47,22 @@
                                         <td> {{ $user->email }}</td>
                                         <td> {{ $user->phone }}</td>
                                         <td> {{ $user->address }}</td>
+
                                         <td>
                                             @if (isset($user->role))
-                                                {{-- Khách hàng --}}
-                                                @if ($user->role == 1)
-                                                    <span class="label">{{ $user->role->name }}</span>
-                                                    {{-- Admin --}}
-                                                @elseif ($user->role == 2)
+                                                {{-- Admin --}}
+                                                @if ($user->role->name == 'Quản trị viên')
                                                     <span class="label label-danger">{{ $user->role->name }}</span>
-                                                @elseif ($user->role == 2)
+                                                    {{-- Cộng tác viên --}}
+                                                @elseif ($user->role->namee == 'Cộng tác viên')
                                                     <span class="label label-info">{{ $user->role->name }}</span>
+                                                    {{-- Biên tập viên --}}
+                                                @elseif ($user->role->name == 'Biên tập viên')
+                                                    <span class="label label-success">{{ $user->role->name }}</span>
                                                 @else
-                                                    
+                                                    {{-- Khách hàng --}}
+                                                    <span class="label ">{{ $user->role->name }}</span>
                                                 @endif
-                                                <span class="label">{{ $user->role->name }}</span>
                                             @else
                                                 <span class="label">Chưa xác định</span>
                                             @endif
@@ -97,3 +97,5 @@
         </div>
     </div>
 </div>
+
+{{ $users->links('pagination::bootstrap-4') }}

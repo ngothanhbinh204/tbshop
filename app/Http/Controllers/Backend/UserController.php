@@ -50,15 +50,7 @@ class UserController extends Controller
         $users = User::with(['province', 'district', 'ward', 'role'])
             ->select('users.*')
             ->paginate(10);
-        //dd($users);
-        // foreach ($users as $user) {
-        //     echo "Tên: " . $user->username;
-        //     if ($user->role) {
-        //         echo "Vai trò: " . $user->role->name;
-        //     } else {
-        //         echo "Vai trò: Không có";
-        //     }
-        // }
+
         return view('backend.dashboard.layout', compact(
             'template',
             'users'
@@ -105,13 +97,19 @@ class UserController extends Controller
     {
         $template = 'backend.user.edit';
         $provinces = $this->provinceReponsitory->all($request);
-        $user = User::leftJoin('provinces', 'users.province_id', '=', 'provinces.code')
+        // $users = User::leftJoin('provinces', 'users.province_id', '=', 'provinces.code')
+        //     ->leftJoin('districts', 'users.district_id', '=', 'districts.code')
+        //     ->leftJoin('wards', 'users.ward_id', '=', 'wards.code')
+        //     ->select('users.*', 'provinces.name as province_name', 'districts.name as district_name', 'wards.name as ward_name')
+        //     ->paginate(10);
+        $user = User::with('role')
+            ->leftJoin('provinces', 'users.province_id', '=', 'provinces.code')
             ->leftJoin('districts', 'users.district_id', '=', 'districts.code')
             ->leftJoin('wards', 'users.ward_id', '=', 'wards.code')
-            ->leftJoin('roles', 'users.user_role', '=', 'roles.id')
-            ->select('users.*', 'roles.name as role_name', 'provinces.name as province_name', 'districts.name as district_name', 'wards.name as ward_name')
+            ->select('users.*', 'provinces.name as province_name', 'districts.name as district_name', 'wards.name as ward_name')
             ->where('users.id', $id)
             ->firstOrFail();
+
         $user->birthday = date('Y-m-d', strtotime($user->birthday));
         return view('backend.dashboard.layout', compact(
             'template',
