@@ -13,16 +13,47 @@ use Dotenv\Validator;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $template = 'backend.post.index';
+        $categories = CategoryPosts::all();
+        // bắt đầu query cho post
+        $postsQuery = Post::with('users.role');
 
-        //$posts = Post::orderByDesc('created_at')->paginate(6);
-        $posts = Post::with('users.role')->paginate(6);
+        // Tìm kiếm post
+        if ($request->has('keywords')) {
+            $keywords = $request->keywords;
+            if (!empty($request->keywords)) {
+                $postsQuery->where(function ($query) use ($keywords) {
+                    $query->where('title', 'like', "%$keywords%");
+                });
+            }
+        }
+
+        // lọc post theo category
+        if ($request->has('category_id')) {
+            if ($request->category_id !== null) {
+                $postsQuery->where('category_id', $request->category_id);
+            }
+            //dd($request->category_id);
+        }
+
+        // lọc post theo status
+        if ($request->has('status')) {
+            $status = $request->status == 'active' ? 1 : ($request->status == 'inactive' ? 0 : null);
+            if ($status !== null) {
+                $postsQuery->where('status', $status);
+            }
+            // dd($status);
+        }
+
+        $posts = $postsQuery->orderByDesc('created_at')
+            ->paginate(6);
 
         return view('backend.dashboard.layout', compact(
             'template',
             'posts',
+            'categories'
 
         ));
     }

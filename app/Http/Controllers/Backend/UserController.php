@@ -76,7 +76,7 @@ class UserController extends Controller
         }
 
         // Lấy danh sách users đã qua lọc và phân trang
-        $users = $usersQuery->paginate(10);
+        $users = $usersQuery->orderByDesc('user_role')->paginate(10);
 
 
         return view('backend.dashboard.layout', compact(

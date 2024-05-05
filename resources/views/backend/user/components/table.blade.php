@@ -1,3 +1,11 @@
+@php
+    $roleLabels = [
+        'Quản trị viên' => 'danger',
+        'Cộng tác viên' => 'info',
+        'Biên tập viên' => 'success',
+    ];
+@endphp
+
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
@@ -26,7 +34,6 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Tên người dùng </th>
                                 <th>Email </th>
                                 <th>Số Điện Thoại</th>
@@ -40,7 +47,7 @@
                             @if (isset($users) && is_object($users))
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td><input type="checkbox" checked class="i-checks" name="input[]"></td>
+
                                         <td>
                                             {{ $user->username }}
                                         </td>
@@ -49,23 +56,16 @@
                                         <td> {{ $user->address }}</td>
 
                                         <td>
-                                            @if (isset($user->role))
-                                                {{-- Admin --}}
-                                                @if ($user->role->name == 'Quản trị viên')
-                                                    <span class="label label-danger">{{ $user->role->name }}</span>
-                                                    {{-- Cộng tác viên --}}
-                                                @elseif ($user->role->namee == 'Cộng tác viên')
-                                                    <span class="label label-info">{{ $user->role->name }}</span>
-                                                    {{-- Biên tập viên --}}
-                                                @elseif ($user->role->name == 'Biên tập viên')
-                                                    <span class="label label-success">{{ $user->role->name }}</span>
-                                                @else
-                                                    {{-- Khách hàng --}}
-                                                    <span class="label ">{{ $user->role->name }}</span>
-                                                @endif
+                                            @if (isset($user->role) && array_key_exists($user->role->name, $roleLabels))
+                                                <span class="label label-{{ $roleLabels[$user->role->name] }}">
+                                                    {{ $user->role->name }}
+                                                </span>
                                             @else
-                                                <span class="label">Chưa xác định</span>
+                                                <span class="label">
+                                                    Chưa xác định
+                                                </span>
                                             @endif
+
                                         </td>
                                         <td>
                                             {!! $user->status == 0
