@@ -6,6 +6,7 @@
 <script src="{{ asset('backend/library/library.js') }}"></script>
 <script src="{{ asset('backend/library/location.js') }}"></script>
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
+<script src="{{ asset('backend/library/footable.js') }}"></script>
 
 <!-- Switchery -->
 <script src="{{ asset('backend/js/plugins/switchery/switchery.js') }}"></script>
@@ -32,6 +33,7 @@
 <script src="{{ asset('backend/js/plugins/flot/jquery.flot.symbol.js') }}"></script>
 <script src="{{ asset('backend/js/plugins/flot/jquery.flot.time.js') }}"></script>
 
+
 <!-- Peity -->
 <script src="{{ asset('backend/js/plugins/peity/jquery.peity.min.js') }}"></script>
 <script src="{{ asset('backend/js/demo/peity-demo.js') }}"></script>
@@ -56,7 +58,7 @@
 
 <!-- Sparkline demo data  -->
 <script src="{{ asset('backend/js/demo/sparkline-demo.js') }}"></script>
-
+<script src="{{ asset('backend/js/plugins/footable/footable.all.min.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('.chart').easyPieChart({

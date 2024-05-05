@@ -32,26 +32,31 @@
                 @endif
             </li>
             <li class="">
-                <a href=""><i class="fa fa-users"></i> <span class="nav-label">Quản Lý Thành Viên</span>
+                <a href=""><i class="fa fa-users"></i> <span class="nav-label">Quản lý Thành Viên</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href=" {{ route('user.index') }}">Danh sách thành viên</a></li>
                     <li class=""><a href=" {{ route('user.create') }}">Thêm thành viên</a></li>
-                    <li><a href="dashboard_3.html">Dashboard v.3</a></li>
-                    <li><a href="dashboard_4_1.html">Dashboard v.4</a></li>
-                    <li><a href="dashboard_5.html">Dashboard v.5 </a></li>
+
                 </ul>
             </li>
 
             <li class="">
-                <a href=""><i class="fa fa-book"></i> <span class="nav-label">Quản Lý Bài Viết</span>
+                <a href=""><i class="fa fa-book"></i> <span class="nav-label">Quản lý Bài Viết</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href=" {{ route('post.index') }}">Danh sách bài viết</a></li>
                     <li class=""><a href=" {{ route('post.create') }}">Thêm bài viết</a></li>
-                    <li><a href="dashboard_3.html">Dashboard v.3</a></li>
-                    <li><a href="dashboard_4_1.html">Dashboard v.4</a></li>
-                    <li><a href="dashboard_5.html">Dashboard v.5 </a></li>
+
+                </ul>
+            </li>
+            <li class="">
+                <a href=""><i class="fa fa-book"></i> <span class="nav-label">Quản lý sản phẩm</span>
+                    <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href=" {{ route('product.index') }}">Danh sách sản phẩm</a></li>
+                    <li class=""><a href=" {{ route('product.create') }}">Thêm sản phẩm</a></li>
+
                 </ul>
             </li>
         </ul>

@@ -3,7 +3,7 @@
 
 <head>
     @include('backend.dashboard.components.head')
-    @vite('resources/js/app.js')
+    {{-- @vite('resources/js/app.js') --}}
 </head>
 
 <body>

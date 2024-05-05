@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Backend\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,6 +43,18 @@ Route::group(['prefix' => 'post'], function () {
     Route::put('removePost/{id}', [PostController::class, 'removePost'])->name('post.removePost')->middleware('admin');
 });
 
+
+/* PRODUCTS */
+Route::group(['prefix' => 'product'], function () {
+    Route::get('index', [ProductController::class, 'index'])->name('product.index')->middleware('admin');
+    Route::get('create', [ProductController::class, 'create'])->name('product.create')->middleware('admin');
+    Route::post('store', [ProductController::class, 'store'])->name('product.store')->middleware('admin');
+    Route::get('detail/{id}', [ProductController::class, 'detail'])->name('product.detail')->middleware('admin');
+    Route::get('edit/{id}', [ProductController::class, 'edit'])->name('product.edit')->middleware('admin');
+    Route::get('update/{id}', [ProductController::class, 'updateProduct'])->name('product.update')->middleware('admin');
+    // Route::put('uploadPost/{id}', [ProductController::class, 'uploadPost'])->name('product.uploadPost')->middleware('admin');
+    // Route::put('removePost/{id}', [ProductController::class, 'removePost'])->name('product.removePost')->middleware('admin');
+});
 
 
 
