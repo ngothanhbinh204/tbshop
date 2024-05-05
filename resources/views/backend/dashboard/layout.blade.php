@@ -3,9 +3,12 @@
 
 <head>
     @include('backend.dashboard.components.head')
+    @vite('resources/js/app.js')
 </head>
 
 <body>
+    {{-- Render Vue ra giao diện --}}
+    <h3 id="home"></h3>
 
     <div id="wrapper">
         @include('backend.dashboard.components.leftSidebar')

@@ -4,7 +4,7 @@
 <title>Laravel - AdminManager</title>
 
 {{-- Link TailWind CSS --}}
-@vite('resources/css/app.css')
+
 
 <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('backend/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
