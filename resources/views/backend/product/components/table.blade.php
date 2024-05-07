@@ -22,36 +22,38 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->category_id }}</td>
+                                    <td>{{ $product->category->name }}</td>
+                                    <td>{{ $product->description }}</td>
+                                    <td>{{ $product->price }}</td>
+                                    <td>{{ $product->quantity }}</td>
                                     <td>
-                                        It is a long established fact that a reader will be distracted by the
-                                        readable
-                                        content of a page when looking at its layout. The point of using Lorem
-                                        Ipsum is
-                                        that it has a more-or-less normal distribution of letters, as opposed to
-                                        using
-                                        'Content here, content here', making it look like readable English.
-                                    </td>
-                                    <td>
-                                        $76.00
-                                    </td>
-                                    <td>
-                                        800
-                                    </td>
-                                    <td>
-                                        <span class="label label-warning">Low stock</span>
+                                        @if ($product->status == 1)
+                                            <span class="label label-info">Hoạt động</span>
+                                        @else
+                                            span class="label label-warning">Không hoạt động</span>
+                                        @endif
                                     </td>
                                     <td class="text-right">
-                                        <div class="btn-group">
-                                            <button class="btn-white btn btn-xs">View</button>
-                                            <button class="btn-white btn btn-xs">Edit</button>
+                                        <div class="">
+                                            <a href="{{ route('product.edit', ['id' => $product->id]) }}"
+                                                class="btn btn-circle btn-primary dim">
+                                                <i class="fa fa-edit">
+                                                </i>
+                                            </a>
+                                            <form action="" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-circle btn-danger">
+                                                    <i class="fa fa-trash ">
+                                                    </i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
 
                         @endif
-
 
                     </tbody>
                     <tfoot>

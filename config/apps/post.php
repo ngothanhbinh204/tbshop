@@ -6,6 +6,7 @@ return [
     ],
     'create' => [
         'title' => 'Thêm Mới Bài Viết',
+        
     ],
     'edit' => [
         'title' => 'Chỉnh Sửa Bài Viết',

@@ -12,7 +12,8 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $template = 'backend.product.index';
-        $products = Product::all();
+        $products = Product::with('category')
+            ->paginate(5);
         return view('backend.dashboard.layout', compact(
             'template',
             'products'
@@ -20,6 +21,12 @@ class ProductController extends Controller
     }
     public function create()
     {
+        $template = 'backend.product.create';
+        // $products = Product::all();
+        return view('backend.dashboard.layout', compact(
+            'template',
+            // 'products'
+        ));
     }
 
     public function store($request)

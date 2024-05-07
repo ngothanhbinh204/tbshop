@@ -2,6 +2,7 @@
     'title' => config('apps.post.index.title'),
     'table' => config('apps.post.index.table'),
 ])
+
 @include('backend.post.components.filter')
 
 

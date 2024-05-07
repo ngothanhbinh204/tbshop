@@ -51,7 +51,7 @@
                 </ul>
             </li>
             <li class="">
-                <a href=""><i class="fa fa-book"></i> <span class="nav-label">Quản lý sản phẩm</span>
+                <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Quản lý sản phẩm</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href=" {{ route('product.index') }}">Danh sách sản phẩm</a></li>
