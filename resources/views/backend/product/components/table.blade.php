@@ -23,14 +23,14 @@
                                 <tr>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->category->name }}</td>
-                                    <td>{{ $product->description }}</td>
+                                    <td>{!! $product->description !!}</td>
                                     <td>{{ $product->price }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>
                                         @if ($product->status == 1)
                                             <span class="label label-info">Hoạt động</span>
                                         @else
-                                            span class="label label-warning">Không hoạt động</span>
+                                            <span class="label label-warning">Không hoạt động</span>
                                         @endif
                                     </td>
                                     <td class="text-right">

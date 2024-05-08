@@ -10,7 +10,7 @@
         </div>
 
         <div class="col-sm-3 m-b-xs">
-            <select name="user_role" class="input-sm form-control input-s-sm inline">
+            <select name="user_role" class="input-sm form-control input-s-sm inline setupSelect2">
                 <option value="">Tất cả các nhóm</option>
                 @if (isset($roles))
                     @foreach ($roles as $role)

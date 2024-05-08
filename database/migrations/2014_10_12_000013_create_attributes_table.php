@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('attributes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->string('color');
-            $table->string('size');
-            $table->integer('stock')->default(0);
+            $table->string('type'); // Loại thuộc tính (ví dụ: color, size)
+            $table->string('value');
+            $table->integer('quantity')->default(0); // Số lượng tồn kho
             $table->timestamps();
         });
     }

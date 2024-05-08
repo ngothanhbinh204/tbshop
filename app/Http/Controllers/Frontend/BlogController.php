@@ -9,9 +9,11 @@ class BlogController extends Controller
 {
     public function index()
     {
+        $title = 'Trang tin tức';
         $template = 'frontend.client.blog.index';
         return view('frontend.client.layout', compact(
-            'template'
+            'template',
+            'title'
         ));
     }
 }

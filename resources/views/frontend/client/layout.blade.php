@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-    @include('frontend.client.components.head')
+    @include('frontend.client.components.head', ['title' => $title])
+
 </head>
 
 <body>

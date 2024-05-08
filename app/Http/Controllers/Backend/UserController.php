@@ -179,6 +179,17 @@ class UserController extends Controller
         return back()->with('error', 'Cập nhật ảnh đại diện không thành công');
     }
 
+    public function updateStatus($post = [])
+    {
+        $payload = [
+            $post['field'] => (($post['value'] == 1) ? 0 : 1)
+        ];
+        $user = User::findOrFail($post['modelId']);
+        $user->update($payload);
+        session()->push('notifications', ['message' => 'Cập nhật trạng thái người dùng thành công : ' . $user->username . ' ', 'type' => 'success']);
+        return redirect()->route('user.edit', $user->id);
+    }
+
     public function deleteUser($id)
     {
         // echo 1;

@@ -2,12 +2,13 @@
 
 use App\Exceptions\Handler;
 use App\Http\Controllers\Ajax\LocationController;
+use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ProductController;
-
+use App\Http\Controllers\Backend\AttributeController;
 // FrontEnd
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ShopController;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 /* AJAX */
 
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index');
+Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->name('ajax.dashboard.changeStatus');
 
 
 Route::get('/', function () {
@@ -61,6 +63,14 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('update/{id}', [ProductController::class, 'updateProduct'])->name('product.update')->middleware('admin');
     // Route::put('uploadPost/{id}', [ProductController::class, 'uploadPost'])->name('product.uploadPost')->middleware('admin');
     // Route::put('removePost/{id}', [ProductController::class, 'removePost'])->name('product.removePost')->middleware('admin');
+});
+
+/* ATTRIBUTES */
+Route::group(['prefix' => 'attribute'], function () {
+    Route::get('index', [AttributeController::class, 'index'])->name('attribute.index')->middleware('admin');
+    Route::get('create', [AttributeController::class, 'create'])->name('attribute.create')->middleware('admin');
+    Route::post('store', [AttributeController::class, 'store'])->name('attribute.store')->middleware('admin');
+
 });
 
 

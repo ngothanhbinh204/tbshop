@@ -67,10 +67,11 @@
                                             @endif
 
                                         </td>
-                                        <td>
-                                            {!! $user->status == 0
-                                                ? '<input type="checkbox" class="js-switch" />'
-                                                : '<input type="checkbox" class="js-switch" checked />' !!}
+                                        <td class="text-center">
+                                            <input value="{{ $user->status }}" type="checkbox" class="js-switch status"
+                                                name="" id="" data-field="status"
+                                                data-modelid="{{ $user->id }}" data-model="User"
+                                                {{ $user->status == 1 ? 'checked' : '' }}>
                                         </td>
                                         <td>
                                             <a href="{{ route('user.edit', ['id' => $user->id]) }}"

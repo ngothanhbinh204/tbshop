@@ -7,6 +7,8 @@
 <script src="{{ asset('backend/library/location.js') }}"></script>
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
 <script src="{{ asset('backend/library/footable.js') }}"></script>
+<script src="{{ asset('backend/library/attribute.js') }}"></script>
+
 
 <!-- Switchery -->
 <script src="{{ asset('backend/js/plugins/switchery/switchery.js') }}"></script>

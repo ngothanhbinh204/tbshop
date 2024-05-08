@@ -59,6 +59,15 @@
 
                 </ul>
             </li>
+            <li class="">
+                <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Quản lý thuộc tính sản phẩm</span>
+                    <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href=" {{ route('attribute.index') }}">Danh sách thuộc tính</a></li>
+                    <li class=""><a href=" {{ route('attribute.create') }}">Thêm thuộc tính</a></li>
+
+                </ul>
+            </li>
         </ul>
 
     </div>

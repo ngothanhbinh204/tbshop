@@ -14,6 +14,7 @@ class Product extends Model
         'weight',
         'price',
         'brand_id',
+        'description',
         'sku',
         'status',
         'is_hot',
@@ -32,5 +33,9 @@ class Product extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'brand_id');
+    }
+    public function attribute()
+    {
+        return $this->hasMany(Attribute::class);
     }
 }

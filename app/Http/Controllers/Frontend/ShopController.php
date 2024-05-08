@@ -9,9 +9,11 @@ class ShopController extends Controller
 {
     public function index()
     {
+        $title = 'Trang shop';
         $template = 'frontend.client.shop.index';
         return view('frontend.client.layout', compact(
-            'template'
+            'template',
+            'title'
         ));
     }
 }
