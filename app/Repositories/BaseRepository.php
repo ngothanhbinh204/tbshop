@@ -33,7 +33,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function findByID(
         int $modelID,
-        array $column = ['*'],
+        array $column = [],
         array $relation = []
     ) {
         return $this->model->select($column)->with($relation)->findOrFail($modelID);

@@ -11,7 +11,7 @@ interface BaseRepositoryInterface
     public function all();
     public function findByID(
         int $modelID,
-        array $column = ['*'],
+        array $column = [],
         array $relation = []
     );
 }

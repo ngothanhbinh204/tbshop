@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Services\Interfaces\ProductServiceInterface as ProductService;
+use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceService;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
@@ -14,6 +17,15 @@ use App\Models\Attribute;
 
 class ProductController extends Controller
 {
+    protected $productService;
+    protected $provinceRepository;
+    public function __construct(
+        ProductService $productService,
+        ProvinceService $provinceRepository
+    ) {
+        $this->productService = $productService;
+        $this->provinceRepository = $provinceRepository;
+    }
     public function index(Request $request)
     {
         $template = 'backend.product.index';
@@ -31,7 +43,7 @@ class ProductController extends Controller
 
         $categories = Category::all();
         $brands = Brand::all();
-        $provinces = Province::all();
+        $provinces = $this->provinceRepository->all();
         $colors = Attribute::where('type', 'color')->get();
         $sizes = Attribute::where('type', 'size')->get();
         return view('backend.dashboard.layout', compact(
@@ -46,18 +58,9 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        // dd($request->all());
-        DB::beginTransaction();
-        try {
-            $payload = $request->except('_token', 'files');
-            dd($payload);
-            // $product = Product::create($payload);
-            // DB::commit();
-            // return redirect()->route('product.index')->with('success', 'Thêm sản phẩm mới thành công');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            echo $e->getMessage();
-            return redirect()->back()->with('error', 'Thêm sản phẩm không thành công, Hãy thử lại !!');
+        if ($this->productService->create($request)) {
+            session()->push('notifications', ['message' => 'Thêm sản phẩm mới thành công', 'type' => 'success']);
+            return redirect()->route('product.index')->with('success', 'Thêm mới sản phẩm thành công');
         }
     }
 

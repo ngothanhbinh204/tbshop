@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+
+use App\Models\User;
 
 
 /**
@@ -48,8 +51,30 @@ class UserService implements UserServiceInterface
             die();
             return false;
         }
+        
     }
 
-    
-    
+    public function findById(int $id, array $column = [], array $relation = [])
+    {
+        $query = User::query();
+        if (!empty($relation)) {
+            $query->with($relation);
+        }
+        $query->leftJoin('provinces', 'users.province_id', '=', 'provinces.code')
+            ->leftJoin('districts', 'users.district_id', '=', 'districts.code')
+            ->leftJoin('wards', 'users.ward_id', '=', 'wards.code')
+            ->select($column)
+            ->where('users.id', $id);
+        return $query->firstOrFail();
+    }
+
+    public function update(array $payload, int $id)
+    {
+        return $this->userRepository->update($payload, $id);
+    }
+
+    public function updateAvatar($payload, int $id)
+    {
+        return $this->userRepository->updateAvatar($payload, $id);
+    }
 }
