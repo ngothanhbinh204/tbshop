@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\AttributeController;
+use App\Http\Controllers\Backend\CategoryController;
 // FrontEnd
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ShopController;
@@ -60,7 +61,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::post('store', [ProductController::class, 'store'])->name('product.store')->middleware('admin');
     Route::get('detail/{id}', [ProductController::class, 'detail'])->name('product.detail')->middleware('admin');
     Route::get('edit/{id}', [ProductController::class, 'edit'])->name('product.edit')->middleware('admin');
-    Route::get('update/{id}', [ProductController::class, 'updateProduct'])->name('product.update')->middleware('admin');
+    Route::put('update/{id}', [ProductController::class, 'updateProduct'])->name('product.update')->middleware('admin');
     // Route::put('uploadPost/{id}', [ProductController::class, 'uploadPost'])->name('product.uploadPost')->middleware('admin');
     // Route::put('removePost/{id}', [ProductController::class, 'removePost'])->name('product.removePost')->middleware('admin');
 });
@@ -71,6 +72,14 @@ Route::group(['prefix' => 'attribute'], function () {
     Route::get('create', [AttributeController::class, 'create'])->name('attribute.create')->middleware('admin');
     Route::post('store', [AttributeController::class, 'store'])->name('attribute.store')->middleware('admin');
 
+});
+
+/* CATEGORIES */
+Route::group(['prefix' => 'category'], function () {
+    Route::get('index', [CategoryController::class, 'index'])->name('category.index')->middleware('admin');
+    Route::post('store', [CategoryController::class, 'store'])->name('category.store')->middleware('admin');
+    Route::delete('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete')->middleware('admin');
+    Route::put('edit/{id}', [CategoryController::class, 'update'])->name('category.update')->middleware('admin');
 });
 
 

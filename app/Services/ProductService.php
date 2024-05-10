@@ -26,10 +26,10 @@ class ProductService implements ProductServiceInterface
     {
         $this->productRepository = $productRepository;
     }
-    public function paginate()
+    public function paginate($withTable)
     {
-        $users = $this->productRepository->getAllPaginate();
-        return $users;
+        $product = $this->productRepository->getAllPaginate($withTable);
+        return $product;
     }
 
     public function create(StoreProductRequest $request)
@@ -37,10 +37,9 @@ class ProductService implements ProductServiceInterface
         DB::beginTransaction();
         try {
             $payload = $request->except('_token', 'files');
-            dd($payload);
-            // $product = Product::create($payload);
-            // DB::commit();
-            // return redirect()->route('product.index')->with('success', 'Thêm sản phẩm mới thành công');
+            $product = $this->productRepository->create($payload);
+            DB::commit();
+            return redirect()->route('product.index')->with('success', 'Thêm sản phẩm mới thành công');
         } catch (\Exception $e) {
             DB::rollBack();
             echo $e->getMessage();

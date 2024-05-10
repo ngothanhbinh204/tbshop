@@ -60,6 +60,13 @@
                 </ul>
             </li>
             <li class="">
+                <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Quản lý danh mục sản phẩm</span>
+                    <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href=" {{ route('category.index') }}">Danh sách danh mục sản phẩm</a></li>
+                </ul>
+            </li>
+            <li class="">
                 <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Quản lý thuộc tính sản phẩm</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">

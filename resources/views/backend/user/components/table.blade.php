@@ -96,10 +96,10 @@
                     </table>
 
                 </div>
-
+                {{ $users->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
 </div>
 
-{{ $users->links('pagination::bootstrap-4') }}
+

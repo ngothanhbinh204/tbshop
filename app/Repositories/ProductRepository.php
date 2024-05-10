@@ -22,11 +22,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $this->model = $model;
     }
 
-    public function getAllPaginate()
+    public function getAllPaginate(array $withTable)
     {
         return Product::paginate(10);
-    }
-    public function create($payload)
-    {
+        // ->with($withTable);
     }
 }

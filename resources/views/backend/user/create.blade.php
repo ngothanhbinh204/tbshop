@@ -72,6 +72,8 @@
                         </div>
                     </div>
 
+                    <input type="text" name="status" value="0">
+
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-12 flex-column d-flex"> <label class="form-control-label px-3">
                                 Ảnh Đại Diện<span class="text-danger">*</span>

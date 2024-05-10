@@ -10,6 +10,6 @@ use App\Http\Requests\StoreProductRequest;
  */
 interface ProductServiceInterface
 {
-    public function paginate();
+    public function paginate($withTable);
     public function create(StoreProductRequest $request);
 }

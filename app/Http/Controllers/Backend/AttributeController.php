@@ -22,6 +22,6 @@ class AttributeController extends Controller
     {
         $data = $request->except('product_id'); // Loại bỏ trường product_id
         Attribute::create($data);
-        return back()->with('success', 'Them thuộc tính mới thành công');
+        return back()->with('success', 'Thêm thuộc tính mới thành công');
     }
 }

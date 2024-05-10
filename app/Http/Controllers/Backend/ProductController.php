@@ -29,8 +29,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $template = 'backend.product.index';
-        $products = Product::with('category')
-            ->paginate(5);
+        $products = Product::paginate(3);  
         return view('backend.dashboard.layout', compact(
             'template',
             'products'

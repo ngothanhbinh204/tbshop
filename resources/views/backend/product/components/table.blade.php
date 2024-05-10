@@ -3,7 +3,7 @@
         <div class="ibox">
             <div class="ibox-content">
 
-                <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                <table class=" table table-stripped toggle-arrow-tiny" data-page-size="15">
                     <thead>
                         <tr>
 
@@ -57,11 +57,7 @@
 
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <td colspan="6">
-                                <ul class="pagination pull-right"></ul>
-                            </td>
-                        </tr>
+                      
                     </tfoot>
                 </table>
 
@@ -69,3 +65,6 @@
         </div>
     </div>
 </div>
+
+{{ $products->links('pagination::bootstrap-5') }} <!-- Hiển thị link phân trang -->
+

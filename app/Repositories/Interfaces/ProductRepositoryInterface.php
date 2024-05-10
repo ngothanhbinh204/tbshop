@@ -10,6 +10,6 @@ use App\Http\Requests\StoreProductRequest;
  */
 interface ProductRepositoryInterface 
 {
-    public function getAllPaginate();
+    public function getAllPaginate(array $withTable);
     public function create($payload);
 }
