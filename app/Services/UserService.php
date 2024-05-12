@@ -41,7 +41,7 @@ class UserService implements UserServiceInterface
             $carbonDate = Carbon::createFromFormat('Y-m-d', $payload['birthday']);
             $payload['birthday'] = $carbonDate->format('Y-m-d H:i:s');
             $payload['password'] = Hash::make($payload['password']);
-            // dd($payload);
+         //  dd($payload);
             $user = $this->userRepository->create($payload);
             DB::commit();
             return true;

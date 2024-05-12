@@ -24,11 +24,11 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|unique:users|max:255',
             'email' => 'required|string|email|unique:users|max:255',
             'password' => 'required|string|min:6',
             're_password' => 'required|string|same:password',
-            'user_role' => 'required|integer|gt:0',
+            'user_role' => 'required|integer|gt:-1',
         ];
     }
 
@@ -38,6 +38,7 @@ class StoreUserRequest extends FormRequest
             // username
             'username.required' => "Bạn chưa nhập tên người dùng",
             'username.string' => "Tên người dùng phải là ký tự",
+            'username.unique' => "Tên người dùng đã tồn tại, vui lòng đặt tên khác",
 
             // email
             'email.required' => "Bạn chưa nhập email",

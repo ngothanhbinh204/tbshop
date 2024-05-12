@@ -30,17 +30,19 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return User::paginate(10);
     }
 
-    public function update(array $payload, int $id)
-    {
-        $user = $this->model->findOrFail($id);
-        $carbonDate = Carbon::createFromFormat('Y-m-d', $payload['birthday']);
-        $payload['birthday'] = $carbonDate->format('Y-m-d H:i:s');
-        // dd($payload);
-        $user->update($payload);
-        session()->push('notifications', ['message' => 'Cập nhật người dùng thành công : ' . $user->username . ' ', 'type' => 'success']);
+    // public function update(array $payload, int $id)
+    // {
+    //     $user = $this->model->findOrFail($id);
+    //     $carbonDate = Carbon::createFromFormat('Y-m-d', $payload['birthday']);
+    //     $payload['birthday'] = $carbonDate->format('Y-m-d H:i:s');
+    //     // dd($payload);
+    //     $user->update($payload);
+    //     session()->push('notifications', ['message' => 'Cập nhật người dùng thành công : ' . $user->username . ' ', 'type' => 'success']);
 
-        return $user;
-    }
+    //     return $user;
+    // }
+
+
     public function updateAvatar($payload, int $id)
     {
         $user = $this->model->findOrFail($id);
@@ -54,7 +56,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             } else {
                 throw new \Exception('upload thất bại');
             }
-            
         }
 
         $user->save();

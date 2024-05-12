@@ -8,8 +8,8 @@ use App\Http\Requests\StoreProductRequest;
  * Interface UserServiceInterface
  * @package App\Services\Interfaces
  */
-interface ProductRepositoryInterface 
+interface ProductRepositoryInterface extends BaseRepositoryInterface
 {
     public function getAllPaginate(array $withTable);
-    public function create($payload);
+   
 }

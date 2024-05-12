@@ -124,8 +124,6 @@
                                         </div>
                                     </div>
 
-
-
                                     <div class="form-group"><label class="col-sm-2 control-label">Màu sắc</label>
                                         <div class="col-sm-10">
                                             @if (isset($colors))

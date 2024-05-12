@@ -15,146 +15,171 @@
     @endif
     <form action=" {{ route('user.store') }} " method="post" class="box">
         @csrf
-        <div class="row d-flex justify-content-between mb-4">
-            <div class="col-sm-12 col-md-4 col-lg-4 my-auto p-4">
-                <div class="card p-4">
-                    <h5 class="fw-bold">Thông Tin Chi Tiết</h5>
-                    <span class="text-span">Lưu ý: Những trường đánh dấu <span class="text-danger">( * )</span> là bắt
-                        buộc</span>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Thông tin cơ bản </h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-6 b-r">
+                                    <div class="form-group">
+                                        <label>Tên người dùng</label>
+                                        <input name="username" value="{{ old('username') }}" type="text"
+                                            class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Trạng thái</label>
+                                        <select class="form-control setupSelect2" name="status" id="status">
+                                            <option value="0">Không kích hoạt</option>
+                                            <option value="1">Kích hoạt</option>
+                                        </select>
+                                    </div>
 
+                                </div>
+                                <div class="col-sm-6 b-r">
+
+                                    <div class="form-group">
+                                        <label>Họ và Tên</label>
+                                        <input name="fullname" value="{{ old('fullname') }}" type="text"
+                                            class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nhóm Thành Viên</label>
+                                        <select class="form-control setupSelect2" name="user_role" id="user_role">
+                                            @if (isset($roles))
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                                @endforeach
+                                            @endif
+
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 b-r">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input name="email" value="{{ old('email') }}" type="email"
+                                            class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Mật khẩu</label>
+                                        <input name="password" type="password" class="form-control">
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6 b-r">
+
+                                    <div class="form-group">
+                                        <label>Ngày Sinh</label>
+                                        <input name="birthday" value="{{ old('birthday') }}" type="date"
+                                            class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nhập lại mật khẩu</label>
+                                        <input name="re_password" type="password" class="form-control">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 b-r">
+                                    <div class="form-group">
+                                        <label>Số điện thoại</label>
+                                        <input name="phone" value="{{ old('phone') }}" type="phone"
+                                            class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Avatar</label>
+                                        <input name="image" value="{{ old('image') }}" type="file"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 b-r">
+                                    <div class="form-group">
+                                        <label>Ngày Sinh</label>
+                                        <input name="birthday" value="{{ old('birthday') }}" type="date"
+                                            class="form-control">
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5 class="text-uppercasse">Thông tin liên hệ</h5>
+
+                        </div>
+                        <div class="ibox-content">
+                            <div class="form-horizontal">
+                                <br>
+                                <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                        class="form-control-label px-3">Thành
+                                        Phố</label>
+                                    <select class="province setupSelect2 location" name="province_id" id="province_id"
+                                        data-target="districts">
+                                        <option value="{{ old('province_id') }}">
+
+                                            [Chọn Thành Phố]
+                                        </option>
+                                        {{-- Xuất danh sách thành phố --}}
+                                        @if (isset($provinces))
+                                            @foreach ($provinces as $province)
+                                                <option value="{{ $province->code }}">{{ $province->name }}</option>
+                                            @endforeach
+                                        @endif
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                        class="form-control-label">Quận/
+                                        Huyện</label>
+                                    <select class="districts setupSelect2 location" name="district_id" id="district_id"
+                                        data-target="wards">
+                                        <option value="{{ old('district_id') }}">
+                                            [Chọn Quận/Huyện]
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                        class="form-control-label px-3">
+                                        Phường/ Xã</label>
+                                    <select class="setupSelect2  wards" name="ward_id" id="ward_id">
+                                        <option value="{{ old('ward_id') }}">
+                                            [Chọn Phường / Xã]
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                        class="form-control-label px-3">Địa
+                                        chỉ</label> <input value="{{ old('address') }}" type="text"
+                                        id="address" name="address" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-offset-2 col-lg-10">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="form-group col-sm-12 d-flex justify-content-end pt-3"> <button type="submit"
+                            class="btn btn-primary">Lưu Lại</button> </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-8 col-lg-7">
-                <div class="card p-4">
-                    <div class="row justify-content-between text-left">
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Tên
-                                Người Dùng<span class="text-danger">
-                                    (*)</span></label>
-                            <input value="{{ old('username') }}" type="text" id="username" name="username"
-                                placeholder="">
-                        </div>
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Ngày
-                                Sinh</label> <input value="{{ old('birthday') }}" type="date" id="birthday"
-                                name="birthday" placeholder=""> </div>
-                    </div>
 
-                    <div class="row justify-content-between text-left">
-                        <div class="form-group col-sm-6 flex-column d-flex">
-                            <label class="form-control-label px-3">
-                                Email<span class="text-danger">(*)</span>
-                            </label>
-                            <input value="{{ old('email') }}" type="email" id="email" name="email">
-                        </div>
-
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Nhóm
-                                thành viên<span class="text-danger">
-                                    (*)</span></label>
-                            <select value="{{ old('user_role') }}" class="setupSelect2" name="user_role" id="user_role">
-                                <option value="0">[Chọn Nhóm Thành Viên]</option>
-                                {{-- Xuất danh sách thành phố --}}
-                                @if (isset($roles))
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-between text-left">
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">
-                                Mật Khẩu<span class="text-danger">
-                                    (*)</span></label> <input type="password" id="password" name="password"> </div>
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Nhập
-                                lại mật khẩu<span class="text-danger">
-                                    (*)</span></label>
-                            <input type="password" id="re_password" name="re_password" placeholder="">
-                        </div>
-                    </div>
-
-                    <input type="text" name="status" value="0">
-
-                    <div class="row justify-content-between text-left">
-                        <div class="form-group col-sm-12 flex-column d-flex"> <label class="form-control-label px-3">
-                                Ảnh Đại Diện<span class="text-danger">*</span>
-                            </label>
-                            <input class="input-image" value="{{ old('image') }}" type="text" id="image"
-                                name="image" placeholder="" data-upload="Images">
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div class="row d-flex justify-content-between">
-            <div class="col-sm-12 col-md-4 col-lg-4 my-auto p-4">
-                <div class="card p-4">
-                    <h5 class="fw-bold">Thông Tin Liên Hệ</h5>
-                    <div class="text-span">
-                        <span>Nhập thông tin chi tiết như địa chỉ, quận, huyện, ...</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-8 col-lg-7 col-10">
 
-                <div class="card p-4">
-                    <div class="row justify-content-between text-left">
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                class="form-control-label px-3">Thành
-                                Phố</label>
-                            <select class="province setupSelect2 location" name="province_id" id="province_id"
-                                data-target="districts">
-                                <option value="0">[Chọn Thành Phố]</option>
-                                {{-- Xuất danh sách thành phố --}}
-                                @if (isset($provinces))
-                                    @foreach ($provinces as $province)
-                                        <option value="{{ $province->code }}">{{ $province->name }}</option>
-                                    @endforeach
-                                @endif
-
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                class="form-control-label px-3">Quận/
-                                Huyện</label>
-                            <select class="districts setupSelect2 location" name="district_id" id="district_id"
-                                data-target="wards">
-                                <option value="0">[Chọn Quận/Huyện]</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-between text-left">
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">
-                                Phường/ Xã</label>
-                            <select class="setupSelect2  wards" name="ward_id" id="ward_id">
-                                <option value="0">[Chọn Phường / Xã]</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                class="form-control-label px-3">Địa
-                                chỉ</label> <input value="{{ old('address') }}" type="text" id="address"
-                                name="address" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-between text-left">
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">
-                                Số Điện Thoại</label>
-                            <input value="{{ old('phone') }}" type="number" name="phone" id="phone">
-                        </div>
-                        <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                class="form-control-label px-3">Ghi
-                                Chú</label> <input value="{{ old('description') }}" type="text" id="description"
-                                name="description" placeholder="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="text-right">
-            <div class="form-group col-sm-12 d-flex justify-content-end pt-3"> <button type="submit"
-                    class="btn btn-primary">Lưu Lại</button> </div>
-        </div>
     </form>
 
 </div>

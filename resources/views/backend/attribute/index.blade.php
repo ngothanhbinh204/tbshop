@@ -23,7 +23,17 @@
                             @foreach ($attributes as $attribute)
                                 <tr>
                                     <td>{{ $attribute->type }}</td>
-                                    <td>{{ $attribute->value }}</td>
+                                    <td>
+                                        @if ($attribute->type == 'color')
+                                        <div class="">
+                                            <p>Mã màu : {{ $attribute->value }}</p>
+                                            <p>Màu sắc : <span class="badge" style="background-color: {{ $attribute->value }}"> </span> </p>
+                                          </div>
+                                          @else 
+                                          <p>Kích thước : {{ $attribute->value }}</p>
+                                        @endif
+
+                                </td>
                                     <td>{{ $attribute->quantity }}</td>
                                     <td class="text-right">
                                         <div class="">

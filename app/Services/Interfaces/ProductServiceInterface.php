@@ -12,4 +12,9 @@ interface ProductServiceInterface
 {
     public function paginate($withTable);
     public function create(StoreProductRequest $request);
+    public function findByID(
+        int $modelID,
+        array $column = [],
+        array $relation = []
+    );
 }

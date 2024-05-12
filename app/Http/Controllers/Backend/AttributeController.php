@@ -10,7 +10,7 @@ class AttributeController extends Controller
 {
     public function index()
     {
-        $attributes = Attribute::all();
+        $attributes = Attribute::all()->sortBy("type");
         $template = 'backend.attribute.index';
         return view('backend.dashboard.layout', compact(
             'template',

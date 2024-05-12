@@ -32,11 +32,12 @@
                 @endif
             </li>
             <li class="">
-                <a href=""><i class="fa fa-users"></i> <span class="nav-label">Quản lý Thành Viên</span>
+                <a href=""><i class="fa fa-users"></i> <span class="nav-label">QL nhóm Thành Viên</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href=" {{ route('user.index') }}">Danh sách thành viên</a></li>
                     <li class=""><a href=" {{ route('user.create') }}">Thêm thành viên</a></li>
+                    <li class=""><a href=" {{ route('role.index') }}">Quản lý nhóm thành viên</a></li>
 
                 </ul>
             </li>

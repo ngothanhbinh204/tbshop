@@ -133,7 +133,7 @@ class UserController extends Controller
         try {
             $payload = $request->file('image');
             $image = $this->userService->updateAvatar($payload, $id);
-            
+
             session()->push('notifications', ['message' => 'Cập nhật ảnh đại diện thành công', 'type' => 'success']);
             return back()->with('success', 'Cập nhật ảnh đại diện thành công');
         } catch (\Throwable $th) {

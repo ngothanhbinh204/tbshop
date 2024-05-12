@@ -38,4 +38,23 @@ class BaseRepository implements BaseRepositoryInterface
     ) {
         return $this->model->select($column)->with($relation)->findOrFail($modelID);
     }
+
+    public function getById(int $id)
+    {
+        return $this->model->find($id);
+    }
+    public function update($payload, $id)
+    {
+        $model = $this->getById($id);
+        if ($model) {
+            $model->update($payload);
+            return $model;
+        }
+        return null;
+    }
+    public function delete($id)
+    {
+        $model = $this->getById($id);
+        return $model->delete();
+    }
 }

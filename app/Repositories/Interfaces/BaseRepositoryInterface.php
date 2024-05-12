@@ -14,4 +14,6 @@ interface BaseRepositoryInterface
         array $column = [],
         array $relation = []
     );
+    public function create($payload);
+    public function update($payload, $id);
 }

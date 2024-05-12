@@ -27,4 +27,28 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return Product::paginate(10);
         // ->with($withTable);
     }
+
+    public function getById(int $id)
+    {
+        return $this->model->find($id);
+    }
+
+    public function create($payload)
+    {
+        return  $this->model->create($payload);
+    }
+    public function update($payload, $id)
+    {
+        $product = $this->getById($id);
+        if ($product) {
+            $product->update($payload);
+            return $product;
+        }
+        return null;
+    }
+    public function delete($id)
+    {
+        $product = $this->getById($id);
+        return $product->delete();
+    }
 }

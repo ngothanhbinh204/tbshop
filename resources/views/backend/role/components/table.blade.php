@@ -35,52 +35,30 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Tên người dùng </th>
-                                <th>Email </th>
-                                <th>Số Điện Thoại</th>
-                                <th>Địa Chỉ</th>
-                                <th>Chức vụ</th>
-                                <th>Trạng Thái</th>
+                                <th>Tên nhóm thành viên </th>
+                                <th>Số lượng thành viên </th>
+                                <th>Mô tả</th>
                                 <th>Thao Tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($users) && is_object($users))
-                                @foreach ($users as $user)
+                            @if (isset($roles) && is_object($roles))
+                                @foreach ($roles as $role)
                                     <tr>
 
                                         <td>
-                                            {{ $user->username }}
+                                            {{ $role->name }}
                                         </td>
-                                        <td> {{ $user->email }}</td>
-                                        <td> {{ $user->phone }}</td>
-                                        <td> {{ $user->address }}</td>
-
+                                        <td> {{ $role->name }}</td>
+                                        <td> {{ $role->description }}</td>
+                                       
                                         <td>
-                                            @if (isset($user->role) && array_key_exists($user->role->name, $roleLabels))
-                                                <span class="label label-{{ $roleLabels[$user->role->name] }}">
-                                                    {{ $user->role->name }}
-                                                </span>
-                                            @else
-                                                <span class="label">
-                                                    Chưa xác định
-                                                </span>
-                                            @endif
-
-                                        </td>
-                                        <td class="text-center">
-                                            <input value="{{ $user->status }}" type="checkbox" class="js-switch status"
-                                                name="" id="" data-field="status"
-                                                data-modelid="{{ $user->id }}" data-model="User"
-                                                {{ $user->status == 1 ? 'checked' : '' }}>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('user.edit', ['id' => $user->id]) }}"
+                                            <a href="{{ route('role.update', ['id' => $role->id]) }}"
                                                 class="btn btn-circle btn-primary dim">
                                                 <i class="fa fa-edit">
                                                 </i>
                                             </a>
-                                            <form action="{{ route('user.delete', ['id' => $user->id]) }}"
+                                            <form action="{{ route('role.delete', ['id' => $role->id]) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -97,10 +75,8 @@
                     </table>
 
                 </div>
-                {{ $users->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
 </div>
 
-{{ $users->links('pagination::bootstrap-5') }} <!-- Hiển thị link phân trang -->

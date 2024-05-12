@@ -10,6 +10,8 @@ use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\RolesController;
+
 // FrontEnd
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ShopController;
@@ -82,7 +84,13 @@ Route::group(['prefix' => 'category'], function () {
     Route::put('edit/{id}', [CategoryController::class, 'update'])->name('category.update')->middleware('admin');
 });
 
-
+/* ROLES */
+Route::group(['prefix' => 'role'], function () {
+    Route::get('index', [RolesController::class, 'index'])->name('role.index')->middleware('admin');
+    Route::post('store', [RolesController::class, 'store'])->name('role.store')->middleware('admin');
+    Route::delete('delete/{id}', [RolesController::class, 'delete'])->name('role.delete')->middleware('admin');
+    Route::put('edit/{id}', [RolesController::class, 'update'])->name('role.update')->middleware('admin');
+});
 
 /*FRONTEND ROUTES */
 

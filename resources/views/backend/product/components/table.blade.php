@@ -21,7 +21,13 @@
                         @if (isset($products))
                             @foreach ($products as $product)
                                 <tr>
-                                    <td>{{ $product->name }}</td>
+                                    <td>
+                                        <a href="{{ route('product.detail', ['id' => $product->id]) }}" class="btn-link">
+                                            <h2>
+                                                {{ $product->title }}
+                                            </h2>
+                                        </a>
+                                    </td>
                                     <td>{{ $product->category->name }}</td>
                                     <td>{!! $product->description !!}</td>
                                     <td>{{ $product->price }}</td>
@@ -57,7 +63,7 @@
 
                     </tbody>
                     <tfoot>
-                      
+
                     </tfoot>
                 </table>
 
@@ -67,4 +73,3 @@
 </div>
 
 {{ $products->links('pagination::bootstrap-5') }} <!-- Hiển thị link phân trang -->
-

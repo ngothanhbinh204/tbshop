@@ -18,7 +18,7 @@ use App\Http\Requests\StoreUserRequest;
  * @package App\Services
  */
 
- // Dữ liệu chạy qua repo -> service -> tới controller -> view
+// Dữ liệu chạy qua repo -> service -> tới controller -> view
 class ProductService implements ProductServiceInterface
 {
     protected $productRepository;
@@ -29,6 +29,15 @@ class ProductService implements ProductServiceInterface
     public function paginate($withTable)
     {
         $product = $this->productRepository->getAllPaginate($withTable);
+        return $product;
+    }
+
+    public function findByID(
+        int $modelID,
+        array $column = [],
+        array $relation = []
+    ) {
+        $product = $this->productRepository->findByID($modelID, $column, $relation);
         return $product;
     }
 

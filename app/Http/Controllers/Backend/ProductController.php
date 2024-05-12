@@ -29,7 +29,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $template = 'backend.product.index';
-        $products = Product::paginate(3);  
+        $products = Product::paginate(3);
         return view('backend.dashboard.layout', compact(
             'template',
             'products'
@@ -38,8 +38,6 @@ class ProductController extends Controller
     public function create()
     {
         $template = 'backend.product.create';
-        // $products = Product::all();
-
         $categories = Category::all();
         $brands = Brand::all();
         $provinces = $this->provinceRepository->all();
@@ -65,6 +63,21 @@ class ProductController extends Controller
 
     public function detail($id)
     {
+        $template = "backend.product.detail";
+        $product = $this->productService->findByID(
+            $id,
+            [
+                'products.*',
+                'categories.name as name_category',
+                'brands.name as name_brand'
+            ],
+            ['categories', 'brands']
+        );
+        dd($product);
+        // return view('backend.dashboard.layout', compact(
+        //     'template',
+        //     'product'
+        // ));
     }
 
     public function edit($id)
