@@ -23,9 +23,7 @@
                                 <tr>
                                     <td>
                                         <a href="{{ route('product.detail', ['id' => $product->id]) }}" class="btn-link">
-                                            <h2>
-                                                {{ $product->title }}
-                                            </h2>
+                                                {{ $product->name }}
                                         </a>
                                     </td>
                                     <td>{{ $product->category->name }}</td>

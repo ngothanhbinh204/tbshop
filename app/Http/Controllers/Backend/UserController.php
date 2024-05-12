@@ -106,7 +106,7 @@ class UserController extends Controller
     {
         $template = 'backend.user.edit';
         $provinces = $this->provinceReponsitory->all();
-        $user = $this->userService->findById($id, [
+        $user = $this->userService->findByID($id, [
             'users.*',
             'provinces.name as province_name',
             'districts.name as district_name',

@@ -51,4 +51,17 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $product = $this->getById($id);
         return $product->delete();
     }
+
+    public function findByIDProduct(int $id, array $column = [], array $relation = [])
+    {
+        $query = Product::query();
+        if (!empty($relation)) {
+            $query->with($relation);
+        }
+        $query->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+            ->select($column)
+            ->where('products.id', $id);
+        return $query->firstOrFail();
+    }
 }

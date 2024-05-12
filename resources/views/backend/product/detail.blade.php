@@ -17,18 +17,6 @@
                                         [IMAGE 1]
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="image-imitation">
-                                        [IMAGE 2]
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="image-imitation">
-                                        [IMAGE 3]
-                                    </div>
-                                </div>
-
-
                             </div>
 
                         </div>
@@ -38,12 +26,10 @@
                                 <h2 class="font-bold m-b-xs">
                                     {{ $product->name }}
                                 </h2>
-                                <small>Many desktop publishing packages and web page editors now.</small>
                                 <hr>
                                 <div>
                                     {{-- <button class="btn btn-primary pull-right">Add to cart</button> --}}
-                                    <h1 class="product-main-price">${{ $product->price }} <small
-                                            class="text-muted">Exclude Tax</small> </h1>
+                                    <h1 class="product-main-price">{{ $product->price }} VNĐ</h1>
                                 </div>
                                 <hr>
                                 <h4>Mô tả sản phẩm</h4>
@@ -53,20 +39,21 @@
                                 </div>
                                 <dl class="dl-horizontal m-t-md small">
                                     <dt>Danh mục :</dt>
-                                    <dd>{{ $product->category_id }}</dd>
+                                    <dd>{{ $product->name_category }}</dd>
                                     <dt>Mã sản phẩm</dt>
                                     <dd>{{ $product->sku }}</dd>
                                     <dt>Xuất xứ</dt>
                                     <dd>{{ $product->origin }}</dd>
                                     <dt>Thương hiệu</dt>
-                                    <dd>{{ $product->brand_id }}</dd>
+                                    <dd>{{ $product->name_brand }}</dd>
                                 </dl>
                                 <div class="text-right">
                                     <div class="btn-group">
-                                        <button class="btn btn-white btn-sm"><i class="fa fa-star"></i> Add to wishlist
+                                        <button class="btn btn-white btn-sm"><i class="fa fa-edit"></i>
+                                            <a href="{{ route('product.edit', ['id' => $product->id]) }}">Chỉnh sửa</a>
                                         </button>
-                                        <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with
-                                            author </button>
+                                        <button class="btn btn-white btn-sm"><i class="fa fa-upload"></i> Đăng bán
+                                        </button>
                                     </div>
                                 </div>
                             </div>

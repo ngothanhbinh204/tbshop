@@ -73,14 +73,35 @@ class ProductController extends Controller
             ],
             ['categories', 'brands']
         );
-        dd($product);
-        // return view('backend.dashboard.layout', compact(
-        //     'template',
-        //     'product'
-        // ));
+        // dd($product);
+        return view('backend.dashboard.layout', compact(
+            'template',
+            'product'
+        ));
     }
 
     public function edit($id)
     {
+        $template = "backend.product.edit";
+        $categories = Category::all();
+        $brands = Brand::all();
+        $provinces = $this->provinceRepository->all();
+        $product = $this->productService->findByID(
+            $id,
+            [
+                'products.*',
+                'categories.name as name_category',
+                'brands.name as name_brand'
+            ],
+            ['categories', 'brands']
+        );
+        // dd($product);
+        return view('backend.dashboard.layout', compact(
+            'template',
+            'product',
+            'categories',
+            'brands',
+            'provinces',
+        ));
     }
 }

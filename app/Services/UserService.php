@@ -41,7 +41,7 @@ class UserService implements UserServiceInterface
             $carbonDate = Carbon::createFromFormat('Y-m-d', $payload['birthday']);
             $payload['birthday'] = $carbonDate->format('Y-m-d H:i:s');
             $payload['password'] = Hash::make($payload['password']);
-         //  dd($payload);
+            //  dd($payload);
             $user = $this->userRepository->create($payload);
             DB::commit();
             return true;
@@ -51,10 +51,9 @@ class UserService implements UserServiceInterface
             die();
             return false;
         }
-        
     }
 
-    public function findById(int $id, array $column = [], array $relation = [])
+    public function findByID(int $id, array $column = [], array $relation = [])
     {
         $query = User::query();
         if (!empty($relation)) {

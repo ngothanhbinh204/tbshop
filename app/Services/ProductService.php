@@ -37,9 +37,10 @@ class ProductService implements ProductServiceInterface
         array $column = [],
         array $relation = []
     ) {
-        $product = $this->productRepository->findByID($modelID, $column, $relation);
+        $product = $this->productRepository->findByIDProduct($modelID, $column, $relation);
         return $product;
     }
+    
 
     public function create(StoreProductRequest $request)
     {

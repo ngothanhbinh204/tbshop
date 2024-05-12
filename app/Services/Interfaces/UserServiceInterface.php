@@ -17,7 +17,7 @@ interface UserServiceInterface
 
     public function updateAvatar($payload, int $id);
 
-    public function findById(
+    public function findByID(
         int $modelID,
         array $column = [],
         array $relation = []
