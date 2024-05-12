@@ -25,6 +25,7 @@ return new class extends Migration
             $table->tinyInteger('status');
             $table->boolean('is_hot')->default(false);
             $table->boolean('is_sale')->default(false);
+            $table->decimal('price_sale', 10, 2)->nullable();
             $table->string('barcode')->nullable();
             $table->string('origin')->nullable();
             $table->unsignedBigInteger('category_id');

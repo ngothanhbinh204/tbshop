@@ -21,6 +21,7 @@ class AttributeController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('product_id'); // Loại bỏ trường product_id
+       // dd($data);
         Attribute::create($data);
         return back()->with('success', 'Thêm thuộc tính mới thành công');
     }

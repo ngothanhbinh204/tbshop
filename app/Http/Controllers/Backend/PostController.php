@@ -85,7 +85,7 @@ class PostController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             echo $e->getMessage();
-            return redirect()->back()->with('error', 'Thêm bài viết không thành công, Hãy thử lại !!');
+            // return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

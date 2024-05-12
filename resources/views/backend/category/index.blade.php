@@ -58,7 +58,7 @@
 </div>
 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    Thêm danh mục
+    Thêm danh mục sản phẩm
 </button>
 </div>
 <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">

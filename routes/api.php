@@ -17,8 +17,21 @@ use App\Http\Controllers\Backend\PostController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-    Route::get('index', [UserController::class, 'index'])->name('user.index')->middleware('admin');
+// Route::group([
+
+//     'middleware' => 'api',
+//     'prefix' => 'auth'
+
+// ], function ($router) {
+
+//     Route::post('login', [AuthController::class, 'login2']);
+//     Route::get('profile', [AuthController::class, 'profile']);
+//     Route::post('logout', [AuthController::class, 'logout2']);
+//     Route::post('refresh', [AuthController::class, 'refresh']);
+//     // Route::post('refresh', 'AuthController@refresh');
+
+// });

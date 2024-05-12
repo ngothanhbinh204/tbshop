@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('category_post', function (Blueprint $table) {
-            $table->string('name')->after('id'); // Thêm cột 'name' vào bảng 'category_post' sau cột 'name'
+        Schema::table('attributes', function (Blueprint $table) {
+            $table->dropColumn('product_id');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('category_post', function (Blueprint $table) {
-            $table->dropColumn('name'); // Nếu cần rollback, sẽ xóa cột 'name'
+        Schema::table('attributes', function (Blueprint $table) {
+            $table->unsignedBigInteger('product_id');
         });
     }
 };
