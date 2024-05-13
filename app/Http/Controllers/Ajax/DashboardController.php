@@ -24,4 +24,8 @@ class DashboardController extends Controller
         $flag = $instance->updateStatus($post);
         return response()->json(['flag' => $flag]);
     }
+
+    public function deleteProduct(Request $request){
+        
+    }
 }

@@ -32,11 +32,13 @@
                                         <div class="col-sm-10"><input value="{{ old('name') }}" name="name"
                                                 type="text" class="form-control" placeholder="Tên sản phẩm"></div>
                                     </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Giá:</label>
-                                        <div class="col-sm-10"><input value="{{ old('price') }}" name="price"
-                                                id="priceInput" type="number" class="form-control"
-                                                placeholder="$160.00" min="0" max="1000000000"></div>
-                                    </div>
+                                    {{-- <div class="form-group"><label class="col-sm-2 control-label">Giá:</label>
+                                        <div class="col-sm-10">
+                                            <input value="{{ old('price') }}" name="price" id="priceInput"
+                                                type="text" class="form-control" data-mask="$ 999,999,999.99"
+                                                placeholder="$160.00">
+                                        </div>
+                                    </div> --}}
                                     <div class="form-group"><label class="col-sm-2 control-label">Mô tả:</label>
                                         <div class="col-sm-10">
 
@@ -112,11 +114,11 @@
 
                                     <div class="form-group"><label class="col-sm-2 control-label">Xuất xứ:</label>
                                         <div class="col-sm-10">
-                                            <select value="{{ old('origin') }}" class="setupSelect2 from-control"
-                                                name="origin" id="">
+                                            <select name="origin" id="" class="setupSelect2 form-control">
+                                                <option value="">[ Chọn xuất xứ ]</option>
                                                 @if (isset($provinces))
                                                     @foreach ($provinces as $province)
-                                                        <option value="{{ $province->name }}">
+                                                        <option value="{{ $province->id }}">
                                                             {{ $province->name }}</option>
                                                     @endforeach
                                                 @endif
@@ -124,41 +126,60 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group"><label class="col-sm-2 control-label">Màu sắc</label>
+                                    <div class="form-group"><label class="col-sm-2 control-label"></label>
                                         <div class="col-sm-10">
                                             @if (isset($colors))
-                                                @foreach ($colors as $color)
-                                                    <label class="checkbox-inline">
-                                                        <input value="{{ $color->id }}" name="id_attr[]"
-                                                            type="checkbox" value="{{ $color->type }}"
-                                                            id="inlineCheckbox1">
-                                                        <i style="color: {{ $color->value }}"
-                                                            class="fa fa-circle"></i>
-                                                    </label>
-                                                @endforeach
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="ibox float-e-margins">
+                                                            <div class="ibox-title">
+                                                                <h5>Các thuộc tính của sản phẩm : </h5>
+                                                                </di>
+                                                                <div class="ibox-content">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Thuộc tính</th>
+                                                                                <th>Giá</th>
+                                                                                <th>Số lượng stock</th>
+                                                                                <th>SKU</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach ($colors as $color)
+                                                                                @foreach ($sizes as $size)
+                                                                                    <tr>
+                                                                                        <td><strong>{{ $size->value }}</strong>
+                                                                                            |
+                                                                                            <strong><i class="fa fa-circle" style="color: {{ $color->value }}"> </i></strong>
+                                                                                        </td>
+                                                                                        <td> <input
+                                                                                                value="{{ old('price') }}"
+                                                                                                name="price[]"
+                                                                                                id="priceInput"
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                data-mask="$ 999,999,999.99"
+                                                                                                placeholder="$160.00"
+                                                                                                min="0"
+                                                                                                max="1000000000"></td>
+                                                                                        <td> <input name="stock[]"
+                                                                                                type="text"
+                                                                                                class="form-control">
+                                                                                        </td>
+                                                                                        <td>@mdo</td>
+                                                                                    </tr>
+                                                                                @endforeach
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                             @endif
 
 
-                                        </div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Kích thước</label>
-                                        <div class="col-sm-10">
-                                            @if (isset($sizes))
-                                                @foreach ($sizes as $size)
-                                                    <label class="checkbox-inline">
-                                                        <input value="{{ $size->id }}" name="id_attr[]" type="checkbox"
-                                                            value="{{ $size->type }}" id="inlineCheckbox1">
-                                                        {{ $size->value }}
-                                                    </label>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group"><label class="col-sm-2 control-label">Số lượng:</label>
-                                        <div class="col-sm-10">
-                                            <input value="{{ old('quantity') }}" name="quantity" type="number"
-                                                class="form-control" placeholder="">
                                         </div>
                                     </div>
                                 </fieldset>

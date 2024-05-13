@@ -32,7 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->timestamps();
 
-            // Add foreign key constraint
+            // Thêm khoá phụ
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null');
         });

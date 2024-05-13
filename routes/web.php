@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index');
 Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->name('ajax.dashboard.changeStatus');
+Route::post('ajax/dashboard/deleteProduct/{id}', [AjaxDashboardController::class, 'deleteProduct'])->name('ajax.dashboard.deleteProduct');
 
 
 Route::get('/', function () {
@@ -64,7 +65,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('detail/{id}', [ProductController::class, 'detail'])->name('product.detail')->middleware('admin');
     Route::get('edit/{id}', [ProductController::class, 'edit'])->name('product.edit')->middleware('admin');
     Route::put('update/{id}', [ProductController::class, 'updateProduct'])->name('product.update')->middleware('admin');
-    // Route::put('uploadPost/{id}', [ProductController::class, 'uploadPost'])->name('product.uploadPost')->middleware('admin');
+    Route::delete('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
     // Route::put('removePost/{id}', [ProductController::class, 'removePost'])->name('product.removePost')->middleware('admin');
 });
 

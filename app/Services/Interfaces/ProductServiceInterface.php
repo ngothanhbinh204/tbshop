@@ -17,4 +17,6 @@ interface ProductServiceInterface
         array $column = [],
         array $relation = []
     );
+
+    public function delete($id);
 }

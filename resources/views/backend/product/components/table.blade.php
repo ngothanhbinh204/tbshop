@@ -11,7 +11,6 @@
                             <th data-hide="phone">Danh mục</th>
                             <th data-hide="all">Mô tả</th>
                             <th data-hide="phone">Giá</th>
-                            <th data-hide="phone,tablet">Số lượng</th>
                             <th data-hide="phone">Trạng thái</th>
                             <th class="text-right" data-sort-ignore="true">Thao tác</th>
 
@@ -22,14 +21,14 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('product.detail', ['id' => $product->id]) }}" class="btn-link">
-                                                {{ $product->name }}
+                                        <a href="{{ route('product.detail', ['id' => $product->id]) }}"
+                                            class="btn-link">
+                                            {{ $product->name }}
                                         </a>
                                     </td>
-                                    <td>{{ $product->category->name }}</td>
+                                    <td>{{ $product->categories->name }}</td>
                                     <td>{!! $product->description !!}</td>
                                     <td>{{ $product->price }}</td>
-                                    <td>{{ $product->quantity }}</td>
                                     <td>
                                         @if ($product->status == 1)
                                             <span class="label label-info">Hoạt động</span>
@@ -41,17 +40,14 @@
                                         <div class="">
                                             <a href="{{ route('product.edit', ['id' => $product->id]) }}"
                                                 class="btn btn-circle btn-primary dim">
-                                                <i class="fa fa-edit">
+                                                <i class="fa fa-edit ">
                                                 </i>
                                             </a>
-                                            <form action="" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-circle btn-danger">
-                                                    <i class="fa fa-trash ">
-                                                    </i>
-                                                </button>
-                                            </form>
+                                            <button type="submit" data-product-id="{{ $product->id }}"
+                                                class="btn btn-circle btn-danger deleteItem">
+                                                <i class="fa fa-trash ">
+                                                </i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

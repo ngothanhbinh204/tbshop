@@ -8,6 +8,14 @@
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
 <script src="{{ asset('backend/library/footable.js') }}"></script>
 <script src="{{ asset('backend/library/attribute.js') }}"></script>
+<script src="{{ asset('backend/library/sweetAlert.js') }}"></script>
+
+
+{{-- sweetalert --}}
+<script src="{{ asset('backend/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
+<script src="{{ asset('backend/js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
+
 
 
 <!-- Switchery -->

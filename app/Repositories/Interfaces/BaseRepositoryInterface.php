@@ -16,4 +16,5 @@ interface BaseRepositoryInterface
     );
     public function create($payload);
     public function update($payload, $id);
+    public function delete($id);
 }

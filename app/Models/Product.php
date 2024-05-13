@@ -12,7 +12,7 @@ class Product extends Model
         'name',
         'image_url',
         'weight',
-        'price',
+        // 'price',
         'brand_id',
         'description',
         'sku',
@@ -36,6 +36,6 @@ class Product extends Model
     }
     public function attribute()
     {
-        return $this->hasMany(Attribute::class);
+        return $this->belongsToMany(Attribute::class, 'product_attribute');
     }
 }

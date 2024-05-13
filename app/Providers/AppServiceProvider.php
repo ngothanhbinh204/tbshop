@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
         // REPOSITORIES
         'App\Repositories\Interfaces\UserRepositoryInterface' => 'App\Repositories\UserRepository',
         'App\Repositories\Interfaces\ProductRepositoryInterface' => 'App\Repositories\ProductRepository',
+        'App\Repositories\Interfaces\ProductAttributeRepositoryInterface' => 'App\Repositories\ProductAttributeRepository',
         'App\Repositories\Interfaces\ProvinceRepositoryInterface' => 'App\Repositories\ProvinceRepository',
         'App\Repositories\Interfaces\DistrictRepositoryInterface' => 'App\Repositories\DistrictRepository',
         'App\Repositories\Interfaces\WardRepositoryInterface' => 'App\Repositories\WardRepository',

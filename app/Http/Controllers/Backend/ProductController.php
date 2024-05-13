@@ -29,7 +29,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $template = 'backend.product.index';
-        $products = Product::paginate(3);
+        $products = Product::paginate(10);
         return view('backend.dashboard.layout', compact(
             'template',
             'products'
@@ -103,5 +103,13 @@ class ProductController extends Controller
             'brands',
             'provinces',
         ));
+    }
+
+    public function delete($id) {
+        if( $this->productService->delete($id)) {
+            return redirect()->route('product.index')->with('success', 'Xoá sản phẩm thành công');
+        }
+        return redirect()->route('product.index')->with('error', 'Xoá sản phẩm không thành công, Hãy thử lại ');
+
     }
 }

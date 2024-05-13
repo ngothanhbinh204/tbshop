@@ -13,16 +13,8 @@ class ProductAttribute extends Model
 
     protected $fillable = [
         'product_id',
-        'attribute_id'
+        'attribute_id',
+        'quantity'
+
     ];
-
-    public function product()
-    {
-        return $this->hasMany(Product::class);
-    }
-
-    public function attribute()
-    {
-        return $this->belongsTo(Attribute::class);
-    }
 }

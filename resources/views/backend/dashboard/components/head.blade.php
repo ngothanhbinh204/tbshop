@@ -8,6 +8,12 @@
 {{-- Link TailWind CSS --}}
 <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
 
+<link href="{{ asset('backend/css/plugins/jasny/jasny-bootstrap.min.css') }}" rel="stylesheet">
+
+
+
+
+<link href="{{ asset('backend/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
 
 {{-- css checkbox --}}
 {{-- <link href="{{ asset('css/plugins/iCheck/custom.css') }}"

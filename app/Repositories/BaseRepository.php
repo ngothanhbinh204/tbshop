@@ -23,7 +23,8 @@ class BaseRepository implements BaseRepositoryInterface
     public function create($payload)
     {
         $model = $this->model->create($payload);
-        return $model->fresh();
+        $model = $model->fresh();
+        return $model;
     }
 
     public function all()

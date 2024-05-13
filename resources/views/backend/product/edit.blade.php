@@ -93,13 +93,14 @@
                                                     <option value="{{ old('category_id', $product->category_id) }}">
                                                         {{ $product->name_category }}</option>
                                                 @endif
-                                               
+
                                                 @if (isset($categories))
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}">
                                                             {{ $category->name }}</option>
                                                     @endforeach
                                                 @endif
+
 
                                             </select>
                                         </div>
@@ -111,14 +112,14 @@
                                                 @if (isset($product))
                                                     <option value="{{ old('brand_id', $product->brand_id) }}">
                                                         {{ $product->name_brand }}</option>
-
-                                                    @if (isset($brands))
-                                                        @foreach ($brands as $brands)
-                                                            <option value="{{ $brands->id }}">
-                                                                {{ $brands->name }}</option>
-                                                        @endforeach
-                                                    @endif
                                                 @endif
+                                                @if (isset($brands))
+                                                    @foreach ($brands as $brands)
+                                                        <option value="{{ $brands->id }}">
+                                                            {{ $brands->name }}</option>
+                                                    @endforeach
+                                                @endif
+
                                             </select>
                                         </div>
                                     </div>
@@ -130,15 +131,14 @@
                                                 @if (isset($product))
                                                     <option value="{{ old('origin', $product->origin) }}">
                                                         {{ $product->origin }}</option>
-                                                @else
-                                                    <option value="">Chọn xuất xứ</option>
-                                                    @if (isset($provinces))
-                                                        @foreach ($provinces as $province)
-                                                            <option value="{{ $province->name }}">
-                                                                {{ $province->name }}</option>
-                                                        @endforeach
-                                                    @endif
                                                 @endif
+                                                @if (isset($provinces))
+                                                    @foreach ($provinces as $province)
+                                                        <option value="{{ $province->name }}">
+                                                            {{ $province->name }}</option>
+                                                    @endforeach
+                                                @endif
+
                                             </select>
                                         </div>
                                     </div>
