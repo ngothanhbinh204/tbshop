@@ -14,7 +14,20 @@ class ProductAttribute extends Model
     protected $fillable = [
         'product_id',
         'attribute_id',
-        'quantity'
+        'quantity',
+        'stock',
+        'sku',
+        'price'
 
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function attribute()
+    {
+        return $this->belongsTo(Attribute::class);
+    }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::table('product_attribute', function (Blueprint $table) {
             $table->decimal('price', 10, 2);
             $table->integer('stock')->default(0);
+            $table->string('sku')->unique()->nullable();
         });
     }
 
@@ -29,6 +30,7 @@ return new class extends Migration
         Schema::table('product_attribute', function (Blueprint $table) {
             $table->dropColumn('price');
             $table->dropColumn('stock');
+            $table->dropColumn('sku');
         });
     }
 };

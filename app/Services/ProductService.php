@@ -53,22 +53,46 @@ class ProductService implements ProductServiceInterface
         DB::beginTransaction();
         try {
             $payload = $request->except('_token', 'files');
-            // dd($payload);
-            // $product = $this->productRepository->create($payload);
-            dd($payload);
-            // foreach ($payload['id_attr'] as $attribute) {
-            //     ProductAttribute::create([
-            //         'product_id' => $product->id,
-            //         'quantity' => $payload['quantity'],
-            //         'attribute_id' => $attribute
-            //     ]);
-            // }
-            // DB::commit();
-            // return redirect()->route('product.index')->with('success', 'Thêm sản phẩm mới thành công');
+            $attributeTypes = $payload['attribute_type'];
+            $prices = $payload['pricePro'];
+            $stocks = $payload['stock'];
+            $skus = $payload['sku'];
+            $attributes = [];
+            $priceIndex = 0;
+            for ($i = 0; $i < count($attributeTypes); $i+=2) {
+                if (!empty($prices[$priceIndex]) && !empty($stocks[$priceIndex]) && !empty($skus[$priceIndex])) {
+                    $attributes[] = [
+                        'attributes_id' => $attributeTypes[$i],
+                        'price' => $prices[$priceIndex],
+                        'stock' => $stocks[$priceIndex],
+                        'sku' => $skus[$priceIndex],
+                    ];
+                    $attributes[] = [
+                        'attributes_id' => $attributeTypes[$i + 1],
+                        'price' => $prices[$priceIndex],
+                        'stock' => $stocks[$priceIndex],
+                        'sku' => $skus[$priceIndex]
+                    ];
+                }
+                $priceIndex++;
+            }
+            // dd($attributes);
+            $product = $this->productRepository->create($payload);
+            foreach ($attributes as $attribute) {
+                ProductAttribute::create([
+                    'product_id' => $product->id,
+                    'price' => $attribute['price'],
+                    'stock' => $attribute['stock'],
+                    'sku' => $attribute['sku'],
+                    'attribute_id' => $attribute['attributes_id']
+                ]);
+            }
+            DB::commit();
+            return redirect()->route('product.index')->with('success', 'Thêm sản phẩm mới thành công');
         } catch (\Exception $e) {
             DB::rollBack();
             echo $e->getMessage();
-            return redirect()->back()->with('error', $e->getMessage());
+            // return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

@@ -15,7 +15,7 @@ class Product extends Model
         // 'price',
         'brand_id',
         'description',
-        'sku',
+        // 'sku',
         'status',
         'is_hot',
         'is_sale',
