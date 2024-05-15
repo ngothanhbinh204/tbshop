@@ -1,3 +1,10 @@
+@extends('frontend.client.layout')
+
+@section('title', 'Trang chủuu')
+
+@section('content')
+    
+
 <!-- Hero Section Begin -->
 <section class="hero">
     <div class="hero__slider owl-carousel">
@@ -506,3 +513,4 @@
     </div>
 </section>
 <!-- Latest Blog Section End -->
+@endsection

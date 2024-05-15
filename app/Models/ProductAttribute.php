@@ -14,6 +14,7 @@ class ProductAttribute extends Model
     protected $fillable = [
         'product_id',
         'attribute_id',
+        'attribute_value',
         'quantity',
         'stock',
         'sku',

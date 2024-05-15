@@ -9,11 +9,7 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $title = 'Trang liên hệ';
-        $template = 'frontend.client.contact.index';
-        return view('frontend.client.layout', compact(
-            'template',
-            'title'
-        ));
+
+        return view('frontend.client.contact');
     }
 }

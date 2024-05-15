@@ -19,4 +19,6 @@ interface ProductServiceInterface
     );
 
     public function delete($id);
+    public function getProductAttributePairs($productId);
+    public function getProductByColor_Size($productId, $colorValue, $sizeValue);
 }

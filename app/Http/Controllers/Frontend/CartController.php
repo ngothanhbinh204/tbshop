@@ -9,11 +9,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $title = 'Trang giỏ hàng';
-        $template = 'frontend.client.cart.index';
-        return view('frontend.client.layout', compact(
-            'template',
-            'title'
-        ));
+
+        return view('frontend.client.cart');
     }
 }

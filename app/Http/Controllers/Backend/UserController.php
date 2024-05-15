@@ -96,7 +96,10 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        $user = $request->wh;
+        
         if ($this->userService->create($request)) {
+
             session()->push('notifications', ['message' => 'Thêm người dùng thành công', 'type' => 'success']);
             return redirect()->route('user.index')->with('success', 'Thêm mới người dùng thành công');
         }

@@ -78,33 +78,24 @@ class ProductController extends Controller
         //     'template',
         //     'product'
         // ));
-        // Bước 1: Truy vấn để lấy sản phẩm có các thuộc tính
+        // #59ff00
+        // #fa0000
+        $colorValue = '#fa0000';
+        $sizeValue = 'L';
 
-        $products = Product::whereHas('attribute', function ($query) {
-            $query->where('type', 'color')->where('value', '#fa0000');
-        })->whereHas('attribute', function ($query) {
-            $query->where('type', 'size')->where('value', 'S');
-        })->with('attribute')->get();
-
-        // Bước 2: Lọc lại các sản phẩm để đảm bảo chúng có cả hai thuộc tính
-        $filteredProducts = $products->filter(function ($product) {
-            $hasRedColor = false;
-            $hasSizeS = false;
-            foreach ($product->attribute as $attribute) {
-                if ($attribute->type === 'color' && $attribute->value === '#fa0000') {
-                    $hasRedColor = true;
-                }
-                if ($attribute->type === 'size' && $attribute->value === 'S') {
-                    $hasSizeS = true;
-                }
-            }
-            return $hasRedColor && $hasSizeS;
-        });
-
-        // Chuyển kết quả về dạng collection hoặc mảng
-        $filteredProducts = $filteredProducts->values();
+        $filteredProducts = $this->productService->getProductByColor_Size($id, $colorValue, $sizeValue);
         dd($filteredProducts);
+    }
 
+    public function productAttributes($id)
+    {
+        $template = "backend.product.productAttribute";
+        $product = $this->productService->getProductAttributePairs($id);
+        // dd($product);
+        return view('backend.dashboard.layout', compact(
+            'template',
+            'product'
+        ));
     }
 
     public function edit($id)

@@ -38,4 +38,8 @@ class Product extends Model
     {
         return $this->belongsToMany(Attribute::class, 'product_attribute');
     }
+
+    public function product_attribute() {
+        return $this->hasMany(ProductAttribute::class,'product_id');
+    }
 }

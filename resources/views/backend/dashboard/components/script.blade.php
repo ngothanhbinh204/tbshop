@@ -10,6 +10,15 @@
 <script src="{{ asset('backend/library/attribute.js') }}"></script>
 <script src="{{ asset('backend/library/sweetAlert.js') }}"></script>
 
+<script src="{{ asset('/vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
+{{-- <script>
+    var options = {
+        filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+        filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+        filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+        filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+    };
+</script> --}}
 
 {{-- sweetalert --}}
 <script src="{{ asset('backend/js/plugins/sweetalert/sweetalert.min.js') }}"></script>

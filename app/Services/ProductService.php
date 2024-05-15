@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Services\Interfaces\ProductServiceInterface;
+use Illuminate\Support\Str;
 use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
 use App\Repositories\Interfaces\ProductAttributeRepositoryInterface as ProductAttributeRepository;
 
@@ -54,28 +55,37 @@ class ProductService implements ProductServiceInterface
         try {
             $payload = $request->except('_token', 'files');
             $attributeTypes = $payload['attribute_type'];
+            $attributeValues = $payload['attribute_value'];
             $prices = $payload['pricePro'];
             $stocks = $payload['stock'];
             $skus = $payload['sku'];
             $attributes = [];
             $priceIndex = 0;
-            for ($i = 0; $i < count($attributeTypes); $i+=2) {
+
+            for ($i = 0; $i < count($attributeTypes); $i += 2) {
                 if (!empty($prices[$priceIndex]) && !empty($stocks[$priceIndex]) && !empty($skus[$priceIndex])) {
+                    $randomSku = Str::random(4);
+
+                    $sku = $skus[$priceIndex] . $randomSku;
+
                     $attributes[] = [
                         'attributes_id' => $attributeTypes[$i],
+                        'attributes_value' => $attributeValues[$i],
                         'price' => $prices[$priceIndex],
                         'stock' => $stocks[$priceIndex],
-                        'sku' => $skus[$priceIndex],
+                        'sku' => $sku
                     ];
                     $attributes[] = [
                         'attributes_id' => $attributeTypes[$i + 1],
+                        'attributes_value' => $attributeValues[$i + 1],
                         'price' => $prices[$priceIndex],
                         'stock' => $stocks[$priceIndex],
-                        'sku' => $skus[$priceIndex]
+                        'sku' => $sku
                     ];
                 }
                 $priceIndex++;
             }
+
             // dd($attributes);
             $product = $this->productRepository->create($payload);
             foreach ($attributes as $attribute) {
@@ -84,15 +94,17 @@ class ProductService implements ProductServiceInterface
                     'price' => $attribute['price'],
                     'stock' => $attribute['stock'],
                     'sku' => $attribute['sku'],
-                    'attribute_id' => $attribute['attributes_id']
+                    'attribute_id' => $attribute['attributes_id'],
+                    'attribute_value' => $attribute['attributes_value']
                 ]);
             }
+
             DB::commit();
             return redirect()->route('product.index')->with('success', 'Thêm sản phẩm mới thành công');
         } catch (\Exception $e) {
             DB::rollBack();
             echo $e->getMessage();
-            // return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -100,5 +112,19 @@ class ProductService implements ProductServiceInterface
     {
         $product = $this->productRepository->delete($id);
         return redirect()->route('product.index')->with('success', 'Xoá sản phẩm thành công');
+    }
+
+
+    public function getProductAttributePairs($productId)
+    {
+        $product = $this->productRepository->getProductAttributePairs($productId);
+        return $product;
+    }
+
+
+    public function getProductByColor_Size($productId, $colorValue, $sizeValue)
+    {
+        $product = $this->productRepository->getProductByAttributes($productId, $colorValue, $sizeValue);
+        return $product;
     }
 }

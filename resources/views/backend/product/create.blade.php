@@ -42,10 +42,20 @@
                                     <div class="form-group"><label class="col-sm-2 control-label">Mô tả:</label>
                                         <div class="col-sm-10">
 
-                                            <textarea class="summernoteProduct" name="description">
+                                            <textarea id="summernoteProduct" name="description"></textarea>
 
-                                        </textarea>
-
+                                            <textarea id="summernote-editor" name="image"></textarea>
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <a id="lfm" data-input="thumbnail" data-preview="holder"
+                                                        class="btn btn-primary">
+                                                        <i class="fa fa-picture-o"></i> Choose
+                                                    </a>
+                                                </span>
+                                                <input id="thumbnail" class="form-control" type="text"
+                                                    name="filepath">
+                                            </div>
+                                            <div id="holder" style="margin-top:15px;max-height:100px;"></div>
                                         </div>
                                     </div>
                                     <div class="form-group"><label class="col-sm-2 control-label">Giá khuyến
@@ -154,12 +164,20 @@
                                                                                             value="{{ $color->id }}"
                                                                                             name="attribute_type[]"
                                                                                             type="text">
-                                                                                     
+                                                                                        <input
+                                                                                            value="{{ $color->value }}"
+                                                                                            name="attribute_value[]"
+                                                                                            type="text">
+
                                                                                         <input
                                                                                             value="{{ $size->id }}"
                                                                                             name="attribute_type[]"
                                                                                             type="text">
-                                                                                    
+                                                                                        <input
+                                                                                            value="{{ $size->value }}"
+                                                                                            name="attribute_value[]"
+                                                                                            type="text">
+
                                                                                         <strong>{{ $size->value }}</strong>
                                                                                         |
                                                                                         <strong><i class="fa fa-circle"

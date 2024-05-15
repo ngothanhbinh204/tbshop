@@ -1,6 +1,8 @@
-@include('frontend.client.components.breadcrumb', [
-    'title' => config('apps.shop.index.title'),
-])
+@extends('frontend.client.layout')
+
+@section('title', 'Trang Shop')
+
+@section('content')
 <!-- Shop Section Begin -->
 <section class="shop spad">
     <div class="container">
@@ -641,4 +643,6 @@
         </div>
     </div>
 </section>
+
+@endsection
 <!-- Shop Section End -->

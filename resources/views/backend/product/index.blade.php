@@ -11,7 +11,4 @@
     @include('backend.product.components.table', ['table' => config('apps.product.index.table')])
 
 
-   
-
-
 </div>

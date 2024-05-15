@@ -9,17 +9,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $title = 'Trang Chủ';
-        $template = 'frontend.client.home.index';
-        return view('frontend.client.layout', compact(
-            'template',
-            'title'
-        ));
+
+        return view('frontend.client.home');
     }
 
     public function shop()
     {
-    
+
         $template = 'frontend.client.shop.index';
         return view('frontend.client.layout', compact(
             'template',

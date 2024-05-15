@@ -62,6 +62,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('index', [ProductController::class, 'index'])->name('product.index')->middleware('admin');
     Route::get('create', [ProductController::class, 'create'])->name('product.create')->middleware('admin');
     Route::post('store', [ProductController::class, 'store'])->name('product.store')->middleware('admin');
+    Route::get('product_attribute/{id}', [ProductController::class, 'productAttributes'])->name('product.productAttributes')->middleware('admin');
     Route::get('detail/{id}', [ProductController::class, 'detail'])->name('product.detail')->middleware('admin');
     Route::get('edit/{id}', [ProductController::class, 'edit'])->name('product.edit')->middleware('admin');
     Route::put('update/{id}', [ProductController::class, 'updateProduct'])->name('product.update')->middleware('admin');
@@ -74,7 +75,6 @@ Route::group(['prefix' => 'attribute'], function () {
     Route::get('index', [AttributeController::class, 'index'])->name('attribute.index')->middleware('admin');
     Route::get('create', [AttributeController::class, 'create'])->name('attribute.create')->middleware('admin');
     Route::post('store', [AttributeController::class, 'store'])->name('attribute.store')->middleware('admin');
-
 });
 
 /* CATEGORIES */
@@ -114,3 +114,8 @@ Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index')->middleware('admin');
 Route::post('/clear-notifications', [DashboardController::class, 'clearNotifications'])->name('dashboard.clearNotifications');
+
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware'], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

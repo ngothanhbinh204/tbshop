@@ -10,7 +10,7 @@
                             <th data-toggle="true">Tên sản phẩm</th>
                             <th data-hide="phone">Danh mục</th>
                             <th data-hide="all">Mô tả</th>
-                            <th data-hide="phone">Giá</th>
+                            <th data-hide="phone">Xuất xứ</th>
                             <th data-hide="phone">Trạng thái</th>
                             <th class="text-right" data-sort-ignore="true">Thao tác</th>
 
@@ -21,14 +21,14 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('product.detail', ['id' => $product->id]) }}"
+                                        <a href="{{ route('product.productAttributes', ['id' => $product->id]) }}"
                                             class="btn-link">
                                             {{ $product->name }}
                                         </a>
                                     </td>
                                     <td>{{ $product->categories->name }}</td>
                                     <td>{!! $product->description !!}</td>
-                                    <td>{{ $product->price }}</td>
+                                    <td>{{ $product->origin }}</td>
                                     <td>
                                         @if ($product->status == 1)
                                             <span class="label label-info">Hoạt động</span>
