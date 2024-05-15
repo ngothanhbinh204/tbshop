@@ -11,4 +11,9 @@ class ShopController extends Controller
     {
         return view('frontend.client.shop');
     }
+
+    public function shopDetail()
+    {
+        return view('frontend.client.shopDetail');
+    }
 }

@@ -1,6 +1,6 @@
 @extends('frontend.client.layout')
 
-@section('title', 'Trang Shop')
+@section('title', 'Về chúng tôi')
 
 @section('content')
         <!-- About Section Begin -->

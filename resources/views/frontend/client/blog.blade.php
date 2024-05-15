@@ -1,6 +1,6 @@
 @extends('frontend.client.layout')
 
-@section('title', 'Trang chủuu')
+@section('title', 'Trang tin tức')
 
 @section('content')
     <!-- Breadcrumb Section Begin -->
@@ -34,7 +34,7 @@
                         <div class="blog__item__text">
                             <span><img src="img/icon/calendar.png" alt=""> 21 February 2020</span>
                             <h5>Eternity Bands Do Last Forever</h5>
-                            <a href="#">Read More</a>
+                            <a href="{{ route('blog.detail')}}">Read More</a>
                         </div>
                     </div>
                 </div>

@@ -12,4 +12,9 @@ class BlogController extends Controller
 
         return view('frontend.client.blog');
     }
+    public function blogDetail()
+    {
+
+        return view('frontend.client.blogDetail');
+    }
 }

@@ -76,18 +76,16 @@
                     <ul>
                         <li class="active"><a href="{{ route('home.index') }}">Trang chủ</a></li>
                         <li><a href="{{ route('shop.index') }}">Cửa hàng</a></li>
-                        <li><a href="{{ route('shop.index') }}">Về chúng tôi</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                <li><a href="./about.html">About Us</a></li>
-                                <li><a href="./shop-details.html">Shop Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./checkout.html">Check Out</a></li>
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="{{ route('about.index') }}">Về chúng tôi</a></li>
                         <li><a href="{{ route('blogs.index') }}">Tin tức</a></li>
                         <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
+                        <li><a href="#">Giỏ Hàng</a>
+                            <ul class="dropdown">
+                                <li><a href="{{ route('shop-detail.index') }}">Shop Details</a></li>
+                                <li><a href="{{ route('cart.index') }}">Shopping Cart</a></li>
+                                <li><a href="{{ route('checkout.index') }}">Check Out</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -96,7 +94,8 @@
                     <a href="#" class="search-switch"><img src=" {{ asset('frontend/img/icon/search.png') }}"
                             alt=""></a>
                     <a href="#"><img src=" {{ asset('frontend/img/icon/heart.png') }}" alt=""></a>
-                    <a href="#"><img src=" {{ asset('frontend/img/icon/cart.png') }}" alt="">
+                    <a href="{{ route('cart.index') }}"><img src=" {{ asset('frontend/img/icon/cart.png') }}"
+                            alt="">
                         <span>0</span></a>
                     <div class="price">$0.00</div>
                 </div>

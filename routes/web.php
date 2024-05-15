@@ -18,6 +18,9 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\BaseClientController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -97,9 +100,13 @@ Route::group(['prefix' => 'role'], function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::get('/shop-detail', [ShopController::class, 'shopDetail'])->name('shop-detail.index');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blog-detail', [BlogController::class, 'blogDetail'])->name('blog.detail');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/contact', [BaseClientController::class, 'contact'])->name('contact.index');
+Route::get('/about', [BaseClientController::class, 'about'])->name('about.index');
 
 
 /*BACKEND ROUTES */
