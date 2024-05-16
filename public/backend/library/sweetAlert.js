@@ -1,7 +1,7 @@
 
 
 $(document).ready(function () {
-    var _token = $('meta[name="csrf-token"').attr('content');
+    var _token = $('meta[name="csrf-token"]').attr('content');
 
     $('.demo1').click(function(){
         swal({

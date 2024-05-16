@@ -19,6 +19,7 @@ use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\AuthController as AuthClientController;
 use App\Http\Controllers\Frontend\BaseClientController;
 
 use Illuminate\Support\Facades\Route;
@@ -99,6 +100,7 @@ Route::group(['prefix' => 'role'], function () {
 /*FRONTEND ROUTES */
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/login-client', [AuthClientController::class, 'login'])->name('login.client.index');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop-detail', [ShopController::class, 'shopDetail'])->name('shop-detail.index');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
