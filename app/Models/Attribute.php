@@ -20,9 +20,11 @@ class Attribute extends Model
     // Định nghĩa mối quan hệ với model Product
     public function product()
     {
-        return $this->belongsToMany(Product::class, 'product_attribute');
+        return $this->belongsToMany(Product::class, 'product_attribute')
+            ->withPivot('attribute_value', 'price');
     }
-    public function product_attribute() {
-        return $this->hasMany(ProductAttribute::class,'attribute_id');
+    public function product_attribute()
+    {
+        return $this->hasMany(ProductAttribute::class, 'attribute_id');
     }
 }

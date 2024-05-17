@@ -34,5 +34,6 @@
 @include('frontend.client.partials.footer')
 @include('frontend.client.components.search')
 @include('frontend.client.components.script')
+@yield('scripts')
 
 </html>

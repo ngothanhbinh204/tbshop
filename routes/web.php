@@ -102,13 +102,17 @@ Route::group(['prefix' => 'role'], function () {
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/login-client', [AuthClientController::class, 'login'])->name('login.client.index');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/shop-detail', [ShopController::class, 'shopDetail'])->name('shop-detail.index');
+Route::get('/product-detail/{id}', [ShopController::class, 'productDetail'])->name('client.product.detail');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/blog-detail', [BlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/contact', [BaseClientController::class, 'contact'])->name('contact.index');
 Route::get('/about', [BaseClientController::class, 'about'])->name('about.index');
+
+Route::group(['prefix' => 'ajax'], function () {
+    Route::get('/get-infoproduct-by-color-size', [ShopController::class, 'getInfoProByAttribute'])->name('client.getInfoProductByAttribute');
+});
 
 
 /*BACKEND ROUTES */

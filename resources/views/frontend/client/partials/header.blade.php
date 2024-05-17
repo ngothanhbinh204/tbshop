@@ -81,7 +81,6 @@
                         <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
                         <li><a href="#">Giỏ Hàng</a>
                             <ul class="dropdown">
-                                <li><a href="{{ route('shop-detail.index') }}">Shop Details</a></li>
                                 <li><a href="{{ route('cart.index') }}">Shopping Cart</a></li>
                                 <li><a href="{{ route('checkout.index') }}">Check Out</a></li>
                             </ul>

@@ -19,42 +19,59 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="product__item">
-                <div class="product__item__pic set-bg" data-setbg=" {{ asset('frontend/img/product/product-2.jpg') }}">
-                    <ul class="product__hover">
-                        <li><a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}" alt=""></a></li>
-                        <li><a href="#"><img src="{{ asset('frontend/img/icon/compare.png') }}" alt="">
-                                <span>Compare</span></a>
-                        </li>
-                        <li><a href="{{ route('shop-detail.index') }}"><img src="{{ asset('frontend/img/icon/search.png') }}" alt=""></a></li>
-                    </ul>
-                </div>
-                <div class="product__item__text">
-                    <h6>Piqué Biker Jacket</h6>
-                    <a href="#" class="add-cart">+ Add To Cart</a>
-                    <div class="rating">
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
+
+        @if (isset($products))
+            @foreach ($products as $product)
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="{{ $product->image }}">
+                            <ul class="product__hover">
+                                <li><a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}"
+                                            alt=""></a></li>
+                                <li><a href="#"><img src="{{ asset('frontend/img/icon/compare.png') }}"
+                                            alt="">
+                                        <span>Compare</span></a>
+                                </li>
+                                <li><a href="{{ route('client.product.detail', ['id' => $product->id]) }}"><img
+                                            src="{{ asset('frontend/img/icon/search.png') }}" alt=""></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6>{{ $product->name }}</h6>
+                            <a href="#" class="add-cart">+ Thêm giỏ hàng</a>
+                            <div class="rating">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>{{ $product->price }}</h5>
+                            <div class="product__color__select">
+                                @if ($product->attribute->isNotEmpty())
+                                    <ul>
+                                        @php
+                                            $unique_colors = $product->attribute
+                                                ->pluck('pivot.attribute_value')
+                                                ->unique();
+                                        @endphp
+                                        @foreach ($unique_colors as $color)
+                                            <label style="background : {{ $color }}" for="">
+                                                <input type="radio" id="">
+                                            </label>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p>Không có màu</p>
+                                @endif
+                            </div>
+                        </div>
                     </div>
-                    <h5>$67.24</h5>
-                    <div class="product__color__select">
-                        <label for="pc-4">
-                            <input type="radio" id="pc-4">
-                        </label>
-                        <label class="active black" for="pc-5">
-                            <input type="radio" id="pc-5">
-                        </label>
-                        <label class="grey" for="pc-6">
-                            <input type="radio" id="pc-6">
-                        </label>
-                    </div>
                 </div>
-            </div>
-        </div>
+            @endforeach
+        @endif
+
         {{-- <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product__item sale">
                 <div class="product__item__pic set-bg" data-setbg=" {{ asset('frontend/img/product/product-3.jpg') }}">

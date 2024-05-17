@@ -127,4 +127,10 @@ class ProductService implements ProductServiceInterface
         $product = $this->productRepository->getProductByAttributes($productId, $colorValue, $sizeValue);
         return $product;
     }
+
+    public function getProductAllInShop()
+    {
+        $products = $this->productRepository->getProductAllInShop();
+        return $products;
+    }
 }

@@ -1107,7 +1107,7 @@ ol {
 	display: inline-block;
 	height: 12px;
 	width: 12px;
-	background: #5e64d1;
+	/* background: #5e64d1; */
 	border-radius: 50%;
 	margin-bottom: 0;
 	margin-right: 5px;
@@ -1692,7 +1692,7 @@ ol {
 .product__details__option__color {
 	display: inline-block;
 	position: relative;
-	top: 10px;
+	/* top: 10px; */
 }
 
 .product__details__option__color span {

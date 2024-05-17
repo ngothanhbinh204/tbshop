@@ -79,7 +79,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 $join->on('pa1.sku', '=', 'pa2.sku');
             })
             ->join('attributes as a2', 'pa2.attribute_id', '=', 'a2.id')
-            ->select('p.name as product_name','p.id as product_id','pa1.*', 'pa1.sku as sku', 'pa1.attribute_value as size_value', 'pa2.attribute_value as color_value')
+            ->select('p.name as product_name', 'p.*', 'p.id as product_id', 'pa1.*', 'pa1.sku as sku', 'pa1.attribute_value as size_value', 'pa2.attribute_value as color_value')
             ->where('pa1.product_id', $productId)
             ->where('a1.type', 'size')
             ->where('a2.type', 'color')
@@ -87,12 +87,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->orderByDesc('pa2.attribute_value')
             ->orderByDesc('pa1.attribute_value')
             ->get();
-
-        // $attributePairs = [];
-        // foreach ($attributes as $attribute) {   
-        //     $attributePairs[] = $attribute->color_value . ' + ' . $attribute->size_value .' +'. $attribute->stock;
-        // }
-
         return $attributes;
     }
 
@@ -113,5 +107,19 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->where('a2.type', 'color')
             ->where('pa2.attribute_value', $color)
             ->first();
+    }
+
+    public function getProductAllInShop()
+    {
+        $results = DB::table('product_attribute AS pa')
+            ->select('p.name', 'pa.sku', 'pa.attribute_value AS color_value')
+            ->join('attributes AS a', 'pa.attribute_id', '=', 'a.id')
+            ->join('products AS p', 'pa.product_id', '=', 'p.id')
+            ->where('a.type', '=', 'color')
+            ->orderBy('pa.attribute_value')
+            ->distinct()
+            ->get();
+
+        return $results;
     }
 }

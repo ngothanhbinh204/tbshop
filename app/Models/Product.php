@@ -36,10 +36,14 @@ class Product extends Model
     }
     public function attribute()
     {
-        return $this->belongsToMany(Attribute::class, 'product_attribute');
+        return $this->belongsToMany(Attribute::class, 'product_attribute')
+            ->withPivot('attribute_value', 'price')
+            ->withTimestamps();
     }
 
-    public function product_attribute() {
-        return $this->hasMany(ProductAttribute::class,'product_id');
+
+    public function product_attribute()
+    {
+        return $this->hasMany(ProductAttribute::class, 'product_id');
     }
 }
