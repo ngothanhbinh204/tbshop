@@ -15,4 +15,5 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getProductAttributePairs($productId);
     public function getProductByAttributes($productId, $color, $value);
     public function getProductAllInShop();
+    public function getSalePriceAttribute();
 }

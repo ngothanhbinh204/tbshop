@@ -22,6 +22,6 @@ interface ProductServiceInterface
     public function getProductAttributePairs($productId);
     public function getProductByColor_Size($productId, $colorValue, $sizeValue);
 
-
     public function getProductAllInShop();
+    public function getSalePriceAttribute();
 }

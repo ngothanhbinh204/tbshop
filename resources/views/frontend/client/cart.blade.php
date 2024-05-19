@@ -12,65 +12,82 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá gốc</th>
+                                    <th>Giảm giá ( % )</th>
+                                    <th>Tổng cộng</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="{{ asset('frontend/img/shopping-cart/cart-1.jpg')}}" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>T-shirt Contrast Pocket</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                              
+                                @if ($cart)
+                                    @foreach ($cart->product as $item)
+                                        <tr>
+                                            <td class="product__cart__item">
+                                                <div class="product__cart__item__pic">
+                                                    <img width="100px" src="{{ $item->product->image }}" alt="">
+                                                </div>
+                                                <div class="product__cart__item__text">
+                                                    <h6>{{ $item->product->name }}</h6>
+                                                    <span>{{ $item->product_size }}</span>
+                                                    |
+                                                    <span style="color: {{ $item->product_color }}"
+                                                        class="fa fa-circle"></span>
+
+                                                    {{-- <h5>{{ $product }}</h5> --}}
+                                                </div>
+                                            </td>
+                                            <td class="quantity__item">
+                                                <div class="quantity">
+                                                    <div class="pro-qty-2">
+                                                        <input type="text" value="{{ $item->product_quantity }}">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            {{-- stock price --}}
+                                            <td class="cart__price">{{ $item->product_price }} ₫</td>
+                                             {{-- sale --}}
+                                            <td class="cart__price">{{ $item->product->price_sale }} %</td>
+                                             {{-- price now --}}
+                                            <td class="cart__price">{{ $item->product_quantity * $item->product_price - ($item->product->price_sale * 0.01 * $item->product_price) }} ₫</td>
+                                            <td class="cart__close"><i class="fa fa-close"></i></td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+
+
                             </tbody>
                         </table>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn">
-                                <a href="{{route('shop.index')}}">Continue Shopping</a>
+                                <a href="{{ route('shop.index') }}">Tiếp tục mua sắm</a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                                <a href="#"><i class="fa fa-spinner"></i> Cập nhật giỏ hàng</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="cart__discount">
-                        <h6>Discount codes</h6>
+                        <h6>Mã giảm giá</h6>
                         <form action="#">
                             <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
+                            <button type="submit">Áp dụng</button>
                         </form>
                     </div>
                     <div class="cart__total">
-                        <h6>Cart total</h6>
+                        <h6>Tổng giỏ hàng</h6>
                         <ul>
-                            <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
+                            <li>Tổng cộng <span> 169.50 ₫</span></li>
+                            <li>Thành tiền <span>$ 169.50</span></li>
                         </ul>
-                        <a href="{{route('checkout.index')}}" class="primary-btn">Proceed to checkout</a>
+                        <a href="{{ route('checkout.index') }}" class="primary-btn">Tiến hành thanh toán</a>
                     </div>
                 </div>
             </div>

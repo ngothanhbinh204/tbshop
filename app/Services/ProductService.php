@@ -133,4 +133,10 @@ class ProductService implements ProductServiceInterface
         $products = $this->productRepository->getProductAllInShop();
         return $products;
     }
+
+    public function getSalePriceAttribute()
+    {
+        $products = $this->productRepository->getSalePriceAttribute();
+        return $products;
+    }
 }

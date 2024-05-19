@@ -122,4 +122,15 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
         return $results;
     }
+
+    public function getSalePriceAttribute()
+    {
+        // dd($this->model->all());
+        // if ($this->model->price_sale > 0) {
+        //     echo "có";
+        //     die();
+        // } else {
+        //     echo "Không";
+        // }
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Services\Interfaces\ProductServiceInterface as ProductService;
 
 use App\Models\Cart;
 use App\Models\CartProduct;
@@ -13,14 +14,16 @@ use App\Models\Product;
 
 class CartController extends Controller
 {
+    protected $productService;
     protected $cart;
     protected $product;
     protected $cartProduct;
     protected $coupon;
     protected $order;
 
-    public function __construct(Product $product, Cart $cart, CartProduct $cartProduct, Coupon $coupon, Order $order)
+    public function __construct(ProductService $productService, Product $product, Cart $cart, CartProduct $cartProduct, Coupon $coupon, Order $order)
     {
+        $this->productService = $productService;
         $this->product = $product;
         $this->cart = $cart;
         $this->cartProduct = $cartProduct;
@@ -29,8 +32,11 @@ class CartController extends Controller
     }
     public function index()
     {
-
-        return view('frontend.client.cart');
+        $cart = $this->cart->firstOrCreateBy(auth()->user()->id)->load('product');
+        $salePrice = $this->productService->getSalePriceAttribute();
+        return view('frontend.client.cart', compact(
+            'cart'
+        ));
     }
 
     public function store(Request $request)
