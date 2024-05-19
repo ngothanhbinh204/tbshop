@@ -34,22 +34,22 @@
         <div class="forms">
             <div class="form-content">
 
-                <form action="" method="post" class="login-form">
+                <form action="{{ route('client.auth.login') }}" method="post" class="login-form">
                     @csrf
                     <div class="title">Đăng Nhập</div>
                     <form action="#">
                         <div class="input-boxes">
                             <div class="input-box">
                                 <i class="fas fa-envelope"></i>
-                                <input type="text" placeholder="Nhập email" required>
+                                <input name="email" type="text" placeholder="Nhập email" required>
                             </div>
                             <div class="input-box">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" placeholder="Nhập mật khẩu" required>
+                                <input name="password" type="password" placeholder="Nhập mật khẩu" required>
                             </div>
                             <div class="text"><a href="#">Quên mật khẩu?</a></div>
                             <div class="button input-box">
-                                <input type="submit" value="Sumbit">
+                                <input type="submit" value="Đăng Nhập">
                             </div>
                             <div class="text sign-up-text">Bạn chưa có tài khoản? <label for="flip">Đăng ký
                                     ngay</label></div>

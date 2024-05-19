@@ -122,7 +122,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group"><label class="col-sm-2 control-label">Xuất xứ2:</label>
+                                    <div class="form-group"><label class="col-sm-2 control-label">Xuất xứ:</label>
                                         <div class="col-sm-10">
                                             <select name="origin" id="" class="setupSelect2 form-control">
 
@@ -163,20 +163,20 @@
                                                                                         <input
                                                                                             value="{{ $color->id }}"
                                                                                             name="attribute_type[]"
-                                                                                            type="text">
+                                                                                            type="hidden">
                                                                                         <input
                                                                                             value="{{ $color->value }}"
                                                                                             name="attribute_value[]"
-                                                                                            type="text">
+                                                                                            type="hidden">
 
                                                                                         <input
                                                                                             value="{{ $size->id }}"
                                                                                             name="attribute_type[]"
-                                                                                            type="text">
+                                                                                            type="hidden">
                                                                                         <input
                                                                                             value="{{ $size->value }}"
                                                                                             name="attribute_value[]"
-                                                                                            type="text">
+                                                                                            type="hidden">
 
                                                                                         <strong>{{ $size->value }}</strong>
                                                                                         |

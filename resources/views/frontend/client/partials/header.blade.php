@@ -46,7 +46,9 @@
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
                         <div class="header__top__links">
-                            <a href="{{route('login.client.index')}}">Đăng nhập / Đăng ký</a>
+                            @if (empty(auth()->user()))
+                                <a href="{{ route('login.client.index') }}">Đăng nhập / Đăng ký</a>
+                            @endif
                             <a href="#">FAQs</a>
                         </div>
                         <div class="header__top__hover">
@@ -79,12 +81,17 @@
                         <li><a href="{{ route('about.index') }}">Về chúng tôi</a></li>
                         <li><a href="{{ route('blogs.index') }}">Tin tức</a></li>
                         <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
-                        <li><a href="#">Giỏ Hàng</a>
-                            <ul class="dropdown">
-                                <li><a href="{{ route('cart.index') }}">Shopping Cart</a></li>
-                                <li><a href="{{ route('checkout.index') }}">Check Out</a></li>
-                            </ul>
-                        </li>
+
+                        @if (auth()->user())
+                            <li><a href="#">{{ auth()->user()->username }}</a>
+                                <ul class="dropdown">
+                                    <li><a href="">Tài khoản của tôi</a></li>
+                                    <li><a href="">Giỏ hàng của tôi</a></li>
+                                    <li><a href="">Hoá đơn</a></li>
+                                    <li><a href="{{ route('client.logout') }}">Đăng xuất</a></li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>
@@ -95,7 +102,7 @@
                     <a href="#"><img src=" {{ asset('frontend/img/icon/heart.png') }}" alt=""></a>
                     <a href="{{ route('cart.index') }}"><img src=" {{ asset('frontend/img/icon/cart.png') }}"
                             alt="">
-                        <span>0</span></a>
+                        <span>{{ $cart }}</span></a>
                     <div class="price">$0.00</div>
                 </div>
             </div>

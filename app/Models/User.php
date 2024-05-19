@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -84,6 +85,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Post::class, 'author_id');
     }
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'user_role');

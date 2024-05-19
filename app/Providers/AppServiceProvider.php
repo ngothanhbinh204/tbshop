@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use App\Composers\CartComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -45,5 +47,7 @@ class AppServiceProvider extends ServiceProvider
         // Lấy mảng thông báo từ session flash (nếu có) và chia sẻ với tất cả các view
         $notifications = session('notifications', []);
         view()->share('notifications', $notifications);
+
+        View::composer("frontend.client.partials.header", CartComposer::class);
     }
 }
