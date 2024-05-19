@@ -49,5 +49,6 @@ class AppServiceProvider extends ServiceProvider
         view()->share('notifications', $notifications);
 
         View::composer("frontend.client.partials.header", CartComposer::class);
+        View::composer("frontend.client.cart", CartComposer::class);
     }
 }

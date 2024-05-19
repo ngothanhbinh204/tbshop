@@ -102,7 +102,7 @@
                     <a href="#"><img src=" {{ asset('frontend/img/icon/heart.png') }}" alt=""></a>
                     <a href="{{ route('cart.index') }}"><img src=" {{ asset('frontend/img/icon/cart.png') }}"
                             alt="">
-                        <span>{{ $cart }}</span></a>
+                        <span class="" id="productCountCart">{{ $countProductInCart }}</span></a>
                     <div class="price">$0.00</div>
                 </div>
             </div>

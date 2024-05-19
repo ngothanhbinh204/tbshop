@@ -21,7 +21,9 @@ class CartComposer
         // Lấy dữ liệu từ dịch vụ giỏ hàng và gán cho view
         if (auth()->check()) {
             $cartCount =  $this->cart->countProductInCart(auth()->user()->id);
-            $view->with('cart', $cartCount);
+            $view->with('countProductInCart', $cartCount);
+        } else {
+            $view->with('countProductInCart', 0);
         }
     }
 

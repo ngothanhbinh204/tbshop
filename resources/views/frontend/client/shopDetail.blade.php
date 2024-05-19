@@ -138,7 +138,8 @@
                                     <div class="product__details__cart__option">
                                         <div class="quantity">
                                             <div class="pro-qty">
-                                                <input name="product_quantity" type="text" value="1">
+                                                <input id="quantityInput" value="1" name="product_quantity"
+                                                    type="number" min="1" max="10">
                                             </div>
                                         </div>
                                         <button type="submit" class="primary-btn" id="addToCartBtn">

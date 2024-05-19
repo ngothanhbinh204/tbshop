@@ -107,8 +107,12 @@ Route::get('/blog-detail', [BlogController::class, 'blogDetail'])->name('blog.de
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-
 Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
+Route::post('/update-quantity-product-in-cart/{cart_product_id}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
+Route::post('/remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.cart.remove_product');
+
+
+
 Route::get('/contact', [BaseClientController::class, 'contact'])->name('contact.index');
 Route::get('/about', [BaseClientController::class, 'about'])->name('about.index');
 

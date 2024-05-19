@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
-
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Coupon;
@@ -41,8 +41,13 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
+        $productByAttribute = $this->productService->getProductByColor_Size($request->id_product, $request->product_color, $request->product_size);
+        // dd($productByAttribute);
         if (!auth()->check()) {
-            return back()->with('error', 'Vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ hàng.');
+            return back()->with('error', 'Vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ hàng');
+        }
+        if ($request->product_quantity > $productByAttribute->stock) {
+            return back()->with('error', 'Số lượng sản phẩm này vượt quá số lượng tồn kho. Vui lòng giảm số lượng hoặc chọn sản phẩm khác');
         }
 
         if ($request->product_size && $request->product_color && $request->product_price) {
@@ -69,8 +74,48 @@ class CartController extends Controller
             }
             return redirect()->route('cart.index')->with('success', 'Thêm giỏ hàng thành công');
         } else {
-            return back()->with('error', 'Bạn chưa chọn size');
+            return back()->with('error', 'Bạn chưa chọn size hoặc màu ');
         }
         // dd($request);
+    }
+
+    public function updateQuantityProduct(Request $request, $id)
+    {
+        $cartProduct = $this->cartProduct->with('cart')->find($id);
+        // dd($cartProduct);
+        $dataUpdate = $request->all();
+        if (!$cartProduct) {
+            return response()->json(['message' => 'Cart Product not found.'], Response::HTTP_NOT_FOUND);
+        }
+        // dd($cartProduct);
+        if ($dataUpdate['product_quantity'] < 1) {
+            $cartProduct->delete();
+        } else {
+            $cartProduct->update($dataUpdate);
+        }
+
+        if ($cartProduct->cart) {
+            $cart = $cartProduct->cart;
+        } else {
+            return response()->json(['message' => 'Không tìm thấy cart'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'product_cart_id' => $id,
+            'cart' => $cart,
+            'remove_product' => $dataUpdate['product_quantity'] < 1
+        ], Response::HTTP_OK);
+    }
+
+    public function removeProductInCart($id)
+    {
+        $cartProduct = $this->cartProduct->find($id);
+        $cartProduct->delete();
+        $cart = $cartProduct->cart;
+
+        return response()->json([
+            'product_cart_id' => $id,
+            'cart' => $cart
+        ], Response::HTTP_OK);
     }
 }

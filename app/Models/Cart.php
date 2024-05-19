@@ -22,6 +22,10 @@ class Cart extends Model
         // 1 cart có nhiều products
         return $this->hasMany(CartProduct::class, 'id_cart');
     }
+    public function cartProduct()
+    {
+        return $this->hasMany(CartProduct::class, 'id_cart');
+    }
 
     public function getBy($userID)
     {
@@ -39,9 +43,19 @@ class Cart extends Model
         }
         return $cart;
     }
-     public function countProductInCart($userId)
+    public function countProductInCart($userId)
     {
         $cart = $this->where('id_user', $userId)->first();
         return $cart ? $cart->product->count() : 0;
+    }
+
+    public function getProductCountAttribute()
+    {
+        return auth()->check() ? $this->product->count() : 0;
+    }
+
+    public function getTotalPriceAttribute()
+    {
+        return auth()->check() ? $this->product->count() : 0;
     }
 }

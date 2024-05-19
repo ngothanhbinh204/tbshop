@@ -49,6 +49,21 @@ h6 {
 	font-family: "Nunito Sans", sans-serif;
 }
 
+/* Ẩn nút tăng giảm mặc định của input number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+	border: none;
+    width: 35%; 
+    text-align: center; /* Căn giữa nội dung */
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 h1 {
 	font-size: 70px;
 }
@@ -1766,6 +1781,7 @@ ol {
 	position: relative;
 }
 
+
 .product__details__cart__option .quantity .pro-qty input {
 	color: #0d0d0d;
 	font-size: 15px;
@@ -1780,6 +1796,17 @@ ol {
 	font-size: 18px;
 	color: #0d0d0d;
 	position: absolute;
+	right: 15px;
+	top: 3px;
+	height: 10px;
+	width: 10px;
+	cursor: pointer;
+	font-weight: 600;
+}
+.icon-quantity {
+	font-size: 18px;
+	color: #0d0d0d;
+	/* position: absolute; */
 	right: 15px;
 	top: 3px;
 	height: 10px;
