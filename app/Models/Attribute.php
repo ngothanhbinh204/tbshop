@@ -27,4 +27,17 @@ class Attribute extends Model
     {
         return $this->hasMany(ProductAttribute::class, 'attribute_id');
     }
+
+    public static function getSizes()
+    {
+        return self::where('type', '=', 'size')
+            ->orderBy('value', 'ASC')
+            ->get();
+    }
+    public static function getColors()
+    {
+        return self::where('type', '=', 'color')
+            ->orderBy('value', 'ASC')
+            ->get();
+    }
 }

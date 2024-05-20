@@ -100,16 +100,27 @@ Route::group(['prefix' => 'role'], function () {
 /*FRONTEND ROUTES */
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/categories/{slug}/{category_id}', [ShopController::class, 'filterProductByCategories'])->name('client.category.index');
+Route::get('/brands/{brand_id}', [ShopController::class, 'filterProductByBrands'])->name('client.brand.index');
+Route::get('/filter/price/{price_min}-{price_max}', [ShopController::class, 'filterProductByPrice'])->name('client.filter.price');
+
+
 Route::get('/product-detail/{id}', [ShopController::class, 'productDetail'])->name('client.product.detail');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
-Route::get('/blog-detail', [BlogController::class, 'blogDetail'])->name('blog.detail');
+Route::get('/blog-detail/{id}', [BlogController::class, 'blogDetail'])->name('client.blog.detail');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
-Route::post('/update-quantity-product-in-cart/{cart_product_id}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
-Route::post('/remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.cart.remove_product');
+// CARTS
+Route::middleware(['cart'])->group(function () {
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
+    Route::post('/update-quantity-product-in-cart/{cart_product_id}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
+    Route::post('/remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.cart.remove_product');
+});
+
+
 
 
 

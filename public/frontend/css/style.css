@@ -1006,6 +1006,32 @@ ol {
 	left: 0;
 	top: 20px;
 }
+.product__item__pic .is_sale {
+	color: #111111;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 4px 15px 2px;
+	background: #ffffff;
+	position: absolute;
+	left: 0;
+	top: 20px;
+}
+.product__item__pic .is_hot {
+	color: #fd5609;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 4px 15px 2px;
+	background: #ffffff;
+	position: absolute;
+	left: 0;
+	top: 20px;
+}
 
 .product__item__pic .product__hover {
 	position: absolute;
@@ -1365,6 +1391,7 @@ ol {
 .shop__sidebar__color label.c-9 {
 	background: #ffffff;
 }
+
 
 .shop__sidebar__color label:after {
 	position: absolute;

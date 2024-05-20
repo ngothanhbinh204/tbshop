@@ -12,4 +12,10 @@ class Brand extends Model
     {
         return $this->hasMany(Product::class, 'brand_id');
     }
+    public static function getBrands()
+    {
+        return self::withCount('products')
+            ->orderBy('name', 'ASC')
+            ->get();
+    }
 }

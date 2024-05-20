@@ -22,4 +22,11 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    public static function getCategories()
+    {
+        return self::withCount('products')
+            ->orderBy('name', 'ASC')
+            ->get();
+    }
 }

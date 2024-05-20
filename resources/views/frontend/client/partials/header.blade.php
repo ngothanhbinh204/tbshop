@@ -68,7 +68,7 @@
         <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="header__logo">
-                    <a href="{{ asset('home.index') }}"><img src=" {{ asset('frontend/img/logo.png') }}"
+                    <a href="{{ route('home.index') }}"><img src=" {{ asset('frontend/img/logo.png') }}"
                             alt=""></a>
                 </div>
             </div>
@@ -100,10 +100,13 @@
                     <a href="#" class="search-switch"><img src=" {{ asset('frontend/img/icon/search.png') }}"
                             alt=""></a>
                     <a href="#"><img src=" {{ asset('frontend/img/icon/heart.png') }}" alt=""></a>
-                    <a href="{{ route('cart.index') }}"><img src=" {{ asset('frontend/img/icon/cart.png') }}"
-                            alt="">
-                        <span class="" id="productCountCart">{{ $countProductInCart }}</span></a>
-                    <div class="price">$0.00</div>
+
+                    <a href="{{ route('cart.index') }}">
+                        <img src="{{ asset('frontend/img/icon/cart.png') }}" alt="">
+                        <span class="" id="productCountCart">{{ $countProductInCart ?? 0 }}</span>
+                    </a>
+                    {{-- <div class="price">$0.00</div> --}}
+
                 </div>
             </div>
         </div>

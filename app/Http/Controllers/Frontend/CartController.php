@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Coupon;
@@ -32,11 +33,15 @@ class CartController extends Controller
     }
     public function index()
     {
-        $cart = $this->cart->firstOrCreateBy(auth()->user()->id)->load('product');
-        $salePrice = $this->productService->getSalePriceAttribute();
-        return view('frontend.client.cart', compact(
-            'cart'
-        ));
+        if (Auth::check()) {
+            $cart = $this->cart->firstOrCreateBy(auth()->user()->id)->load('product');
+            $salePrice = $this->productService->getSalePriceAttribute();
+            return view('frontend.client.cart', compact(
+                'cart'
+            ));
+        } else {
+            return back()->with('error', ('Vui Lòng đăng nhập trước khi thực hiện giỏ hàng'));
+        }
     }
 
     public function store(Request $request)

@@ -5,31 +5,126 @@ namespace App\Http\Controllers\Frontend;
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
 use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceService;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Attribute;
 use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
     protected $productService;
+
     protected $provinceRepository;
     public function __construct(
+
         ProductService $productService,
         ProvinceService $provinceRepository
     ) {
         $this->productService = $productService;
         $this->provinceRepository = $provinceRepository;
     }
-    public function index()
+
+
+
+    public function index(Request $request)
     {
-        $products = Product::with(['attribute' => function ($query) {
-            $query->where('type', 'color');
-        }])->distinct()
-            ->get();
+        $categories = Category::getCategories();
+        $brands = Brand::getBrands();
+        $colors = Attribute::getColors();
+        $sizes = Attribute::getSizes();
+
+        $filters = $request->only(['category_id', 'brand_id', 'price_min', 'price_max', 'color', 'size']);
+        $products = $this->getProduct($filters);
         return view('frontend.client.shop', compact(
-            'products'
+            'products',
+            'categories',
+            'brands',
+            'colors',
+            'sizes',
+
         ));
     }
+    public function getProduct($filters = [])
+    {
+        $query = Product::with(['attribute']);
+
+        // nếu tồn tại danh mục id
+        if (isset($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+        
+        // nếu tồn tại thương hiệu id
+        if (isset($filters['brand_id'])) {
+            $query->where('brand_id', $filters['brand_id']);
+        }
+
+        // nếu tồn tại Price_min và price_max
+        if (isset($filters['price_min']) && isset($filters['price_max'])) {
+            $query->whereBetween('price', [$filters['price_min'], $filters['price_max']]);
+        } elseif (isset($filters['price_min'])) {
+            $query->where('price', '>=', $filters['price_min']);
+        } elseif (isset($filters['price_max'])) {
+            $query->where('price', '<=', $filters['price_max']);
+        }
+
+        // nếu tồn tại màu
+        if (isset($filters['color'])) {
+            $query->whereHas('attribute', function ($query) use ($filters) {
+                $query->where('type', 'color')
+                    ->where('value', $filters['color']);
+            });
+        }
+        if (isset($filters['size'])) {
+            $query->whereHas('attribute', function ($query) use ($filters) {
+                $query->where('type', 'size')
+                    ->where('value', $filters['size']);
+            });
+        }
+        return $query->paginate(5);
+    }
+
+    // public function filterProductByCategories(Request $request)
+    // {
+    //     $categories = Category::getCategories();
+    //     $brands = Brand::getBrands();
+    //     $products = $this->getProduct(['category_id' => $request->category_id]);
+    //     return view('frontend.client.shop', compact(
+    //         'products',
+    //         'categories',
+    //         'brands'
+    //     ));
+    // }
+
+    // public function filterProductByBrands(Request $request)
+    // {
+    //     $categories = Category::getCategories();
+    //     $brands = Brand::getBrands();
+    //     $products = $this->getProduct(['brand_id' => $request->brand_id]);
+    //     return view('frontend.client.shop', compact(
+    //         'products',
+    //         'categories',
+    //         'brands'
+    //     ));
+    // }
+
+    // public function filterProductByPrice(Request $request)
+    // {
+    //     // $priceMin = $request->price_min;
+    //     // $priceMax = $request->price_max;
+    //     $categories = Category::getCategories();
+    //     $brands = Brand::getBrands();
+    //     $products = $this->getProduct([
+    //         'price_min' => $request->price_min,
+    //         'price_max' => $request->price_max
+    //     ]);
+    //     return view('frontend.client.shop', compact(
+    //         'products',
+    //         'categories',
+    //         'brands'
+    //     ));
+    // }
 
     public function productDetail($id)
     {
