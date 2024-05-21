@@ -124,9 +124,21 @@
                                         <div class="product__details__option__color">
                                             <select name="product_color" class="form-control" id="colorSelect">
                                                 @foreach ($colorUnique as $item)
-                                                    <option value="{{ $item }}">{{ $item }}</option>
+                                                    <option value="{{ $item }}">
+                                                        {{ $item }}
+                                                    </option>
                                                 @endforeach
+
+
                                             </select>
+                                            @foreach ($colorUnique as $item)
+                                                <i style="color:  {{ $item }}" class="fa fa-circle">
+                                                </i>
+                                                <input type="radio" name="" id=""
+                                                    value="{{ $item }}">
+                                               
+                                            @endforeach
+
                                             {{-- <label style="background:{{ $item }} " class=""
                                             for="{{ $item }}">
                                             <input name="color" value="{{ $item }}" type="radio"

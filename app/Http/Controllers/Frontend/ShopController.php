@@ -35,7 +35,7 @@ class ShopController extends Controller
         $colors = Attribute::getColors();
         $sizes = Attribute::getSizes();
 
-        $filters = $request->only(['category_id', 'brand_id', 'price_min', 'price_max', 'color', 'size']);
+        $filters = $request->only(['keywords', 'category_id', 'brand_id', 'price_min', 'price_max', 'color', 'size']);
         $products = $this->getProduct($filters);
         return view('frontend.client.shop', compact(
             'products',
@@ -54,19 +54,41 @@ class ShopController extends Controller
         if (isset($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);
         }
-        
-        // nếu tồn tại thương hiệu id
+        // nếu tồn tại tên
+        if (isset($filters['keywords'])) {
+            $keywords = $filters['keywords'];
+            $query->where(function ($query) use ($keywords) {
+                $query->where('name', 'like', "%$keywords%");
+            });
+        }
+
+
+        // nếu tồm tại thươnf hiệu id
         if (isset($filters['brand_id'])) {
             $query->where('brand_id', $filters['brand_id']);
         }
 
+        // Sắp xếp sản phẩm theo giá thấp -> cao và ngưc lại
+        if (isset($filters['sort']) && $filters['sort'] == 'asc') {
+            $query->orderBy('product_attribute.price', 'asc');
+        } elseif (isset($filters['sort']) && $filters['sort'] == 'desc') {
+            $query->orderBy('product_attribute.price', 'desc');
+        }
+
         // nếu tồn tại Price_min và price_max
+        // Điều kiện lọc giá bao gồm bảng product_attribute để laya được gái
         if (isset($filters['price_min']) && isset($filters['price_max'])) {
-            $query->whereBetween('price', [$filters['price_min'], $filters['price_max']]);
+            $query->whereHas('attribute', function ($query) use ($filters) {
+                $query->whereBetween('product_attribute.price', [$filters['price_min'], $filters['price_max']]);
+            });
         } elseif (isset($filters['price_min'])) {
-            $query->where('price', '>=', $filters['price_min']);
+            $query->whereHas('attribute', function ($query) use ($filters) {
+                $query->where('product_attribute.price', '>=', $filters['price_min']);
+            });
         } elseif (isset($filters['price_max'])) {
-            $query->where('price', '<=', $filters['price_max']);
+            $query->whereHas('attribute', function ($query) use ($filters) {
+                $query->where('product_attribute.price', '<=', $filters['price_max']);
+            });
         }
 
         // nếu tồn tại màu
@@ -85,46 +107,58 @@ class ShopController extends Controller
         return $query->paginate(5);
     }
 
-    // public function filterProductByCategories(Request $request)
-    // {
-    //     $categories = Category::getCategories();
-    //     $brands = Brand::getBrands();
-    //     $products = $this->getProduct(['category_id' => $request->category_id]);
-    //     return view('frontend.client.shop', compact(
-    //         'products',
-    //         'categories',
-    //         'brands'
-    //     ));
-    // }
+    public function filterProductByCategories(Request $request)
+    {
+        $categories = Category::getCategories();
+        $brands = Brand::getBrands();
+        $colors = Attribute::getColors();
+        $sizes = Attribute::getSizes();
+        $products = $this->getProduct(['category_id' => $request->category_id]);
+        return view('frontend.client.shop', compact(
+            'products',
+            'categories',
+            'brands',
+            'colors',
+            'sizes',
+        ));
+    }
 
-    // public function filterProductByBrands(Request $request)
-    // {
-    //     $categories = Category::getCategories();
-    //     $brands = Brand::getBrands();
-    //     $products = $this->getProduct(['brand_id' => $request->brand_id]);
-    //     return view('frontend.client.shop', compact(
-    //         'products',
-    //         'categories',
-    //         'brands'
-    //     ));
-    // }
+    public function filterProductByBrands(Request $request)
+    {
+        $categories = Category::getCategories();
+        $brands = Brand::getBrands();
+        $colors = Attribute::getColors();
+        $sizes = Attribute::getSizes();
+        $products = $this->getProduct(['brand_id' => $request->brand_id]);
+        return view('frontend.client.shop', compact(
+            'products',
+            'categories',
+            'brands',
+            'colors',
+            'sizes',
+        ));
+    }
 
-    // public function filterProductByPrice(Request $request)
-    // {
-    //     // $priceMin = $request->price_min;
-    //     // $priceMax = $request->price_max;
-    //     $categories = Category::getCategories();
-    //     $brands = Brand::getBrands();
-    //     $products = $this->getProduct([
-    //         'price_min' => $request->price_min,
-    //         'price_max' => $request->price_max
-    //     ]);
-    //     return view('frontend.client.shop', compact(
-    //         'products',
-    //         'categories',
-    //         'brands'
-    //     ));
-    // }
+    public function filterProductByPrice(Request $request)
+    {
+        // $priceMin = $request->price_min;
+        // $priceMax = $request->price_max;
+        $categories = Category::getCategories();
+        $brands = Brand::getBrands();
+        $colors = Attribute::getColors();
+        $sizes = Attribute::getSizes();
+        $products = $this->getProduct([
+            'price_min' => $request->price_min,
+            'price_max' => $request->price_max
+        ]);
+        return view('frontend.client.shop', compact(
+            'products',
+            'categories',
+            'brands',
+            'colors',
+            'sizes',
+        ));
+    }
 
     public function productDetail($id)
     {

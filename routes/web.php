@@ -100,11 +100,13 @@ Route::group(['prefix' => 'role'], function () {
 /*FRONTEND ROUTES */
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::group(['prefix' => 'shop'], function () {
+    Route::get('/', [ShopController::class, 'index'])->name('shop.index');
+    Route::get('/categories/{slug}/{category_id}', [ShopController::class, 'filterProductByCategories'])->name('client.category.index');
+    Route::get('/brands/{brand_id}', [ShopController::class, 'filterProductByBrands'])->name('client.brand.index');
+    Route::get('/filter/price/{price_min}-{price_max}', [ShopController::class, 'filterProductByPrice'])->name('client.filter.price');
+});
 
-Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/categories/{slug}/{category_id}', [ShopController::class, 'filterProductByCategories'])->name('client.category.index');
-Route::get('/brands/{brand_id}', [ShopController::class, 'filterProductByBrands'])->name('client.brand.index');
-Route::get('/filter/price/{price_min}-{price_max}', [ShopController::class, 'filterProductByPrice'])->name('client.filter.price');
 
 
 Route::get('/product-detail/{id}', [ShopController::class, 'productDetail'])->name('client.product.detail');
