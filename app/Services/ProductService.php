@@ -92,7 +92,7 @@ class ProductService implements ProductServiceInterface
             $product = $this->productRepository->create($payload);
 
 
-            
+
             foreach ($attributes as $attribute) {
                 ProductAttribute::create([
                     'product_id' => $product->id,

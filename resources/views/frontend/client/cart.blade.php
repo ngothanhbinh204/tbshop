@@ -6,6 +6,11 @@
     <!-- Shopping Cart Section Begin -->
     <section class="shopping-cart spad">
         <div class="container">
+            @if (session('message'))
+                <div class="alert alert-danger">
+                    {{ session('message') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-8">
                     <div class="shopping__cart__table">
@@ -124,21 +129,40 @@
                 <div class="col-lg-4">
                     <div class="cart__discount">
                         <h6>Mã giảm giá</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
+
+                        <form action="{{ route('client.cart.apply_coupon', $id_cart = $cart->id) }}" method="POST">
+                            @csrf
+                            <input name="code_coupon" type="text" placeholder="Coupon code">
                             <button type="submit">Áp dụng</button>
                         </form>
+
+                        @if (session('discount_amount_price') && session('coupon_id') && session('coupon_code'))
+                            <div class="cart__total">
+
+                                <h6>Coupon :</h6>
+                                <ul>
+                                    <li>Code : <span> {{ session('coupon_code') }}</span></li>
+                                    <hr>
+                                    <li>Giảm : <span> {{ session('discount_amount_price') }}</span></li>
+                                </ul>
+                            </div>
+                        @endif
+
                     </div>
                     <div class="cart__total">
                         <h6>Tổng giỏ hàng</h6>
                         <ul>
                             <li>Tổng cộng <span id="totalAmount"> </span></li>
+
                             @if ($countProductInCart)
                                 <li>Phí Ship <span id="ship"> 30000 ₫</span></li>
                             @else
                                 <li>Phí Ship <span id="ship"> 0 ₫</span></li>
                             @endif
-
+                            @if (session('discount_amount_price') && session('coupon_id') && session('coupon_code'))
+                                <li id="priceCoupon">Coupon : {{ session('coupon_code') }} <span>
+                                        {{ session('discount_amount_price') }} ₫</span></li>
+                            @endif
                             <hr>
                             <li>Thành tiền <span id="totalPrice"> </span></li>
                         </ul>
@@ -153,16 +177,17 @@
 
 @section('scripts')
     <script>
+        var priceCoupon = 0;    
         var totalAmount = 0;
-
         $('.totalSingleProduct').each(function() {
             var priceText = $(this).text().trim(); // Lấy văn bản giá của sp
             var price = parseFloat(priceText.replace(/[^\d.]/g, '')); // chuyển từ text sang số
             totalAmount += price; // cộng tổng
         });
-
+        priceCoupon
         var ship = parseFloat($('#ship').text().trim().replace(/[^\d.]/g, ''));
-        var totalPrice = totalAmount + ship;
+        var priceCoupon = parseFloat($('#priceCoupon').text().trim().replace(/[^\d.]/g, ''));
+        var totalPrice = (totalAmount + ship) - priceCoupon;
         $('#totalAmount').text(totalAmount + ' ₫')
         $('#totalPrice').text(totalPrice + ' ₫')
 

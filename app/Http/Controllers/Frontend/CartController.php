@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use  Illuminate\Support\Facades\Session;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Coupon;
@@ -77,7 +78,7 @@ class CartController extends Controller
                 $dataCreateCart['id_product'] = $request->id_product;
                 $this->cartProduct->create($dataCreateCart);
             }
-            return redirect()->route('cart.index')->with('success', 'Thêm giỏ hàng thành công');
+            return redirect()->route('client.cart.index')->with('success', 'Thêm giỏ hàng thành công');
         } else {
             return back()->with('error', 'Bạn chưa chọn size hoặc màu ');
         }
@@ -122,5 +123,50 @@ class CartController extends Controller
             'product_cart_id' => $id,
             'cart' => $cart
         ], Response::HTTP_OK);
+    }
+
+
+    public function applyCoupon(Request $request, $id_cart)
+    {
+        $message = '';
+        $name = $request->input('code_coupon');
+        $coupon = $this->coupon->firstWithExperyDate($name, auth()->user()->id);
+
+
+        // Kiểm tra người dùng tồn tại
+
+        if (!auth()->check()) {
+            $message = 'Bạn cần phải đăng nhập để áp dụng coupons';
+            return back()->with('message', $message);
+        }
+
+        if ($this->cart->countProductInCart(auth()->user()->id) <= 0) {
+            $message = 'Vui lòng thêm sản phẩm vào giỏ hàng để áp dụng coupon';
+            return back()->with('message', $message);
+        }
+
+
+
+        $coupon = $this->coupon->firstWithExperyDate($name, auth()->user()->id);
+
+        $totalAmount = $this->cartProduct->getTotalPrice($id_cart);
+        if (isset($coupon) && $totalAmount < $coupon->value) {
+            $message = 'Bạn cần mua thêm sản phẩm để có thể áp dụng coupon này';
+            return back()->with('message', $message);
+        }
+
+        if ($coupon) {
+            $message = ' Áp dụng mã giảm giá thành công ';
+            // dd($coupon);
+            Session::put('coupon_id', $coupon->id);
+            Session::put('coupon_code', $coupon->name);
+            Session::put('discount_amount_price', $coupon->value);
+        } else {
+            Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
+            $message = ' Áp dụng mã giảm giá Không   thành công ';
+        }
+
+        return back()->with('message', $message);
+        // return redirect()->route('client.cart.index')->with(['message' => $message]);
     }
 }

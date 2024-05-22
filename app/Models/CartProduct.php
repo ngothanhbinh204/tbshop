@@ -35,4 +35,20 @@ class CartProduct extends Model
             ->where('product_color', $product_color)
             ->first();
     }
+
+    public function getTotalPrice($userId)
+    {
+        $totalPrice = $this->where('id_cart', $userId)
+            ->with('product')
+            ->get()
+            ->sum(function ($cartItem) {
+                $productPrice = $cartItem->product_price;
+                $productSalePrice = $cartItem->product->price_sale;
+                $quantity = $cartItem->product_quantity;
+                $discountedPrice = $productPrice - ($productSalePrice * 0.01 * $productPrice);
+                return $quantity * $discountedPrice;
+            });
+
+        return $totalPrice;
+    }
 }

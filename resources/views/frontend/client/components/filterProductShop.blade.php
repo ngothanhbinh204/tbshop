@@ -1,10 +1,12 @@
 <div class="col-lg-3">
     <div class="shop__sidebar">
         <div class="shop__sidebar__search">
+
             <form action="" method="GET">
                 <input name="keywords" type="search" value="{{ request()->keywords }}" placeholder="Tìm kiếm...">
                 <button type="submit"><span class="icon_search"></span></button>
             </form>
+            
         </div>
         <div class="shop__sidebar__accordion">
             <div class="accordion" id="accordionExample">

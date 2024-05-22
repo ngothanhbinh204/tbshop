@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-lg-2 col-md-3 col-sm-6">
                     <div class="shop__product__option__right d-flex align-items-center ">
-                        <i id="colorDisplay" class="fa fa-circle"></i>
+                        <i style="color: {{ request()->color == $item->value ? $item->value : '' }}" id="colorDisplay" class="fa fa-circle"></i>
                         <select class="nice-select" name="color" id="colorSelect" onchange="updateColor()">
                             <option value="">All màu sắc </option>
                             @foreach ($colors as $item)
@@ -115,6 +115,7 @@
                                         @php
                                             $unique_colors = $product->attribute
                                                 ->pluck('pivot.attribute_value')
+                                                ->where('pivot.attribute_value.type', '=', 'color')
                                                 ->unique();
                                         @endphp
                                         @foreach ($unique_colors as $color)

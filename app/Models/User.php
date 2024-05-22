@@ -81,6 +81,13 @@ class User extends Authenticatable implements JWTSubject
     //     $this->attributes['password'] = bcrypt($value);
     // }
 
+    public function coupons()
+    {
+        return $this->belongsToMany(Coupon::class, 'coupon_users')
+            ->withPivot('order_id')
+            ->withTimestamps();
+    }
+
     public function post()
     {
         return $this->hasMany(Post::class, 'author_id');

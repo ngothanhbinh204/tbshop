@@ -30,6 +30,7 @@ class ShopController extends Controller
 
     public function index(Request $request)
     {
+        
         $categories = Category::getCategories();
         $brands = Brand::getBrands();
         $colors = Attribute::getColors();
@@ -43,7 +44,6 @@ class ShopController extends Controller
             'brands',
             'colors',
             'sizes',
-
         ));
     }
     public function getProduct($filters = [])
@@ -58,11 +58,10 @@ class ShopController extends Controller
         if (isset($filters['keywords'])) {
             $keywords = $filters['keywords'];
             $query->where(function ($query) use ($keywords) {
-                $query->where('name', 'like', "%$keywords%");
+                $query->where('name', 'like', "%$keywords%")
+                    ->orWhere('description', 'like', "%$keywords%");
             });
         }
-
-
         // nếu tồm tại thươnf hiệu id
         if (isset($filters['brand_id'])) {
             $query->where('brand_id', $filters['brand_id']);

@@ -17,6 +17,7 @@ class HomeController extends Controller
 
         $productsNew_hotSale = Product::where('is_hot', '=', 1)
             ->orWhere('is_sale', '=', 1)
+            ->orWhere('best_order', '=', 1)
             ->orderBy('created_at', 'desc')
             ->with(['attribute' => function ($query) {
                 $query->where('type', 'color');

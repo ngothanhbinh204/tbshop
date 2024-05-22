@@ -116,10 +116,14 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 
 // CARTS
 Route::middleware(['cart'])->group(function () {
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
     Route::post('/update-quantity-product-in-cart/{cart_product_id}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
     Route::post('/remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.cart.remove_product');
+
+    // COUPONS
+    Route::post('/apply-coupon/{id_cart}', [CartController::class, 'applyCoupon'])->name('client.cart.apply_coupon');
+
 });
 
 

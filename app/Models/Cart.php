@@ -58,4 +58,7 @@ class Cart extends Model
     {
         return auth()->check() ? $this->product->count() : 0;
     }
+
+
+    
 }

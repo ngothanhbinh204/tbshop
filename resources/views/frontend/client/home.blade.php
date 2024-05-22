@@ -4,7 +4,13 @@
 
 @section('content')
 
-
+    @php
+        $productFilters = [
+            'is_hot' => 'HOT',
+            'is_sale' => 'New',
+            'best_order' => 'Bestseller',
+        ];
+    @endphp
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="hero__slider owl-carousel">
@@ -102,21 +108,32 @@
             <div class="row">
                 <div class="col-lg-12">
                     <ul class="filter__controls">
-                        <li class="active" data-filter="*">Bán chạy nhất</li>
-                        <li data-filter=".new-arrivals">Sản phẩm mới</li>
-                        <li data-filter=".hot-sales">Khuyến mãi hot</li>
+                        <li class="active" data-filter="*">Tất cả</li>
+                        <li data-filter=".New">Sản phẩm mới</li>
+                        <li data-filter=".HOT">Khuyến mãi hot</li>
+                        <li data-filter=".Bestseller">Bán chạy nhất</li>
                     </ul>
                 </div>
             </div>
+
+            {{-- {{ dd($productsNew_hotSale[0]->is_hot) }} --}}
             <div class="row product__filter">
                 @if (isset($productsNew_hotSale))
                     @foreach ($productsNew_hotSale as $product)
-                        <div
-                            class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix {{ $product->is_sale ? 'hot-sales' : 'new-arrivals' }}">
+                        @php
+                            $classSp = '';
+                            foreach ($productFilters as $key => $filter) {
+                                if ($product->$key) {
+                                    $classSp .= $filter . ' ';
+                                    // echo "aa";
+                                }
+                            }
+                        @endphp
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix {{ trim($classSp) }}">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="{{ $product->image }}">
-                                    <span class="{{ $product->is_sale ? 'is_sale' : 'label' }} ">
-                                        {{ $product->is_sale ? 'Giảm Giá' : 'Mới' }}
+                                    <span class="{{ trim($classSp) ? 'is_sale' : 'label' }} ">
+                                        {{ trim($classSp) }}
                                     </span>
                                     <ul class="product__hover">
                                         <li><a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}"

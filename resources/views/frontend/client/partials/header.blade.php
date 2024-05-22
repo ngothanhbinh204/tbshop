@@ -101,7 +101,7 @@
                             alt=""></a>
                     <a href="#"><img src=" {{ asset('frontend/img/icon/heart.png') }}" alt=""></a>
 
-                    <a href="{{ route('cart.index') }}">
+                    <a href="{{ route('client.cart.index') }}">
                         <img src="{{ asset('frontend/img/icon/cart.png') }}" alt="">
                         <span class="" id="productCountCart">{{ $countProductInCart ?? 0 }}</span>
                     </a>
