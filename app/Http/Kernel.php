@@ -69,6 +69,8 @@ class Kernel extends HttpKernel
         'checkAdminRole' => \App\Http\Middleware\CheckRole::class,
         'redirectRole' => \App\Http\Middleware\AdminMiddleware::class,
         'cart' => \App\Http\Middleware\CartMiddleware::class,
+        'user.can_checkout_cart' => \App\Http\Middleware\UserCheckoutMiddleware::class,
+
 
     ];
 }

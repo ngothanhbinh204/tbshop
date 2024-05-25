@@ -10,14 +10,22 @@ class Order extends Model
     use HasFactory;
     protected $fillable = [
         'id_user',
+        'order_code',
         'status',
         'total',
-        'value',
         'ship',
         'user_name',
         'user_email',
         'user_phone',
         'user_address',
-        'note'
+        'note',
+        'payment'
     ];
+
+    public function getWithPaginateBy($userId)
+    {
+        return $this->where('id_user', $userId)
+            ->orderByDesc('id')
+            ->paginate(10);
+    }
 }

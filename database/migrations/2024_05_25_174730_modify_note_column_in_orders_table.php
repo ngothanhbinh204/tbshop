@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable("carts")) {
-            Schema::create('carts', function (Blueprint $table) {
-                $table->id();
-                $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-                $table->timestamps();
-            });
-        }
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('note')->nullable()->change();
+        });
     }
 
     /**
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('note')->nullable(false)->change();
+        });
     }
 };

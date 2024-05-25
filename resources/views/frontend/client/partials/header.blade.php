@@ -86,8 +86,8 @@
                             <li><a href="#">{{ auth()->user()->username }}</a>
                                 <ul class="dropdown">
                                     <li><a href="">Tài khoản của tôi</a></li>
-                                    <li><a href="">Giỏ hàng của tôi</a></li>
-                                    <li><a href="">Hoá đơn</a></li>
+                                    <li><a href="{{ route('client.cart.index') }}">Giỏ hàng của tôi</a></li>
+                                    <li><a href="{{ route('client.orders.index') }}">Hoá đơn của tôi</a></li>
                                     <li><a href="{{ route('client.logout') }}">Đăng xuất</a></li>
                                 </ul>
                             </li>

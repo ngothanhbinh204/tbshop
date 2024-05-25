@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable("carts")) {
-            Schema::create('carts', function (Blueprint $table) {
-                $table->id();
-                $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-                $table->timestamps();
+        if (!Schema::hasColumn('orders', 'payment'))
+            Schema::table('orders', function (Blueprint $table) {
+                $table->string('payment')->nullable();
             });
-        }
     }
 
     /**
@@ -29,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        if (Schema::hasColumn('orders', 'payment'))
+            Schema::table('orders', function (Blueprint $table) {
+                $table->dropColumn('payment');
+            });
     }
 };

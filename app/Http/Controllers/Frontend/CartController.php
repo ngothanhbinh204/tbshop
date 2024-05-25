@@ -34,6 +34,9 @@ class CartController extends Controller
     }
     public function index()
     {
+        if ($this->cart->countProductInCart(auth()->user()->id) <= 0) {
+            Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
+        }
         if (Auth::check()) {
             $cart = $this->cart->firstOrCreateBy(auth()->user()->id)->load('product');
             $salePrice = $this->productService->getSalePriceAttribute();
@@ -85,31 +88,24 @@ class CartController extends Controller
         // dd($request);
     }
 
-    public function updateQuantityProduct(Request $request, $id)
+    public function updateQuantityProduct(Request $request, $cart_product_id, $id_cart)
     {
-        $cartProduct = $this->cartProduct->with('cart')->find($id);
+
+        $cartProduct = $this->cartProduct->with('cart')->find($cart_product_id);
         // dd($cartProduct);
         $dataUpdate = $request->all();
-        if (!$cartProduct) {
-            return response()->json(['message' => 'Cart Product not found.'], Response::HTTP_NOT_FOUND);
-        }
         // dd($cartProduct);
         if ($dataUpdate['product_quantity'] < 1) {
             $cartProduct->delete();
         } else {
             $cartProduct->update($dataUpdate);
         }
-
-        if ($cartProduct->cart) {
-            $cart = $cartProduct->cart;
-        } else {
-            return response()->json(['message' => 'Không tìm thấy cart'], Response::HTTP_NOT_FOUND);
-        }
-
+        $cart = $cartProduct->cart;
         return response()->json([
-            'product_cart_id' => $id,
+            'product_cart_id' => $cart_product_id,
             'cart' => $cart,
-            'remove_product' => $dataUpdate['product_quantity'] < 1
+            'remove_product' => $dataUpdate['product_quantity'] < 1,
+            'cart_product_price' => $cartProduct->total_price
         ], Response::HTTP_OK);
     }
 
@@ -154,6 +150,7 @@ class CartController extends Controller
             $message = 'Bạn cần mua thêm sản phẩm để có thể áp dụng coupon này';
             return back()->with('message', $message);
         }
+
 
         if ($coupon) {
             $message = ' Áp dụng mã giảm giá thành công ';

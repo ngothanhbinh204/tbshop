@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('coupon_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->double('value');
             $table->foreignId('coupon_id')->constrained('coupons')->onDelete('cascade');
             $table->timestamps();

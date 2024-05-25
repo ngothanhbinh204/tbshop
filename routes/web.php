@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\AuthController as AuthClientController;
 use App\Http\Controllers\Frontend\BaseClientController;
@@ -112,19 +113,27 @@ Route::group(['prefix' => 'shop'], function () {
 Route::get('/product-detail/{id}', [ShopController::class, 'productDetail'])->name('client.product.detail');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/blog-detail/{id}', [BlogController::class, 'blogDetail'])->name('client.blog.detail');
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
 // CARTS
 Route::middleware(['cart'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
-    Route::post('/update-quantity-product-in-cart/{cart_product_id}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
+    Route::post('/update-quantity-product-in-cart/{cart_product_id}/{id_cart}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
     Route::post('/remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.cart.remove_product');
 
     // COUPONS
     Route::post('/apply-coupon/{id_cart}', [CartController::class, 'applyCoupon'])->name('client.cart.apply_coupon');
 
+    // Checkout
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index')->middleware('user.can_checkout_cart');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('client.checkout.store')->middleware('user.can_checkout_cart');
 });
+
+Route::get('/list-order', [OrderController::class, 'index'])->name('client.orders.index');
+Route::post('/order-cancel/{id}', [OrderController::class, 'cancel'])->name('client.orders.cancel');
+
+
+
 
 
 

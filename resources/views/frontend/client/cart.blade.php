@@ -27,7 +27,6 @@
                             </thead>
                             <tbody>
                                 @if ($cart)
-
                                     @foreach ($cart->product as $item)
                                         <tr id="row-{{ $item->id }}">
                                             <td class="product__cart__item">
@@ -51,7 +50,7 @@
                                                 <div class="quantity">
                                                     <div class="d-flex">
                                                         <button
-                                                            data-action="{{ route('client.cart.update_quantity_product', $item->id) }}"
+                                                            data-action="{{ route('client.cart.update_quantity_product', ['cart_product_id' => $item->id, 'id_cart' => $cart->id]) }}"
                                                             data-id="{{ $item->id }}" data-mdb-button-init
                                                             data-mdb-ripple-init
                                                             class="btn btn-link px-2 btn-update-quantity"
@@ -64,7 +63,7 @@
                                                             type="number" class="form-control form-control-sm" />
 
                                                         <button
-                                                            data-action="{{ route('client.cart.update_quantity_product', $item->id) }}"
+                                                            data-action="{{ route('client.cart.update_quantity_product', ['cart_product_id' => $item->id, 'id_cart' => $cart->id]) }}"
                                                             data-id="{{ $item->id }}" data-mdb-button-init
                                                             data-mdb-ripple-init
                                                             class="btn btn-link px-2 btn-update-quantity"
@@ -78,11 +77,11 @@
                                             <td class="cart__price">
                                                 <p
                                                     style="{{ $item->product->price_sale ? 'text-decoration: line-through' : '' }};">
-                                                    {{ $item->product_price }} ₫
+                                                    {{ number_format($item->product_price, 0, ',', '.') }} ₫
                                                 </p>
                                                 @if ($item->product->price_sale)
                                                     <p>
-                                                        {{ $item->product_price - $item->product->price_sale * 0.01 * $item->product_price }}
+                                                        {{ number_format($item->product_price - $item->product->price_sale * 0.01 * $item->product_price, 0, ',', '.') }}₫
                                                     </p>
                                                 @endif
 
@@ -92,7 +91,7 @@
                                             <td class="cart__price">{{ $item->product->price_sale }} %</td>
                                             {{-- price now --}}
                                             <td class="cart__price totalSingleProduct">
-                                                {{ $item->product_quantity * ($item->product_price - $item->product->price_sale * 0.01 * $item->product_price) }}
+                                                {{ number_format($item->product_quantity * ($item->product_price - $item->product->price_sale * 0.01 * $item->product_price), 0, ',', '.') }}
                                                 ₫</td>
 
                                             <td class="cart__close">
@@ -143,7 +142,8 @@
                                 <ul>
                                     <li>Code : <span> {{ session('coupon_code') }}</span></li>
                                     <hr>
-                                    <li>Giảm : <span> {{ session('discount_amount_price') }}</span></li>
+                                    <li>Giảm : <span>
+                                            {{ number_format(session('discount_amount_price'), 0, ',', '.') }}</span></li>
                                 </ul>
                             </div>
                         @endif
@@ -152,16 +152,14 @@
                     <div class="cart__total">
                         <h6>Tổng giỏ hàng</h6>
                         <ul>
-                            <li>Tổng cộng <span id="totalAmount"> </span></li>
-
-                            @if ($countProductInCart)
-                                <li>Phí Ship <span id="ship"> 30000 ₫</span></li>
-                            @else
-                                <li>Phí Ship <span id="ship"> 0 ₫</span></li>
-                            @endif
+                            <li>Tổng cộng <span id="totalAmount" data-price=""> </span></li>
                             @if (session('discount_amount_price') && session('coupon_id') && session('coupon_code'))
-                                <li id="priceCoupon">Coupon : {{ session('coupon_code') }} <span>
-                                        {{ session('discount_amount_price') }} ₫</span></li>
+                                <li>Coupon : {{ session('coupon_code') }} <span id="priceCoupon">
+
+                                        - {{ number_format(session('discount_amount_price'), 0, ',', '.') }} ₫</span></li>
+                            @else
+                                <li>Coupon : <span id="priceCoupon">
+                                        0 ₫</span></li>
                             @endif
                             <hr>
                             <li>Thành tiền <span id="totalPrice"> </span></li>
@@ -177,24 +175,12 @@
 
 @section('scripts')
     <script>
-        var priceCoupon = 0;    
-        var totalAmount = 0;
-        $('.totalSingleProduct').each(function() {
-            var priceText = $(this).text().trim(); // Lấy văn bản giá của sp
-            var price = parseFloat(priceText.replace(/[^\d.]/g, '')); // chuyển từ text sang số
-            totalAmount += price; // cộng tổng
-        });
-        priceCoupon
-        var ship = parseFloat($('#ship').text().trim().replace(/[^\d.]/g, ''));
-        var priceCoupon = parseFloat($('#priceCoupon').text().trim().replace(/[^\d.]/g, ''));
-        var totalPrice = (totalAmount + ship) - priceCoupon;
-        $('#totalAmount').text(totalAmount + ' ₫')
-        $('#totalPrice').text(totalPrice + ' ₫')
-
-
+        function formatCurrency(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " ₫";
+        }
 
         $(function() {
-            const TIME_TO_UPDATE = 1000;
+            const TIME_TO_UPDATE = 10;
             // Lấy token CSRF từ thẻ meta
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
@@ -202,9 +188,6 @@
             $(document).on('click', '.update__btn', (function() {
                 location.reload();
             }));
-            // mặc định là disabled
-
-            // Thiết lập token CSRF cho tất cả các yêu cầu AJAX
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
@@ -253,64 +236,113 @@
                                     timer: 1500
                                 });
                             }
-
-
                         })
-
-
                     }
-
-
                 })
             }));
 
             // Cập nhật giỏ hàng AJAX
-            $(document).on('click', '.btn-update-quantity', _.debounce(function(e) {
-                let url = $(this).data('action');
-                let id = $(this).data('id');
-                let data = {
-                    product_quantity: $(`#productQuantityInput-${id}`).val()
-                };
+            $(document).ready(function() {
+                const TIME_TO_UPDATE = 10;
 
-                // Vô hiệu hóa nút "Cập nhật giỏ hàng" khi bắt đầu gửi AJAX
-                updateButton.prop('disabled', true);
+                // hàm tính toán tiền
+                function calculateTotal() {
+                    var totalAmount = 0;
+                    $('.totalSingleProduct').each(function() {
+                        var priceText = $(this).text().trim(); // Lấy văn bản giá của sp
+                        var price = parseFloat(priceText.replace(/[^\d]/g,
+                            '')); // chuyển từ text sang số
+                        totalAmount += price; // cộng tổng
+                    });
 
-                $.ajax({
-                    url: url,
-                    method: 'POST',
-                    data: data,
-                    beforeSend: function() {
-                        // Trước khi gửi AJAX, vô hiệu hóa nút "Cập nhật giỏ hàng"
-                        updateButton.prop('disabled', true);
-                    },
-                    success: function(res) {
-                        let cartProduct = res.product_cart_id;
+                    var ship = parseFloat($('#ship').text().trim().replace(/[^\d.]/g, ''));
 
-                        if (res.remove_product) {
-                            $(`#row-${cartProduct}`).remove();
-                            Swal.fire({
-                                title: "Xoá thành công",
-                                icon: "success",
-                                type: "success",
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                        updateButton.prop('disabled', false);
-                        // Swal.fire({
-                        //     title: "Thao tác thành công",
-                        //     icon: "success",
-                        //     type: "success",
-                        //     showConfirmButton: false,
-                        //     timer: 1500
-                        // });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
+                    var priceCoupon = 0;
+                    if ($('#priceCoupon').length > 0) {
+                        priceCoupon = parseFloat($('#priceCoupon').text().trim().replace(/[^\d]/g, ''));
                     }
-                });
-            }, TIME_TO_UPDATE));
 
+                    var totalPrice = totalAmount - priceCoupon;
+                    $('#totalAmount').text(formatCurrency(totalAmount));
+                    $('#totalPrice').text(formatCurrency(totalPrice));
+
+                    return {
+                        totalAmount: totalAmount,
+                        priceCoupon: priceCoupon,
+                        totalPrice: totalPrice
+                    };
+                }
+
+                // Chạy tinh toán
+                calculateTotal();
+
+                // njaasnj sự kiến click tăng giảm
+                $(document).on('click', '.btn-update-quantity', _.debounce(function(e) {
+                    let url = $(this).data('action');
+                    let id = $(this).data('id');
+                    let newQuantity = $(`#productQuantityInput-${id}`).val();
+                    let data = {
+                        product_quantity: newQuantity
+                    };
+
+                    // tính toán giá hiện tại
+                    let totals = calculateTotal();
+
+                    if (totals.totalAmount < totals.priceCoupon) {
+                        Swal.fire({
+                            title: 'Thông báo',
+                            text: 'Giá trị của sản phẩm thấp hơn giá trị của coupon. Coupon sẽ không được áp dụng. Bạn có muốn tiếp tục?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Tiếp tục',
+                            cancelButtonText: 'Hủy'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Đặt lại giá trị coupon là 0 nếu không hợp lệ
+                                totals.priceCoupon = 0;
+                                $('#priceCoupon').text(
+                                    '0 ₫'); // Cập nhật lại hiển thị của coupon
+                                updateProductQuantity(url, data, id);
+                            }
+                        });
+                    } else {
+                        updateProductQuantity(url, data, id);
+                    }
+                }, TIME_TO_UPDATE));
+
+                // Function to update product quantity via AJAX
+                function updateProductQuantity(url, data, id) {
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: data,
+                        success: function(res) {
+                            let cartProduct = res.product_cart_id;
+                            if (res.remove_product) {
+                                $(`#row-${cartProduct}`).remove();
+                                Swal.fire({
+                                    title: "Xoá thành công",
+                                    icon: "success",
+                                    type: "success",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            } else {
+                                let newTotalSingleProduct = newQuantity * (res.product_price -
+                                    res.product_price_sale * 0.01 * res.product_price);
+                                $(`#row-${id} .totalSingleProduct`).text(newTotalSingleProduct +
+                                    ' ₫');
+                            }
+                            calculateTotal();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+            });
 
         });
     </script>

@@ -96,7 +96,6 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $user = $request->wh;
         
         if ($this->userService->create($request)) {
 

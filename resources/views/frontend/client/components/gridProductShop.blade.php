@@ -38,7 +38,8 @@
                 </div>
                 <div class="col-lg-2 col-md-3 col-sm-6">
                     <div class="shop__product__option__right d-flex align-items-center ">
-                        <i style="color: {{ request()->color == $item->value ? $item->value : '' }}" id="colorDisplay" class="fa fa-circle"></i>
+                        <i style="color: {{ request()->color == $item->value ? $item->value : '' }}" id="colorDisplay"
+                            class="fa fa-circle"></i>
                         <select class="nice-select" name="color" id="colorSelect" onchange="updateColor()">
                             <option value="">All màu sắc </option>
                             @foreach ($colors as $item)
@@ -109,20 +110,31 @@
                                 <i class="fa fa-star-o"></i>
                             </div>
                             <h5> {{ number_format($product->attribute[0]->pivot->price, 0, ',', '.') }} đ</h5>
+                            {{ $product->attribute[0]->pivot->attribute_value }}
                             <div class="product__color__select">
                                 @if ($product->attribute->isNotEmpty())
                                     <ul>
-                                        @php
-                                            $unique_colors = $product->attribute
-                                                ->pluck('pivot.attribute_value')
-                                                ->where('pivot.attribute_value.type', '=', 'color')
-                                                ->unique();
-                                        @endphp
-                                        @foreach ($unique_colors as $color)
-                                            <label style="background : {{ $color }}" for="">
-                                                <input type="radio" id="">
-                                            </label>
+                                        @foreach ($product->attribute as $attribute)
+                                            @php
+                                                // Giải mã attribute_value nếu nó là JSON
+                                                $attributeValue = json_decode($attribute->pivot->attribute_value, true);
+                                            @endphp
+                                            @if (isset($attributeValue['type']) && $attributeValue['type'] === 'color')
+                                                @foreach ($product->attribute as $color)
+                                                    <label style="background : {{ $attributeValue['value'] }}"
+                                                        for="">
+                                                        <input type="radio" id="">
+                                                    </label>
+                                                @endforeach
+                                            @else
+                                                <label style="background :   {{ $attribute->pivot->attribute_value }}"
+                                                    for="">
+                                                    <input type="radio" id="">
+                                                </label>
+                                            @endif
                                         @endforeach
+
+
                                     </ul>
                                 @else
                                     <p>Không có màu</p>

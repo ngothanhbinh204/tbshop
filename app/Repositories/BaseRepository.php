@@ -44,6 +44,7 @@ class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->find($id);
     }
+    
     public function update($payload, $id)
     {
         $model = $this->getById($id);

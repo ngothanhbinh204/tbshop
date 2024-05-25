@@ -26,6 +26,10 @@ class UserService implements UserServiceInterface
     {
         $this->userRepository = $userRepository;
     }
+    public function getById(int $id)
+    {
+        return $this->userRepository->getById($id);
+    }
     public function paginate()
     {
         $users = $this->userRepository->getAllPaginate();
@@ -43,6 +47,26 @@ class UserService implements UserServiceInterface
             $payload['password'] = Hash::make($payload['password']);
             //  dd($payload);
             $user = $this->userRepository->create($payload);
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
+
+    public function createClient($dataCreateUser)
+    {
+        DB::beginTransaction();
+        try {
+            // $carbonDate = Carbon::createFromFormat('Y-m-d', $payload['birthday']);
+            // $dataCreateUser['birthday'] = $carbonDate->format('Y-m-d H:i:s');
+            $dataCreateUser['password'] = Hash::make($dataCreateUser['password']);
+            $dataCreateUser['status'] = 0;
+            $dataCreateUser['user_role'] = 0;
+            $user = $this->userRepository->create($dataCreateUser);
             DB::commit();
             return true;
         } catch (\Exception $e) {

@@ -11,6 +11,6 @@ use App\Http\Requests\StoreUserRequest;
 interface UserRepositoryInterface extends BaseRepositoryInterface
 {
     public function getAllPaginate();
-
+    public function getById(int $id);
     public function updateAvatar($path, int $id);
 }
