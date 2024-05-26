@@ -28,4 +28,9 @@ class Order extends Model
             ->orderByDesc('id')
             ->paginate(10);
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_order', 'id_order', 'id_product');
+    }
 }

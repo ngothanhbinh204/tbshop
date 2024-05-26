@@ -5,12 +5,15 @@
 <script src="{{ asset('backend/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('backend/library/library.js') }}"></script>
 <script src="{{ asset('backend/library/location.js') }}"></script>
+<script src="{{ asset('backend/library/orderChangeStatus.js') }}"></script>
+<script src="{{ asset('backend/library/removeOrder.js') }}"></script>
 
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
 
 <script src="{{ asset('backend/library/footable.js') }}"></script>
 <script src="{{ asset('backend/library/attribute.js') }}"></script>
 <script src="{{ asset('backend/library/sweetAlert.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="{{ asset('/vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
 {{-- <script>

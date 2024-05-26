@@ -370,8 +370,6 @@
                 });
 
             })
-
-
         })
     </script>
 @endsection

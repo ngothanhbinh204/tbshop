@@ -22,14 +22,19 @@ class Cart extends Model
         // 1 cart có nhiều products
         return $this->hasMany(CartProduct::class, 'id_cart');
     }
+
     public function cartProduct()
     {
         return $this->hasMany(CartProduct::class, 'id_cart');
     }
 
+   
+
+
     public function getBy($userID)
     {
         return Cart::where('id_user', $userID)
+            ->with('product')
             ->first();
     }
 

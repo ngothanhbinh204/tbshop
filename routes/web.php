@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\RolesController;
+use App\Http\Controllers\Backend\OrderController as AdminOrderController;
 
 // FrontEnd
 use App\Http\Controllers\Frontend\HomeController;
@@ -128,9 +129,15 @@ Route::middleware(['cart'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index')->middleware('user.can_checkout_cart');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('client.checkout.store')->middleware('user.can_checkout_cart');
 });
-
+//  ORDER CLIENT
 Route::get('/list-order', [OrderController::class, 'index'])->name('client.orders.index');
 Route::post('/order-cancel/{id}', [OrderController::class, 'cancel'])->name('client.orders.cancel');
+
+// ORDER MANNAGER 
+Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+Route::post('/update-status/{id}', [AdminOrderController::class, 'updateStatus'])->name('orders.update_status');
+Route::get('/orders-detail/{id}', [AdminOrderController::class, 'detail'])->name('orders.details');
+Route::post('/remove-order/{id}', [AdminOrderController::class, 'remove'])->name('orders.remove');
 
 
 

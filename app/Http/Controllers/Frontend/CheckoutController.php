@@ -17,21 +17,27 @@ use  Illuminate\Support\Facades\Session;
 use App\Services\Interfaces\UserServiceInterface as UserService;
 use App\Models\User;
 use App\Models\Cart;
+use App\Models\Product;
+use App\Models\CartProduct;
 use App\Models\Coupon;
 use App\Models\Order;
-
+use App\Models\ProductOrder;
 
 class CheckoutController extends Controller
 {
     protected $provinceService;
     protected $userService;
     protected $cart;
+    protected $cartProduct;
+    protected $productOrder;
     protected $order;
     protected $coupon;
     public function __construct(
+        ProductOrder $productOrder,
         ProvinceService $provinceService,
         UserService $userService,
         Cart $cart,
+        CartProduct $cartProduct,
         Order $order,
         Coupon $coupon
 
@@ -39,7 +45,9 @@ class CheckoutController extends Controller
         $this->provinceService = $provinceService;
         $this->userService = $userService;
         $this->cart = $cart;
+        $this->cartProduct = $cartProduct;
         $this->order = $order;
+        $this->productOrder = $productOrder;
         $this->coupon = $coupon;
     }
     public function index()
@@ -58,17 +66,56 @@ class CheckoutController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
+        // dd($request);
         $dataCreateUser = [];
-        $flagExitsUser = false;
-        if ($request->has('acc')) {
+        if ($request->has('acc') && $request->has('user_name') && $request->has('user_email') && $request->has('user_phone') && $request->has('user_address') && $request->has('user_password')) {
             $existingUser = User::where('email', $request->user_email)
                 ->orWhere('username', $request->user_name)
                 ->first();
             if ($existingUser) {
                 $flagExitsUser = true;
                 return redirect()->back()->with('error', 'Người dùng đã tồn tại');
+            } else {
+                $dataCreateUser = [
+                    'username' => $request->user_name,
+                    'email' => $request->user_email,
+                    'phone' => $request->user_phone,
+                    'address' => $request->user_address,
+                    'password' => $request->user_password,
+                    'province_id' => $request->province_id,
+                    'district_id' => $request->district_id,
+                    'ward_id' => $request->ward_id,
+                ];
+                $this->userService->createClient($dataCreateUser);
             }
         }
+
+        // $cart = $this->cart->firstOrCreateBy(auth()->user()->id);
+        // if ($cart) {
+        //     $cartProduct = $cart->product;
+        //     foreach ($cartProduct as $item) {
+        //         $product = Product::getById($item->id_product);
+        //         $discountPrice = $item->product_price;
+        //         if ($product->price_sale > 0) {
+        //             $discountPrice = $item->product_price - ($item->product_price * ($product->price_sale / 100));
+        //         }
+        //         var_dump($discountPrice);
+
+        //         $this->productOrder->create([
+        //             'id_order' => $orderDone->id,
+        //             'id_product' => $item->id_product,
+        //             'product_color' => $item->product_color,
+        //             'product_size' => $item->product_size,
+        //             'product_price' => $discountPrice,
+        //             'product_quantity' => $item->product_quantity,
+        //             'total' => $item->product_quantity * $item->product_price,
+        //         ]);
+        //     }
+        //     // $cart->product()->delete();
+        // }
+
+
+
         DB::beginTransaction();
         try {
             $dataCreateOrder = $request->except('_token', 'acc', 'user_password', 'note_order');
@@ -86,21 +133,32 @@ class CheckoutController extends Controller
                     $coupon->users()->attach(auth()->user()->id, ['value' => $coupon->value]);
                 }
             }
-            $cart = $this->cart->firstOrCreateBy(auth()->user()->id);
-            $cart->product()->delete();
             if ($orderDone) {
-                if ($flagExitsUser = false) {
-                    $dataCreateUser = [
-                        'username' => $request->user_name,
-                        'email' => $request->user_email,
-                        'phone' => $request->user_phone,
-                        'address' => $request->user_address,
-                        'password' => $request->user_password,
-                        'province_id' => $request->province_id,
-                        'district_id' => $request->district_id,
-                        'ward_id' => $request->ward_id,
-                    ];
-                    $this->userService->createClient($dataCreateUser);
+                // Xoá cart sau khi thanh toán thành công
+                $cart = $this->cart->firstOrCreateBy(auth()->user()->id);
+                if ($cart) {
+                    $cartProduct = $cart->product;
+                    foreach ($cartProduct as $item) {
+                        $product = Product::getById($item->id_product);
+                        $discountPrice = $item->product_price;
+                        if ($product->price_sale > 0) {
+                            $discountPrice = $item->product_price - ($item->product_price * ($product->price_sale / 100));
+                        }
+
+                        $this->productOrder->create([
+                            'id_order' => $orderDone->id,
+                            'id_product' => $item->id_product,
+                            'product_color' => $item->product_color,
+                            'product_size' => $item->product_size,
+                            'product_price' => $discountPrice,
+                            'product_quantity' => $item->product_quantity,
+                            'total' => $item->product_quantity * $discountPrice,
+                        ]);
+                    }
+                }
+
+                if ($cart) {
+                    $cart->product()->delete();
                 }
             }
             DB::commit();

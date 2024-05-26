@@ -41,9 +41,18 @@ class Product extends Model
             ->withTimestamps();
     }
 
-
     public function product_attribute()
     {
         return $this->hasMany(ProductAttribute::class, 'product_id');
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'product_order', 'id_product', 'id_order');
+    }
+
+    public static function getById($id)
+    {
+        return self::where('id', '=', $id)->first();
     }
 }

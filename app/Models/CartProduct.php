@@ -36,6 +36,7 @@ class CartProduct extends Model
             ->first();
     }
 
+   
     public function getTotalPrice($userId)
     {
         $totalPrice = $this->where('id_cart', $userId)
