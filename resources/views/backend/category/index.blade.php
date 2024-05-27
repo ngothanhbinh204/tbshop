@@ -1,5 +1,6 @@
 @include('backend.dashboard.components.heading', [
-    'title' => config('apps.categories.index.title')])
+    'title' => config('apps.categories.index.title'),
+])
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox">
@@ -8,19 +9,21 @@
                 <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
                     <thead>
                         <tr>
-
                             <th data-toggle="true">Tên danh mục</th>
                             <th data-hide="phone">Slug</th>
                             <th data-hide="phone,tablet">Mô tả</th>
                             <th class="text-right" data-sort-ignore="true">Thao tác</th>
-
                         </tr>
                     </thead>
                     <tbody>
                         @if (isset($categories))
                             @foreach ($categories as $category)
                                 <tr>
-                                    <td>{{ $category->name }}</td>
+                                    <td>
+                                        <a href="{{ route('category.product_in_cate', $id = $category->id) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    </td>
                                     <td>{{ $category->slug }}</td>
                                     <td>{{ $category->description }}</td>
                                     <td class="text-right">

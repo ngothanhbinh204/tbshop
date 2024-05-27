@@ -4,6 +4,15 @@ $.ajaxSetup({
     }
 });
 $(function () {
+    const labelArray = {
+        'Đang xử lí': 'warning',
+        'Chấp nhận đơn hàng': 'primary',
+        'Đang vận chuyển': 'info',
+        'Giao thành công': 'success',
+        'Huỷ': 'danger'
+    };
+
+    
     $(document).on('click', '.update-status-btn', function () {
         var $popover = $(this).closest('.popover');
         var statusContainer = $(this).closest('.order-status');
@@ -14,7 +23,10 @@ $(function () {
     });
 
     $(document).on('change', '.select-status', function (e) {
+       
         e.preventDefault();
+        let newStatus = $(this).val();
+        let newLabelClass = labelArray[newStatus];
         let url = $(this).data('action');
         let data = {
             status: $(this).val()
@@ -26,11 +38,14 @@ $(function () {
                 timer: 1000
             });
 
-            // Cập nhật trạng thái hiển thị
             var newStatusText = $(this).find('option:selected').text();
             var statusContainer = $(this).closest('.order-status');
-            statusContainer.find('.status-text').text(newStatusText).show();
+            // statusContainer.find('.status-text').text(newStatusText).show();
             statusContainer.find('.update-status-btn').show();
+            let statusTextElement = statusContainer.find('.status-text');
+            statusTextElement.text(newStatusText).show(); // Đổi status
+            statusTextElement.text(newStatusText).attr('class', `status-text label label-${newLabelClass}`).show(); // đổi mài label
+
             $(this).hide();
         })
     })

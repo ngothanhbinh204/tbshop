@@ -4,12 +4,12 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="label label-success pull-right">Monthly</span>
-                    <h5>Income</h5>
+                    <h5>Doanh thu</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">40 886,200</h1>
                     <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                    <small>Total income</small>
+                    <small>Tổng doanh thu</small>
                 </div>
             </div>
         </div>
@@ -17,12 +17,12 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="label label-info pull-right">Annual</span>
-                    <h5>Orders</h5>
+                    <h5>Đơn hàng</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">275,800</h1>
                     <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                    <small>New orders</small>
+                    <small>Đơn hàng mới</small>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="label label-primary pull-right">Today</span>
-                    <h5>visits</h5>
+                    <h5>Truy cập</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">106,120</h1>
@@ -43,7 +43,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="label label-danger pull-right">Low value</span>
-                    <h5>User activity</h5>
+                    <h5>Người dùng kích hoạt</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">80,600</h1>
@@ -54,11 +54,13 @@
             </div>
         </div>
     </div>
+
+    {{-- Thống kê --}}
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Orders</h5>
+                    <h5>Thống kê đơn hàng</h5>
                     <div class="pull-right">
                         <div class="btn-group">
                             <button type="button" class="btn btn-xs btn-white active">Today</button>
@@ -71,7 +73,58 @@
                     <div class="row">
                         <div class="col-lg-9">
                             <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                                {{-- <div class="flot-chart-content" id="flot-dashboard-chart"></div> --}}
+                                <form autocomplete="off">
+                                    @csrf
+                                    <input type="hidden" class="actionUrlDefaul"
+                                        data-action="{{ route('dashboard_get60DaysOrder') }}">
+                                    <div class="col-md-4">
+                                        <p>Từ ngày :
+                                        <div class="input-group date">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" id="dateStart" class="form-control" value="">
+                                        </div>
+                                        </p>
+                                        <input type="button" id="btn-dashboard-filter"
+                                            data-action="{{ route('orders.filter_by_date') }}"
+                                            class="btn btn-primary btn-sm" value="Lọc kết quả">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <p>Đến ngày :
+                                        <div class="input-group date">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" id="dateEnd" class="form-control" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <p>Lọc theo :
+                                        <div class="input-group ">
+                                            <select data-action="{{ route('dashboard_filter') }}"
+                                                class=" dashboard-filter form-control" name="" id="">
+                                                <option> [Chọn] </option>
+                                                <option value="7ngay">7 ngày qua</option>
+                                                <option value="thangtruoc">Tháng trước</option>
+                                                <option value="thangnay">Tháng này</option>
+                                                <option value="365ngayqua">365 ngày qua</option>
+
+                                            </select>
+                                        </div>
+                                        </p>
+                                    </div>
+
+                                </form>
+
+                                <div class="col-md-12">
+                                    <div id="myfirstchart" style="height: 250px;"></div>
+                                </div>
+
+
                             </div>
                         </div>
                         <div class="col-lg-3">

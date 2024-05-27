@@ -86,6 +86,7 @@ Route::group(['prefix' => 'attribute'], function () {
 /* CATEGORIES */
 Route::group(['prefix' => 'category'], function () {
     Route::get('index', [CategoryController::class, 'index'])->name('category.index')->middleware('admin');
+    Route::get('product-in-category/{id}', [CategoryController::class, 'productInCate'])->name('category.product_in_cate')->middleware('admin');
     Route::post('store', [CategoryController::class, 'store'])->name('category.store')->middleware('admin');
     Route::delete('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete')->middleware('admin');
     Route::put('edit/{id}', [CategoryController::class, 'update'])->name('category.update')->middleware('admin');
@@ -140,6 +141,10 @@ Route::get('/orders-detail/{id}', [AdminOrderController::class, 'detail'])->name
 Route::post('/remove-order/{id}', [AdminOrderController::class, 'remove'])->name('orders.remove');
 
 
+Route::post('/get60DaysOrder', [DashboardController::class, 'get60DaysOrder'])->name('dashboard_get60DaysOrder');
+
+Route::post('/filter-by-date', [DashboardController::class, 'filterByDate'])->name('orders.filter_by_date');
+Route::post('/dashboard-filter', [DashboardController::class, 'dashboardFilter'])->name('dashboard_filter');
 
 
 

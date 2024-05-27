@@ -7,6 +7,7 @@
 <script src="{{ asset('backend/library/location.js') }}"></script>
 <script src="{{ asset('backend/library/orderChangeStatus.js') }}"></script>
 <script src="{{ asset('backend/library/removeOrder.js') }}"></script>
+<script src="{{ asset('backend/library/statistical.js') }}"></script>
 
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
 
@@ -67,6 +68,10 @@
 <!-- Custom and plugin javascript -->
 <script src="{{ asset('backend/js/inspinia.js') }}"></script>
 <script src="{{ asset('backend/js/plugins/pace/pace.min.js') }}"></script>
+
+{{-- datapicker --}}
+<script src="{{ asset('backend/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+
 
 
 
@@ -290,3 +295,12 @@
         });
     });
 </script>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+{{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script> --}}
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> --}}

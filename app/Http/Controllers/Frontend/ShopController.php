@@ -30,7 +30,6 @@ class ShopController extends Controller
 
     public function index(Request $request)
     {
-        
         $categories = Category::getCategories();
         $brands = Brand::getBrands();
         $colors = Attribute::getColors();
