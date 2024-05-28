@@ -8,6 +8,7 @@
 <script src="{{ asset('backend/library/orderChangeStatus.js') }}"></script>
 <script src="{{ asset('backend/library/removeOrder.js') }}"></script>
 <script src="{{ asset('backend/library/statistical.js') }}"></script>
+<script src="{{ asset('backend/library/chartDonut.js') }}"></script>
 
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
 
@@ -63,6 +64,10 @@
 <script src="{{ asset('backend/js/plugins/peity/jquery.peity.min.js') }}"></script>
 <script src="{{ asset('backend/js/demo/peity-demo.js') }}"></script>
 {{-- Biểu đồ --}}
+<script src="{{ asset('backend/js/plugins/morris/morris.js') }}"></script>
+<script src="{{ asset('backend/js/plugins/morris/raphael-2.1.0.min.js') }}"></script>
+
+<script src="{{ asset('backend/js/demo/morris-demo.js') }}"></script>
 
 
 <!-- Custom and plugin javascript -->

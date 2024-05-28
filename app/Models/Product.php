@@ -13,6 +13,7 @@ class Product extends Model
         'image_url',
         'weight',
         // 'price',
+        'views',
         'brand_id',
         'description',
         // 'sku',

@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Statistic;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Post;
+use App\Models\Order;
+use App\Models\Visitor;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -16,13 +21,79 @@ class DashboardController extends Controller
     {
     }
 
-    public function index()
+    public function AuthLogin()
     {
+        if (!Auth::check()) {
+            return redirect()->route('backend.auth.login')->send();
+        }
+    }
+
+    public function index(Request $request)
+    {
+        $this->AuthLogin();
+
+        $user_ip_address = $request->ip();
+        // $user_ip_address = '23424223424242';
+
+        $early_last_month = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
+        $end_of_last_month = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->endOfMonth()->toDateString();
+
+        $early_this_month = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
+        $one_years = Carbon::now('Asia/Ho_Chi_Minh')->subDays(365)->toDateString();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+
+
+        // Visitor total last month
+        $visitor_of_lastmonth = Visitor::whereBetween('date_visitor', [$early_last_month, $end_of_last_month])->get();
+        $visitor_lastmonth_count = $visitor_of_lastmonth->count();
+
+        // Visitor total this month
+        $visitor_of_thismonth = Visitor::whereBetween('date_visitor', [$early_this_month, $now])->get();
+        $visitor_thismonth_count = $visitor_of_thismonth->count();
+
+        // Visitor total one year
+        $visitor_of_year = Visitor::whereBetween('date_visitor', [$one_years, $now])->get();
+        $visitor_year_count = $visitor_of_year->count();
+        // Total Visitor
+        $visitors = Visitor::all();
+        $visitors_total = $visitors->count();
+        // current online 
+        $visitors_current = Visitor::where('ip_address', $user_ip_address)->get();
+        $visitor_count = $visitors_current->count();
+
+        if ($visitor_count < 1) {
+            $visitor = new Visitor();
+            $visitor->ip_address = $user_ip_address;
+            $visitor->date_visitor = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+            $visitor->save();
+        }
+
+        // product - post - order - user , ....
+        $product = Product::all()->count();
+        $post = Post::all()->count();
+        $order = Order::all()->count();
+        $users = User::all()->count();
+
+        $user_new = User::with('province')->orderByDesc('id')->take(10)->get();
+        $product_views = Product::orderByDesc('views')->take(20)->get();
+        $post_views = Post::orderByDesc('views')->take(20)->get();
         $template = 'backend.dashboard.home.index';
         $user = Auth::user();
         return view('backend.dashboard.layout', compact(
             'template',
-            'user'
+            'user',
+            'user_new',
+            'users',
+            'product',
+            'post',
+            'order',
+            'product_views',
+            'post_views',
+            'visitor_count',
+            'visitor_lastmonth_count',
+            'visitor_thismonth_count',
+            'visitor_year_count',
+            'visitors_total',
         ));
     }
 
@@ -109,5 +180,26 @@ class DashboardController extends Controller
             );
         };
         echo $data = json_encode($chart_data);
+    }
+
+    public function show_dashboard(Request $request)
+    {
+        $this->AuthLogin();
+
+        $user_ip_address = $request->ip();
+        dd($user_ip_address);
+
+        // current online 
+
+        $visitors_current = Visitor::where('ip_address', $user_ip_address)->get();
+
+        $visitor_count = $visitors_current->count();
+
+        if ($visitor_count < 1) {
+            $visitor = new Visitor();
+            $visitor->ip_address = $user_ip_address;
+            $visitor->data_visitor = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+            $visitor->save();
+        }
     }
 }
