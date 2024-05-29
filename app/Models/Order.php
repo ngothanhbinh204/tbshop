@@ -19,7 +19,8 @@ class Order extends Model
         'user_phone',
         'user_address',
         'note',
-        'payment'
+        'payment',
+        'order_date'
     ];
 
     public function getWithPaginateBy($userId)
@@ -32,5 +33,10 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_order', 'id_order', 'id_product');
+    }
+
+    public function product_order()
+    {
+        return $this->hasMany(ProductOrder::class, 'id_order');
     }
 }

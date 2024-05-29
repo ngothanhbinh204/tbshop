@@ -294,7 +294,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>Transactions worldwide</h5>
+                            <h5>Thống kê lượt xem</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -315,7 +315,7 @@
                                                 <th style="width: 1%" class="text-center">ID</th>
                                                 <th>Tên sản phẩm</th>
                                                 <th class="text-center">Views</th>
-                                                <th class="text-center">Trạng thái</th>
+                                                <th class="text-center">Giá</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -323,11 +323,17 @@
                                                 @foreach ($product_views as $item)
                                                     <tr>
                                                         <td class="text-center">{{ $item->id }}</td>
-                                                        <td> {{ Str::limit($item->name, 20) }}
+                                                        <td> <a
+                                                                href="{{ route('product.productAttributes', $id = $item->id) }}">
+                                                                {{ Str::limit($item->name, 20) }}
+                                                            </a>
                                                         </td>
                                                         <td class="text-center small">{{ $item->views }}</td>
-                                                        <td class="text-center"><span
-                                                                class="label label-primary">$483.00</span></td>
+                                                        <td class="text-center"><span class="label label-primary">
+                                                                {{ number_format($item->attribute[0]->pivot->price, 0, ',', '.') }}
+                                                                đ
+                                                            </span>
+                                                        </td>
 
                                                     </tr>
                                                 @endforeach
@@ -339,7 +345,34 @@
                                     </table>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div id="world-map" style="height: 300px;"></div>
+                                    <h3>Bài viết nhiều lượt xem</h3>
+                                    <table class="table table-hover margin bottom">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%" class="text-center">ID</th>
+                                                <th>Tiêu đề</th>
+                                                <th class="text-center">Views</th>
+                                                <th class="text-center">Tác giả</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (isset($post_views))
+                                                @foreach ($post_views as $item)
+                                                    <tr>
+                                                        <td class="text-center">{{ $item->id }}</td>
+                                                        <td> <a href="{{ route('post.detail', $id = $item->id) }}">
+                                                                {{ Str::limit($item->title, 20) }}
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center small">{{ $item->views }}</td>
+                                                        <td class="text-center">
+                                                            {{ $item->users->username }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
 

@@ -32,56 +32,75 @@
                 @endif
             </li>
             <li class="">
+                <a href="{{ route('dashboard.index') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span class="nav-label">Trang quản trị</span>
+                </a>
+            </li>
+            <li class="">
                 <a href=""><i class="fa fa-users"></i> <span class="nav-label">QL nhóm Thành Viên</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href=" {{ route('user.index') }}">Danh sách thành viên</a></li>
                     <li class=""><a href=" {{ route('user.create') }}">Thêm thành viên</a></li>
-                    <li class=""><a href=" {{ route('role.index') }}">Quản lý nhóm thành viên</a></li>
+                    <li class=""><a href=" {{ route('role.index') }}">Q.Lý nhóm thành viên</a></li>
 
                 </ul>
             </li>
 
             <li class="">
-                <a href=""><i class="fa fa-book"></i> <span class="nav-label">Quản lý Bài Viết</span>
-                    <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li><a href=" {{ route('post.index') }}">Danh sách bài viết</a></li>
-                    <li class=""><a href=" {{ route('post.create') }}">Thêm bài viết</a></li>
-
-                </ul>
-            </li>
-            <li class="">
-                <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Quản lý sản phẩm</span>
+                <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Q.Lý nhóm sản phẩm</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href=" {{ route('product.index') }}">Danh sách sản phẩm</a></li>
                     <li class=""><a href=" {{ route('product.create') }}">Thêm sản phẩm</a></li>
+                    <li> <a href=" {{ route('category.index') }}"> <i class="fa fa-archive"></i>Danh mục sản phẩm</a></li>
+
 
                 </ul>
             </li>
+
             <li class="">
-                <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Quản lý danh mục sản phẩm</span>
+                <a href=""><i class="fa fa-file"></i> <span class="nav-label">Q.Lý nhóm bài viết</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href=" {{ route('category.index') }}">Danh sách danh mục sản phẩm</a></li>
+                    <li><a href=" {{ route('post.index') }}">Danh sách bài viết</a></li>
+                    <li class=""><a href=" {{ route('post.create') }}">Thêm bài viết</a></li>
+                    <li class=""><a href=" {{ route('post.create') }}">Danh mục bài viết</a></li>
+
                 </ul>
             </li>
+    
             <li class="">
-                <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Quản lý thuộc tính sản phẩm</span>
+                <a href=""><i class="fa fa-gears"></i> <span class="nav-label">Q.Lý thuộc tính sản phẩm</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href=" {{ route('attribute.index') }}">Danh sách thuộc tính</a></li>
-                    <li class=""><a href=" {{ route('attribute.create') }}">Thêm thuộc tính</a></li>
+                </ul>
+            </li>
+            <li class="">
+                <a href=""><i class="fa fa-shopping-cart"></i> <span class="nav-label">Q.Lý đơn hàng</span>
+                    <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href=" {{ route('orders.index') }}">Danh sách đơn hàng</a></li>
+                    <li class=""><a href="">Đơn hàng huỷ</a></li>
+                </ul>
+            </li>
+            <li class="">
+                <a href=""><i class="fa fa-ticket"></i> <span class="nav-label">Q.Lý Coupons</span>
+                    <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href=" {{ route('orders.index') }}">Danh sách Coupons</a></li>
+                    <li class=""><a href="">Thêm Coupon</a></li>
 
                 </ul>
             </li>
             <li class="">
-                <a href=""><i class="fa fa-cube"></i> <span class="nav-label">Quản lý đơn hàng</span>
+                <a href=""><i class="fa fa-picture-o"></i> <span class="nav-label">Q.Lý Slider</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href=" {{ route('orders.index') }}">Danh sách đơn hàng</a></li>
-                    <li class=""><a href=" {{ route('attribute.create') }}">Thêm thuộc tính</a></li>
+                    <li><a href=" {{ route('orders.index') }}">Danh sách Slider</a></li>
+                    <li class=""><a href="">Thêm Slider</a></li>
 
                 </ul>
             </li>

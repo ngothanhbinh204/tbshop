@@ -27,7 +27,6 @@ use App\Http\Controllers\Backend\PostController;
 //     'prefix' => 'auth'
 
 // ], function ($router) {
-
 //     Route::post('login', [AuthController::class, 'login2']);
 //     Route::get('profile', [AuthController::class, 'profile']);
 //     Route::post('logout', [AuthController::class, 'logout2']);

@@ -23,7 +23,6 @@ $(function () {
     });
 
     $(document).on('change', '.select-status', function (e) {
-       
         e.preventDefault();
         let newStatus = $(this).val();
         let newLabelClass = labelArray[newStatus];
@@ -49,4 +48,6 @@ $(function () {
             $(this).hide();
         })
     })
+
+
 })

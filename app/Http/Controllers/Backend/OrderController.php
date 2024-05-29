@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\ProductOrder;
 
 
@@ -35,7 +38,25 @@ class OrderController extends Controller
     public function detail($id)
     {
         $template = 'backend.order.detail';
-        $details = $this->productOrder->getByOrder($id)->load('product');
+        $details = DB::table('product_order as p_order')
+            ->join('product_attribute as pa', function ($join) {
+                $join->on('p_order.id_product', '=', 'pa.product_id')
+                    ->where('pa.attribute_value', '=', DB::raw('p_order.product_color'));
+            })
+            ->join('products as p', 'p.id', '=', 'pa.product_id')
+            ->where('p_order.id_order', $id)
+            ->select(
+                'p_order.*',
+                'p_order.id as id_product_order',
+                'p_order.id_product',
+                'p_order.product_color',
+                'p_order.product_size',
+                'p.*',
+                'pa.stock as stock',
+            )
+            ->get();
+        // $product_attribute = Product::where('id', $id)
+        //     ->join('product_attribute as pa', 'pa.product_id', '=', 'product.id');
         // dd($details);
         return view('backend.dashboard.layout', compact(
             'template',
@@ -50,6 +71,13 @@ class OrderController extends Controller
         return response()->json([
             'status' => 'success'
         ], Response::HTTP_OK);
+    }
+
+    public function updateQuantityOrder(Request $request, $id)
+    {
+        $productOrder = $this->productOrder->findOrFail($id);
+        $productOrder->update(['product_quantity'=> $request->product_quantity]);
+
     }
 
     public function remove($id)
@@ -75,7 +103,4 @@ class OrderController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-
-    
 }

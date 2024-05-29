@@ -27,4 +27,8 @@ class OrderController extends Controller
         $order->update(['status' => 'Huỷ']);
         return redirect()->route('client.orders.index')->with('success', 'Huỷ đơn hàng thành công');
     }
+
+    public function update_order_quantity(Request $request) {
+        
+    }
 }

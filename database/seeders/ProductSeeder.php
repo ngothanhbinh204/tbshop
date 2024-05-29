@@ -45,7 +45,7 @@ class ProductSeeder extends Seeder
         //     'brand_id' => 2,
         //     'category_id' => 1
         // ]);
-
+        $array01 = [0, 1];
         $categoryIds = \App\Models\Category::pluck('id')->toArray();
         $originIds = \App\Models\Province::pluck('code')->toArray();
         $brandIds = \App\Models\Brand::pluck('id')->toArray();
@@ -57,12 +57,13 @@ class ProductSeeder extends Seeder
                 'name' => $faker->word,
                 'description' => $faker->sentence,
                 'status' => $faker->randomElement($brandIds),
+                'is_hot' => $faker->randomElement($array01),
+                'is_sale' => $faker->randomElement($array01),
+                // 'price_sale' => $faker->randomElement($array01),
                 'origin' => $faker->randomElement($originIds),
                 'category_id' => $faker->randomElement($categoryIds),
                 'brand_id' => $faker->randomElement($brandIds),
             ]);
         }
-
-        // Thêm dữ liệu mẫu khác nếu cần
     }
 }

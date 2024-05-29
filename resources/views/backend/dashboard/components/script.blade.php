@@ -9,6 +9,7 @@
 <script src="{{ asset('backend/library/removeOrder.js') }}"></script>
 <script src="{{ asset('backend/library/statistical.js') }}"></script>
 <script src="{{ asset('backend/library/chartDonut.js') }}"></script>
+<script src="{{ asset('backend/library/update_order_quantity.js') }}"></script>
 
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
 
@@ -309,3 +310,4 @@
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>

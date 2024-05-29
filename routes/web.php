@@ -117,8 +117,9 @@ Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/blog-detail/{id}', [BlogController::class, 'blogDetail'])->name('client.blog.detail');
 
 // CARTS
+Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
+
 Route::middleware(['cart'])->group(function () {
-    Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
     Route::post('/update-quantity-product-in-cart/{cart_product_id}/{id_cart}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
     Route::post('/remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.cart.remove_product');
@@ -139,6 +140,7 @@ Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.inde
 Route::post('/update-status/{id}', [AdminOrderController::class, 'updateStatus'])->name('orders.update_status');
 Route::get('/orders-detail/{id}', [AdminOrderController::class, 'detail'])->name('orders.details');
 Route::post('/remove-order/{id}', [AdminOrderController::class, 'remove'])->name('orders.remove');
+Route::post('/update-order/{id}', [AdminOrderController::class, 'updateQuantityOrder'])->name('order.update_quantity_product');
 
 
 Route::post('/get60DaysOrder', [DashboardController::class, 'get60DaysOrder'])->name('dashboard_get60DaysOrder');

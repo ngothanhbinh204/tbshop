@@ -76,7 +76,7 @@ class DashboardController extends Controller
 
         $user_new = User::with('province')->orderByDesc('id')->take(10)->get();
         $product_views = Product::orderByDesc('views')->take(20)->get();
-        $post_views = Post::orderByDesc('views')->take(20)->get();
+        $post_views = Post::orderByDesc('views')->with('users')->take(20)->get();
         $template = 'backend.dashboard.home.index';
         $user = Auth::user();
         return view('backend.dashboard.layout', compact(

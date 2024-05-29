@@ -7,6 +7,7 @@
                     <thead>
                         <tr>
                             <th data-toggle="true">Tên sản phẩm</th>
+                            <th data-hide="color">Kho</th>
                             <th data-hide="color">Màu sắc | Size</th>
                             <th data-hide="price">Giá</th>
                             <th data-hide="price">Số lượng</th>
@@ -19,7 +20,9 @@
                         @if (isset($details))
                             @foreach ($details as $item)
                                 <tr>
-                                    <td>{{ $item->product->name }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->stock }}</td>
+
                                     <td>
                                         <i style="color: {{ $item->product_color }}" class="fa fa-circle"></i>
                                         | {{ $item->product_size }}
@@ -28,7 +31,16 @@
                                         {{ number_format($item->product_price, 0, ',', '.') }}
                                     </td>
                                     <td>
-                                        {{ $item->product_quantity }}
+                                        <div class="input-group">
+                                            <input id="quantity_order-{{ $item->id_product_order }}" min="0"
+                                                name="quantity" value="{{ $item->product_quantity }}" type="number"
+                                                class="form-control form-control-sm" />
+                                            <button
+                                                data-action="{{ route('order.update_quantity_product', $id = $item->id_product_order) }}"
+                                                data-id="{{ $item->id_product_order }}" class="btn-update-quantity-order">Thay
+                                                đổi</button>
+                                        </div>
+
                                     </td>
                                     <td>
                                         {{ number_format($item->total, 0, ',', '.') }}

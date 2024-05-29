@@ -20,13 +20,16 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\CartProduct;
 use App\Models\Coupon;
+use App\Models\Statistical;
 use App\Models\Order;
 use App\Models\ProductOrder;
+use App\Models\Statistic;
 
 class CheckoutController extends Controller
 {
     protected $provinceService;
     protected $userService;
+    protected $statistical;
     protected $cart;
     protected $cartProduct;
     protected $productOrder;
@@ -35,6 +38,7 @@ class CheckoutController extends Controller
     public function __construct(
         ProductOrder $productOrder,
         ProvinceService $provinceService,
+        Statistic $statistical,
         UserService $userService,
         Cart $cart,
         CartProduct $cartProduct,
@@ -44,6 +48,7 @@ class CheckoutController extends Controller
     ) {
         $this->provinceService = $provinceService;
         $this->userService = $userService;
+        $this->statistical = $statistical;
         $this->cart = $cart;
         $this->cartProduct = $cartProduct;
         $this->order = $order;
@@ -90,39 +95,13 @@ class CheckoutController extends Controller
             }
         }
 
-        // $cart = $this->cart->firstOrCreateBy(auth()->user()->id);
-        // if ($cart) {
-        //     $cartProduct = $cart->product;
-        //     foreach ($cartProduct as $item) {
-        //         $product = Product::getById($item->id_product);
-        //         $discountPrice = $item->product_price;
-        //         if ($product->price_sale > 0) {
-        //             $discountPrice = $item->product_price - ($item->product_price * ($product->price_sale / 100));
-        //         }
-        //         var_dump($discountPrice);
-
-        //         $this->productOrder->create([
-        //             'id_order' => $orderDone->id,
-        //             'id_product' => $item->id_product,
-        //             'product_color' => $item->product_color,
-        //             'product_size' => $item->product_size,
-        //             'product_price' => $discountPrice,
-        //             'product_quantity' => $item->product_quantity,
-        //             'total' => $item->product_quantity * $item->product_price,
-        //         ]);
-        //     }
-        //     // $cart->product()->delete();
-        // }
-
-
-
         DB::beginTransaction();
         try {
             $dataCreateOrder = $request->except('_token', 'acc', 'user_password', 'note_order');
             $dataCreateOrder['id_user'] = auth()->user()->id;
             $dataCreateOrder['status'] = "Đang xử lí";
+            $dataCreateOrder['order_date'] = now();
             $randomCode = Str::random(8);
-
             $dataCreateOrder['order_code'] = "TBSHOP" . $randomCode;
 
             $orderDone = $this->order->create($dataCreateOrder);
@@ -154,12 +133,38 @@ class CheckoutController extends Controller
                             'product_quantity' => $item->product_quantity,
                             'total' => $item->product_quantity * $discountPrice,
                         ]);
+                        
+                    }
+
+
+                    // Cập nhật bảng Statistical
+                    $orderDate = $orderDone->order_date->format('Y-m-d');
+                    $totalSales = $orderDone->total;
+                    $profit = $totalSales - $orderDone->ship;
+
+                    $statistical = $this->statistical::where('order_date', $orderDate)->first();
+
+                    if ($statistical) {
+                        // Nếu đã tồn tại statistical cho ngày đó thì cập nhật
+                        $statistical->increment('sales', $totalSales);
+                        $statistical->increment('profit', $profit);
+                        $statistical->increment('quantity', $cartProduct->sum('product_quantity'));
+                        $statistical->increment('total_order', 1);
+                    } else {
+                        $this->statistical::create([
+                            'order_date' => $orderDate,
+                            'sales' => $totalSales,
+                            'profit' => $profit,
+                            'quantity' => $cartProduct->sum('product_quantity'),
+                            'total_order' => 1,
+                        ]);
                     }
                 }
 
                 if ($cart) {
                     $cart->product()->delete();
                 }
+
             }
             DB::commit();
             Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
