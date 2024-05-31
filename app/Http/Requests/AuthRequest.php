@@ -24,6 +24,7 @@ class AuthRequest extends FormRequest
     public function rules()
     {
         return [
+            // 'emailOrUsername' => 'required',
             'email' => 'required|email',
             'password' => 'required',
         ];
@@ -32,7 +33,8 @@ class AuthRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => "Bạn chưa nhập email Kìa",
+            'email.required' => "Bạn chưa nhập email hoặc tên người dùng",
+            // 'emailOrUsername.required' => "Bạn chưa nhập email hoặc tên người dùng",
             'email.email' => "Định dạng Email không đúng, Ví dụ : abc@gmail.com",
             'password.required' => "Bạn chưa nhập mật khẩu"
         ];

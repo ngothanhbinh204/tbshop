@@ -45,6 +45,10 @@
                                             <textarea id="summernoteProduct" name="description"></textarea>
 
                                             <textarea id="summernote-editor" name="image"></textarea>
+
+                                            <textarea id="my-editor" name="content" class="form-control">{!! old('content', 'test editor content') !!}</textarea>
+
+
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <a id="lfm" data-input="thumbnail" data-preview="holder"
@@ -55,6 +59,7 @@
                                                 <input id="thumbnail" class="form-control" type="text"
                                                     name="filepath">
                                             </div>
+
                                             <div id="holder" style="margin-top:15px;max-height:100px;"></div>
                                         </div>
                                     </div>

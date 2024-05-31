@@ -34,8 +34,11 @@ class ShopController extends Controller
         $brands = Brand::getBrands();
         $colors = Attribute::getColors();
         $sizes = Attribute::getSizes();
-
+        $keywords = "";
         $filters = $request->only(['keywords', 'category_id', 'brand_id', 'price_min', 'price_max', 'color', 'size']);
+        if ($request->input('keywords')) {
+            $keywords = $request->input('keywords');
+        }
         $products = $this->getProduct($filters);
         return view('frontend.client.shop', compact(
             'products',
@@ -43,12 +46,12 @@ class ShopController extends Controller
             'brands',
             'colors',
             'sizes',
+            'keywords'
         ));
     }
     public function getProduct($filters = [])
     {
         $query = Product::with(['attribute']);
-
         // nếu tồn tại danh mục id
         if (isset($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);
@@ -102,7 +105,7 @@ class ShopController extends Controller
                     ->where('value', $filters['size']);
             });
         }
-        return $query->paginate(5);
+        return $query->paginate(1);
     }
 
     public function filterProductByCategories(Request $request)

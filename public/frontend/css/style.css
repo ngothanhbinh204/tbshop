@@ -1542,6 +1542,14 @@ ol {
 	border-color: #111111;
 }
 
+.product__pagination li span.active {
+	border-color: #111111;
+}
+.pagination li.active{
+	border-color: #111111;
+
+}
+
 .product__pagination a:hover {
 	border-color: #111111;
 }

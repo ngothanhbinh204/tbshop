@@ -28,8 +28,6 @@ class Cart extends Model
         return $this->hasMany(CartProduct::class, 'id_cart');
     }
 
-   
-
 
     public function getBy($userID)
     {

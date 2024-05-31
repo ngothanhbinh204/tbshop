@@ -13,6 +13,15 @@
 </head>
 
 <body>
+    {{-- @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif --}}
     <div class="container">
         <input type="checkbox" id="flip">
         <div class="cover">
@@ -41,13 +50,18 @@
                         <div class="input-boxes">
                             <div class="input-box">
                                 <i class="fas fa-envelope"></i>
-                                <input name="email" type="text" placeholder="Nhập email" required>
+                                <input name="emailOrUsername" value="{{ old('emailOrUsername') }}" type="text"
+                                    placeholder="Nhập email hoặc username" required>
+
                             </div>
                             <div class="input-box">
                                 <i class="fas fa-lock"></i>
                                 <input name="password" type="password" placeholder="Nhập mật khẩu" required>
                             </div>
-                            <div class="text"><a href="#">Quên mật khẩu?</a></div>
+                            @error('password')
+                                <p style="color: red" class="text-danger text-xs pt-1"> {{ $message }} </p>
+                            @enderror
+                            <div class="text"><a href="{{ route('password.request') }}">Quên mật khẩu?</a></div>
                             <div class="button input-box">
                                 <input type="submit" value="Đăng Nhập">
                             </div>

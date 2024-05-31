@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Exceptions\Handler;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
+
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
@@ -24,8 +26,9 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\AuthController as AuthClientController;
 use App\Http\Controllers\Frontend\BaseClientController;
 
-use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 
 /* AJAX */
@@ -117,10 +120,11 @@ Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/blog-detail/{id}', [BlogController::class, 'blogDetail'])->name('client.blog.detail');
 
 // CARTS
-Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
 
+Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
+Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
+Route::post('/session-remove-product-in-cart/{productId}', [CartController::class, 'sessionRemoveProductInCart'])->name('client.cart.session_remove_product');
 Route::middleware(['cart'])->group(function () {
-    Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
     Route::post('/update-quantity-product-in-cart/{cart_product_id}/{id_cart}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
     Route::post('/remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.cart.remove_product');
 
@@ -163,9 +167,16 @@ Route::group(['prefix' => 'ajax'], function () {
 Route::get('/login-client', [AuthClientController::class, 'index'])->name('login.client.index');
 Route::post('/login-client', [AuthClientController::class, 'login'])->name('client.auth.login');
 Route::get('/logout-client', [AuthClientController::class, 'logout'])->name('client.logout');
+Route::get('/password/reset', [AuthClientController::class, 'logout'])->name('client.logout');
 
 
 
+Route::group(['prefix' => 'password'], function () {
+    Route::get('reset', [ForgotPasswordController::class, 'index'])->name('password.request');
+    Route::post('email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+});
 /*BACKEND ROUTES */
 
 

@@ -198,7 +198,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
-        // Intervention\Image\ImageServiceProvider::class,
+        Intervention\Image\Laravel\ServiceProvider::class,
 
     ],
 
@@ -215,7 +215,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        // 'Image' => Intervention\Image\Facades\Image::class,
+        // 'Image' => Intervention\Image\Laravel\Facades::class,
     ])->toArray(),
 
 ];

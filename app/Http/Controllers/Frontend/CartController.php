@@ -34,58 +34,104 @@ class CartController extends Controller
     }
     public function index()
     {
-        if ($this->cart->countProductInCart(auth()->user()->id) <= 0) {
-            Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
-        }
+        $countProductInCart1 = 0;
         if (Auth::check()) {
+            if ($this->cart->countProductInCart(auth()->user()->id) <= 0) {
+                Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
+            }
+            $countProductInCart1 = $this->cart->countProductInCart(auth()->user()->id);
             $cart = $this->cart->firstOrCreateBy(auth()->user()->id)->load('product');
             $salePrice = $this->productService->getSalePriceAttribute();
             return view('frontend.client.cart', compact(
-                'cart'
+                'cart',
+                'countProductInCart1',
             ));
         } else {
-            return back()->with('error', ('Vui Lòng đăng nhập trước khi thực hiện giỏ hàng'));
+            $cart = session()->get('cart', []);
+            // $salePrice = $this->productService->getSalePriceAttribute();
+            $countProductInCart1 = count($cart);
+            return view('frontend.client.cart', compact(
+                'cart',
+                'countProductInCart1',
+            ));
         }
     }
 
     public function store(Request $request)
     {
+        $cart = '';
         $productByAttribute = $this->productService->getProductByColor_Size($request->id_product, $request->product_color, $request->product_size);
-        // dd($productByAttribute);
-        if (!auth()->check()) {
-            return back()->with('error', 'Vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ hàng');
-        }
         if ($request->product_quantity > $productByAttribute->stock) {
             return back()->with('error', 'Số lượng sản phẩm này vượt quá số lượng tồn kho. Vui lòng giảm số lượng hoặc chọn sản phẩm khác');
         }
-
         if ($request->product_size && $request->product_color && $request->product_price) {
-            // dd($request);
             $product = $this->product->findOrFail($request->id_product);
-            // khi có đăng ký user -> đăng nhập mới có thể mua hàng
-            $cart = $this->cart->firstOrCreateBy(auth()->user()->id);
-            // dd($cart->id);  
-            //Kiểm tra cartProduct tồn tại chưa
-            $cartProduct = $this->cartProduct->getBy($cart->id, $product->id, $request->product_size, $request->product_color);
-            // dd($cartProduct);
-            // dd($cart);
-            if ($cartProduct) {
-                $quantity = $cartProduct->product_quantity;
-                $cartProduct->update(['product_quantity' => ($quantity + $request->product_quantity)]);
+            if (auth()->user()) {
+                // nếu tồn tại user -> vào cart
+                $cart = $this->cart->firstOrCreateBy(auth()->user()->id);
+                $this->addProductToCart($cart, $product, $request);
             } else {
-                $dataCreateCart['id_cart'] = $cart->id;
-                $dataCreateCart['product_size'] = $request->product_size;
-                $dataCreateCart['product_color'] = $request->product_color;
-                $dataCreateCart['product_price'] = $request->product_price;
-                $dataCreateCart['product_quantity'] = $request->product_quantity;
-                $dataCreateCart['id_product'] = $request->id_product;
-                $this->cartProduct->create($dataCreateCart);
+                // chưa có user -> tạo session cart cho user
+                $cart = session()->get('cart', []);
+                $this->addProductToSesstionCart($cart, $product, $request);
+                session()->put('cart', $cart);
+                // $cart = session()->get('cart', []);
+                // dd($cart);
             }
             return redirect()->route('client.cart.index')->with('success', 'Thêm giỏ hàng thành công');
         } else {
             return back()->with('error', 'Bạn chưa chọn size hoặc màu ');
         }
-        // dd($request);
+    }
+
+    private function checkProductInSessionCart($cart, $productId, $productSize, $productColor)
+    {
+        $productKey = $productId . '-' . $productSize . '-' . $productColor;
+        return isset($cart[$productKey]);
+    }
+
+
+    public function addProductToCart($cart, $product, $request)
+    {
+        $cartProduct = $this->cartProduct->getBy($cart->id, $product->id, $request->product_size, $request->product_color);
+        if ($cartProduct) {
+            $quantity = $cartProduct->product_quantity;
+            $cartProduct->update(['product_quantity' => ($quantity + $request->product_quantity)]);
+        } else {
+            $dataCreateCart['id_cart'] = $cart->id;
+            $dataCreateCart['product_size'] = $request->product_size;
+            $dataCreateCart['product_color'] = $request->product_color;
+            $dataCreateCart['product_price'] = $request->product_price;
+            $dataCreateCart['product_quantity'] = $request->product_quantity;
+            $dataCreateCart['id_product'] = $request->id_product;
+            $this->cartProduct->create($dataCreateCart);
+        }
+    }
+
+    public function addProductToSesstionCart(&$cart, $product, $request)
+    {
+        $productSize = $request->product_size;
+        $productColor = $request->product_color;
+        $productPrice = $request->product_price;
+        $productQuantity = $request->product_quantity;
+        $productId = $request->id_product;
+
+        foreach ($cart as $index => $item) {
+            if ($item['id_product'] == $productId && $item['product_size'] = $productSize && $item['product_color'] = $productColor) {
+                $cart[$index]['product_quantity'] += $productQuantity;
+                return;
+            }
+        }
+        $cart[] = [
+            'product_size' => $request->product_size,
+            'product_color' => $request->product_color,
+            'product_price' => $request->product_price,
+            'product_quantity' => $request->product_quantity,
+            'id_product' => $productId,
+            'product_name' => $product->name,
+            'product_image' => $product->image,
+            'product_price_sale' => $product->price_sale
+        ];
     }
 
     public function updateQuantityProduct(Request $request, $cart_product_id, $id_cart)
@@ -121,13 +167,47 @@ class CartController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function sessionRemoveProductInCart(Request $request, $productId)
+    {
+        $cart = session()->get('cart', []);
+        $index = $request->index;
+        // $productId = explode('-', $index)[0];
+        // $productId = $request->product_id;
+        // dd($index);
+        // dd($productId);
+        if (isset($cart[$index])) {
+            // Xoá phần tử có chỉ mục muốn xoá
+            $cart = session('cart');
+            $cart = array_filter($cart, function ($Cartindex) use ($index) {
+                return $Cartindex != $index;
+            }, ARRAY_FILTER_USE_KEY);
+
+            // Lưu mảng session mới vào session
+            session(['cart' => $cart]);
+            session()->save(); // Lưu thay đổi vào session
+            return response()->json([
+                'index' => $index,
+                'cart' => $cart
+            ], Response::HTTP_OK);
+        }
+        // Tạo một session mới với các phần tử không có key muốn xóa
+        // $cart = session('cart');
+        // $cart = array_filter($cart, function ($cartKey) use ($key) {
+        //     return $cartKey != $key;
+        // }, ARRAY_FILTER_USE_KEY);
+        // Lưu mảng session mới vào session
+        // session(['cart' => $cart]);
+        // session()->save(); // Lưu thay đổi vào session
+        // return response()->json(['success' => true, 'message' => 'Xóa sản phẩm thành công']);
+
+    }
+
 
     public function applyCoupon(Request $request, $id_cart)
     {
         $message = '';
         $name = $request->input('code_coupon');
         $coupon = $this->coupon->firstWithExperyDate($name, auth()->user()->id);
-
 
         // Kiểm tra người dùng tồn tại
 
