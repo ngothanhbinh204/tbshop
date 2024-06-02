@@ -7,6 +7,7 @@ use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceService;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Gallery;
 use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\ProductAttribute;
@@ -163,8 +164,11 @@ class ShopController extends Controller
 
     public function productDetail($id)
     {
+
         $product = Product::with(['categories', 'brands', 'product_attribute'])->findOrFail($id);
         if ($product) {
+            // gallery
+            $gallery = Gallery::where('product_id', $id)->get();
             $productAttr = $this->productService->getProductAttributePairs($id);
             $colorSizePrice = [];
             $colors = [];
@@ -184,6 +188,7 @@ class ShopController extends Controller
             $sizeUnique = collect($sizes)->unique();
             return view('frontend.client.shopDetail', compact(
                 'product',
+                'gallery',
                 'productAttr',
                 'colorSizePrice',
                 'colorUnique',

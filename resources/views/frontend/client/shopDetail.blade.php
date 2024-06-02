@@ -61,12 +61,32 @@
                                 </ul>
                             </div>
                             <div class="col-lg-6 col-md-9">
+                                <style type="text/css">
+                                    .lSSlideOuter .lSPager.lSGallery img {
+                                        display: block;
+                                        height: 135px;
+                                        max-width: 100%;
+                                    }
+                                </style>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                    <ul id="lightSlider">
+                                        @foreach ($gallery as $key => $gal)
+                                            <li data-thumb="{{ asset('uploads/gallery/'. $gal->image) }}"
+                                                data-src="{{ asset('uploads/gallery/'. $gal->image) }}">
+                                                <img src="{{ asset('uploads/gallery/'. $gal->image) }}"
+                                                    alt="">
+                                            </li>
+                                        @endforeach
+
+
+
+
+                                    </ul>
+                                    {{-- <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                         <div class="product__details__pic__item">
                                             <img src="{{ $product->image }}" alt="">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     {{-- <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <div class="product__details__pic__item">
                                     <img src="{{ asset('frontend/img/shop-details/product-big-3.png') }}" alt="">
@@ -136,7 +156,6 @@
                                                 </i>
                                                 <input type="radio" name="" id=""
                                                     value="{{ $item }}">
-                                               
                                             @endforeach
 
                                             {{-- <label style="background:{{ $item }} " class=""
@@ -399,6 +418,24 @@
 @endsection
 
 @section('scripts')
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#lightSlider").lightSlider({
+                gallery: true,
+                item: 1,
+                loop: true,
+                thumbItem: 4,
+                slideMargin: false,
+                currentPagerPosition: 'left',
+                onSliderLoad: function(el) {
+                    el.lightGallery({
+                        selector: '#imageGallery .lslide'
+                    });
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             function updatePrice() {

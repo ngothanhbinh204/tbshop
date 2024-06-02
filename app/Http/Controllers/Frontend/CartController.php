@@ -155,6 +155,32 @@ class CartController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function sessionUpdateQuantityProduct(Request $request)
+    {
+        $index = $request->index;
+        $newQuantity = $request->quantity;
+        $cart = session()->get('cart', []);
+        //  dd($newQuantity);
+        if (isset($cart[$index])) {
+            $cart[$index]['product_quantity'] = $newQuantity;
+            session()->put('cart', $cart);
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Cập nhật số lượng thành công'
+                ],
+                Response::HTTP_OK
+            );
+        } else {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Sản phẩm không tồn tại trong giỏ hàng'
+                ]
+            );
+        }
+    }
+
     public function removeProductInCart($id)
     {
         $cartProduct = $this->cartProduct->find($id);
@@ -171,35 +197,20 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
         $index = $request->index;
-        // $productId = explode('-', $index)[0];
-        // $productId = $request->product_id;
-        // dd($index);
-        // dd($productId);
         if (isset($cart[$index])) {
             // Xoá phần tử có chỉ mục muốn xoá
             $cart = session('cart');
             $cart = array_filter($cart, function ($Cartindex) use ($index) {
                 return $Cartindex != $index;
             }, ARRAY_FILTER_USE_KEY);
-
             // Lưu mảng session mới vào session
             session(['cart' => $cart]);
-            session()->save(); // Lưu thay đổi vào session
+            session()->save();
             return response()->json([
                 'index' => $index,
                 'cart' => $cart
             ], Response::HTTP_OK);
         }
-        // Tạo một session mới với các phần tử không có key muốn xóa
-        // $cart = session('cart');
-        // $cart = array_filter($cart, function ($cartKey) use ($key) {
-        //     return $cartKey != $key;
-        // }, ARRAY_FILTER_USE_KEY);
-        // Lưu mảng session mới vào session
-        // session(['cart' => $cart]);
-        // session()->save(); // Lưu thay đổi vào session
-        // return response()->json(['success' => true, 'message' => 'Xóa sản phẩm thành công']);
-
     }
 
 

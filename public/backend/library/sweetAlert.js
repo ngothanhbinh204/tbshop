@@ -46,6 +46,7 @@ $(document).ready(function () {
                         swal("Lỗi!", "Đã xảy ra lỗi khi xoá sản phẩm.", "error");
                     }
                 });
+                
             }
         });
     });

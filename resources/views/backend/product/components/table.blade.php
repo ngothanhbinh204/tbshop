@@ -8,6 +8,7 @@
                         <tr>
 
                             <th data-toggle="true">Tên sản phẩm</th>
+                            <th data-hide="phone">Thư viện ảnh</th>
                             <th data-hide="phone">Danh mục</th>
                             <th data-hide="all">Mô tả</th>
                             <th data-hide="phone">Xuất xứ</th>
@@ -26,6 +27,7 @@
                                             {{ $product->name }}
                                         </a>
                                     </td>
+                                    <td><a href="{{ route('admin.gallery.add', $product_id = $product->id) }}">Thêm thư viện ảnh</a></td>
                                     <td>{{ $product->categories->name }}</td>
                                     <td>{!! $product->description !!}</td>
                                     <td>{{ $product->origin }}</td>

@@ -102,10 +102,7 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        @foreach ($cart as $index => $item)
-                                            @php
-                                                echo $index;
-                                            @endphp
+                                        @foreach ($cart as $index => $item) 
                                             <tr id="row-{{ $index }}">
                                                 <td class="product__cart__item">
                                                     <div class="product__cart__item__pic">
@@ -129,17 +126,18 @@
                                                 <td class="quantity__item">
                                                     <div class="quantity">
                                                         <div class="d-flex">
-                                                            <button class="btn btn-link px-2 btn-update-quantity"
-                                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                            <button data-action="giam" data-index="{{ $loop->index }}"
+                                                                class="btn btn-link px-2 session-btn-update-quantity">
                                                                 <i class="fa fa-angle-left icon-quantity"></i>
                                                             </button>
 
                                                             <input min="0" name="quantity"
                                                                 value="{{ $item['product_quantity'] }}" type="number"
-                                                                class="form-control form-control-sm" />
+                                                                class="form-control form-control-sm"
+                                                                data-index="{{ $loop->index }}" />
 
-                                                            <button class="btn btn-link px-2 btn-update-quantity"
-                                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                            <button data-action="tang" data-index="{{ $loop->index }}"
+                                                                class="btn btn-link px-2 session-btn-update-quantity">
                                                                 <i class="fa fa-angle-right icon-quantity"></i>
                                                             </button>
                                                         </div>
@@ -446,6 +444,40 @@
                     } else {
                         updateProductQuantity(url, data, id);
                     }
+                }, TIME_TO_UPDATE));
+
+
+                // Update quantity Session cart
+                $(document).on('click', '.session-btn-update-quantity', _.debounce(function(e) {
+                    // console.log("Có");
+                    let url = $(this).data('action');
+                    let index = $(this).data('index');
+                    var input = $('input[data-index="' + index + '"]');
+
+                    let currentQuantity = parseInt(input.val());
+
+                    if (url === 'giam' && currentQuantity > 0) {
+                        input.val(currentQuantity - 1);
+                    } else if (url === 'tang') {
+                        input.val(currentQuantity + 1);
+                    }
+
+                    let newQuantity = input.val();
+
+                    $.ajax({
+                        url: '/session-update-quantity-product-in-cart',
+                        method: 'POST',
+                        data: {
+                            index: index,
+                            quantity: newQuantity,
+                        },
+                        success: function(response) {
+                            console.log(response);
+                        },
+                        error: function(xhr) {
+                            console.error(xhr.responseText)
+                        }
+                    })
                 }, TIME_TO_UPDATE));
 
                 // Function to update product quantity via AJAX

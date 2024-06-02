@@ -27,6 +27,10 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" type="text/css">
 
+    <link rel="stylesheet" href="{{ asset('frontend/css/prettify.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/lightslider.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/lightslider.min.css') }}" type="text/css">
+
 
 </head>
 

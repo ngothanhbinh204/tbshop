@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\GalleryController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\RolesController;
@@ -29,7 +30,6 @@ use App\Http\Controllers\Frontend\BaseClientController;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-
 
 /* AJAX */
 
@@ -86,6 +86,16 @@ Route::group(['prefix' => 'attribute'], function () {
     Route::post('store', [AttributeController::class, 'store'])->name('attribute.store')->middleware('admin');
 });
 
+
+/* GALLERY */
+Route::get('gallery/add/{product_id}', [GalleryController::class, 'addGallery'])->name('admin.gallery.add');
+Route::post('gallery/select-gallery', [GalleryController::class, 'selectGallery'])->name('admin.gallery.select');
+Route::post('gallery/insert-gallery/{pro_id}', [GalleryController::class, 'insertGallery'])->name('admin.gallery.insert');
+Route::post('gallery/update-gallery-image', [GalleryController::class, 'updateGalleryImage'])->name('admin.gallery.update_image');
+Route::post('gallery/update-gallery-name', [GalleryController::class, 'updateGalleryName'])->name('admin.gallery.update_name');
+Route::post('gallery/delete-gallery', [GalleryController::class, 'deleteGallery'])->name('admin.gallery.delete');
+
+
 /* CATEGORIES */
 Route::group(['prefix' => 'category'], function () {
     Route::get('index', [CategoryController::class, 'index'])->name('category.index')->middleware('admin');
@@ -123,6 +133,7 @@ Route::get('/blog-detail/{id}', [BlogController::class, 'blogDetail'])->name('cl
 
 Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
 Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
+Route::post('/session-update-quantity-product-in-cart', [CartController::class, 'sessionUpdateQuantityProduct'])->name('client.cart.session_update_quantity_product');
 Route::post('/session-remove-product-in-cart/{productId}', [CartController::class, 'sessionRemoveProductInCart'])->name('client.cart.session_remove_product');
 Route::middleware(['cart'])->group(function () {
     Route::post('/update-quantity-product-in-cart/{cart_product_id}/{id_cart}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');

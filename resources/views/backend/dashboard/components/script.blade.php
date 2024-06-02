@@ -10,6 +10,7 @@
 <script src="{{ asset('backend/library/statistical.js') }}"></script>
 <script src="{{ asset('backend/library/chartDonut.js') }}"></script>
 <script src="{{ asset('backend/library/update_order_quantity.js') }}"></script>
+<script src="{{ asset('backend/library/galleryProductDetails.js') }}"></script>
 
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
 
@@ -84,6 +85,9 @@
 <!-- Jvectormap -->
 <script src="{{ asset('backend/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
 <script src="{{ asset('backend/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+
+{{-- Dropzone --}}
+<script src="{{ asset('backend/js/plugins/dropzone/dropzone.js') }}"></script>
 
 <!-- EayPIE -->
 <script src="{{ asset('backend/js/plugins/easypiechart/jquery.easypiechart.js') }}"></script>

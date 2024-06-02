@@ -24,8 +24,11 @@
 {{-- table product --}}
 <link href="{{ asset('backend/css/plugins/footable/footable.core.css') }}" rel="stylesheet">
 <link href="{{ asset('backend/css/plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet">
-
 <link href="{{ asset('backend/css/plugins/switchery/switchery.css') }}" rel="stylesheet">
+
+<link href="{{ asset('backend/css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
+
+
 <link href="https://cdn.jsdelivr.net/npm/select2@latest/dist/css/select2.min.css" rel="stylesheet">
 <link href="{{ asset('backend/css/customize.css') }}" rel="stylesheet">
 
