@@ -1712,6 +1712,14 @@ ol {
 	text-decoration: line-through;
 }
 
+.priceStock {
+	color: #b7b7b7;
+	font-size: 20px;
+	font-weight: 400;
+	margin-left: 10px;
+	text-decoration: line-through;
+}
+
 .product__details__text p {
 	margin-bottom: 35px;
 }
@@ -1758,7 +1766,7 @@ ol {
 .product__details__option__color {
 	display: inline-block;
 	position: relative;
-	/* top: 10px; */
+	top: 10px;
 }
 
 .product__details__option__color span {
@@ -1810,6 +1818,7 @@ ol {
 	content: "";
 	border-radius: 50%;
 }
+
 
 .product__details__option__color label input {
 	position: absolute;

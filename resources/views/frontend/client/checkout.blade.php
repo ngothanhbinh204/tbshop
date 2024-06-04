@@ -328,6 +328,7 @@
             $('.applyShip').on('click', function() {
                 ship = parseInt($('input[name="ship"]:checked').val());
                 var labelValue = "";
+                
                 $('.form-check-input[name="ship"]').on('change', function() {
                     labelValue = $(this).next('label').text().trim(); // Lấy giá trị của label tương ứng
                     console.log("Label được chọn:", labelValue);

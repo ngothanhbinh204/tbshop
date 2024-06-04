@@ -11,7 +11,8 @@ use App\Http\Requests\StoreProductRequest;
 interface ProductServiceInterface
 {
     public function paginate($withTable);
-    public function create(StoreProductRequest $request);
+    public function create(StoreProductRequest $request, $new_image);
+    public function update($payload, $id);
     public function findByID(
         int $modelID,
         array $column = [],

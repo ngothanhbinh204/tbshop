@@ -24,4 +24,8 @@ class Province extends Model
     {
         return $this->hasMany(User::class, 'province_id', 'code');
     }
+    public function product()
+    {
+        return $this->hasMany(Product::class, 'code');
+    }
 }

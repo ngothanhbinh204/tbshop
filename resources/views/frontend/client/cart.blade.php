@@ -32,7 +32,9 @@
                                             <tr id="row-{{ $item->id }}">
                                                 <td class="product__cart__item">
                                                     <div class="product__cart__item__pic">
-                                                        <img width="100px" src="{{ $item->product->image }}" alt="">
+                                                        <img width="100px"
+                                                            src="{{ asset('uploads/product/' . $item->product->image) }}"
+                                                            alt="">
                                                     </div>
                                                     <div class="product__cart__item__text">
                                                         <a href="{{ route('client.product.detail', $item->id_product) }}">
@@ -102,11 +104,12 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        @foreach ($cart as $index => $item) 
+                                        @foreach ($cart as $index => $item)
                                             <tr id="row-{{ $index }}">
                                                 <td class="product__cart__item">
                                                     <div class="product__cart__item__pic">
-                                                        <img width="100px" src="{{ $item['product_image'] }}"
+                                                        <img width="100px"
+                                                            src="{{ asset('uploads/product/' . $item['product_image']) }}"
                                                             alt="">
                                                     </div>
                                                     <div class="product__cart__item__text">

@@ -131,7 +131,7 @@
                         @endphp
                         <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix {{ trim($classSp) }}">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{ $product->image }}">
+                                <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/product/'.$product->image) }}">
                                     <span class="{{ trim($classSp) ? 'is_sale' : 'label' }} ">
                                         {{ trim($classSp) }}
                                     </span>

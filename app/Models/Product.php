@@ -10,9 +10,9 @@ class Product extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'image_url',
+        'image',
         'weight',
-        // 'price',
+        'price_sale',
         'views',
         'brand_id',
         'description',
@@ -26,7 +26,7 @@ class Product extends Model
         'brand_id',
     ];
 
-    
+
 
     public function categories()
     {
@@ -36,6 +36,10 @@ class Product extends Model
     public function brands()
     {
         return $this->belongsTo(Brand::class, 'brand_id');
+    }
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'origin');
     }
     public function attribute()
     {

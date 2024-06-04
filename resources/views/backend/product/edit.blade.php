@@ -12,11 +12,9 @@
             </ul>
         </div>
     @endif
-
     <div class="row">
-        <form action="{{ route('product.update', ['id' => $product->id]) }}" method="post">
+        <form action="{{ route('product.update', $product->id) }}" method="post" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
             <div class="col-lg-12">
                 <div class="tabs-container">
                     <ul class="nav nav-tabs">
@@ -25,306 +23,237 @@
                         {{-- <li class=""><a data-toggle="tab" href="#tab-3"> Discount</a></li> --}}
                         <li class=""><a data-toggle="tab" href="#tab-4"> Hình ảnh</a></li>
                     </ul>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane active">
-                            <div class="panel-body">
+                    @if (isset($product))
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <fieldset class="form-horizontal">
+                                        <div class="form-group"><label class="col-sm-2 control-label">Tên sản
+                                                phẩm:</label>
+                                            <div class="col-sm-10"><input value="{{ old('name', $product->name) }}"
+                                                    name="name" type="text" class="form-control"
+                                                    placeholder="Tên sản phẩm">
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Mô tả:</label>
+                                            <div class="col-sm-10">
 
-                                <fieldset class="form-horizontal">
-                                    <div class="form-group"><label class="col-sm-2 control-label">Tên sản phẩm:</label>
-                                        <div class="col-sm-10"><input value="{{ old('name', $product->name) }}"
-                                                name="name" type="text" class="form-control"
-                                                placeholder="Tên sản phẩm"></div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Giá:</label>
-                                        <div class="col-sm-10"><input value="{{ old('price'), $product->price }}"
-                                                name="price" id="priceInput" type="number" class="form-control"
-                                                placeholder="$160.00" min="0" max="1000000000"></div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Mô tả:</label>
-                                        <div class="col-sm-10">
-
-                                            <textarea class="summernoteProduct" name="description">
-                                                {{ old('description', $product->description) }}
-                                        </textarea>
+                                                <textarea id="summernoteProduct" name="description">
+                                                    {{ old('description', $product->description) }}
+                                                </textarea>
+                                                {{-- <textarea id="my-editor" name="content" class="form-control">{!! old('content', 'test editor content') !!}</textarea> --}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Khuyến
+                                                mãi (%) :</label>
+                                            <div class="col-sm-10">
+                                                <div style="position: relative;">
+                                                    <input
+                                                        value="{{ number_format(old('price_sale', $product->price_sale), 0, ',', '.') }}"
+                                                        name="price_sale" id="" type="number"
+                                                        class="form-control" placeholder="50%"
+                                                        style="padding-right: 20px;">
+                                                    <span
+                                                        style="position: absolute; top: 50%; left: 40px; transform: translateY(-50%);">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Hình ảnh đại diện:</label>
+                                            <div class="col-sm-10">
+                                                @if (isset($product->image))
+                                                    <img width="100px" height="100px"
+                                                        src="{{ asset('uploads/product/' . $product->image) }}"
+                                                        alt="">
+                                                @endif
+                                                <input type="file" class="form-control" id="file" name="image"
+                                                    accept="image/*">
+                                                <span id="error_gallery"></span>
+                                            </div>
 
                                         </div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Giá khuyến
-                                            mãi:</label>
-                                        <div class="col-sm-10"><input
-                                                value="{{ old('price_sale', $product->sale_price) }}" name="price_sale"
-                                                id="" type="number" class="form-control"
-                                                placeholder="$160.00"></div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Mã hàng hóa:</label>
+                                        {{-- <div class="form-group"><label class="col-sm-2 control-label">Mã hàng hóa:</label>
                                         <div class="col-sm-10">
-                                            <input value="{{ old('sku'), $product->sku }}" name="sku" type="text"
+                                            <input value="{{ old('sku') }}" name="sku" type="text"
                                                 class="form-control" placeholder="SKU123..">
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                </fieldset>
+                                    </fieldset>
 
-                            </div>
-                        </div>
-                        <div id="tab-2" class="tab-pane">
-                            <div class="panel-body">
-                                <fieldset class="form-horizontal">
-                                    <div class="form-group"><label class="col-sm-2 control-label">Trọng lượng:</label>
-                                        <div class="col-sm-10">
-                                            <input value="{{ old('weight'), $product->weight }}" name="weight"
-                                                type="number" class="form-control" placeholder="560gram">
-                                        </div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Trạng thái:</label>
-                                        <div class="col-sm-10">
-                                            <select value="{{ old('status', $product->status) }}" name="status"
-                                                id="" class="form-control">
-                                                <option value="1">Kích hoạt</option>
-                                                <option value="0">Không kích hoạt</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Danh mục:</label>
-                                        <div class="col-sm-10">
-                                            <select value="{{ old('category_id', $product->category_id) }}"
-                                                name="category_id" id="" class="setupSelect2 form-control">
-                                                @if (isset($product))
-                                                    <option value="{{ old('category_id', $product->category_id) }}">
-                                                        {{ $product->name_category }}</option>
-                                                @endif
-
-                                                @if (isset($categories))
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}">
-                                                            {{ $category->name }}</option>
-                                                    @endforeach
-                                                @endif
-
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Thương hiệu:</label>
-                                        <div class="col-sm-10">
-                                            <select value="{{ old('brand_id', $product->brand_id) }}" name="brand_id"
-                                                id="" class="setupSelect2 form-control">
-                                                @if (isset($product))
-                                                    <option value="{{ old('brand_id', $product->brand_id) }}">
-                                                        {{ $product->name_brand }}</option>
-                                                @endif
-                                                @if (isset($brands))
-                                                    @foreach ($brands as $brands)
-                                                        <option value="{{ $brands->id }}">
-                                                            {{ $brands->name }}</option>
-                                                    @endforeach
-                                                @endif
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group"><label class="col-sm-2 control-label">Xuất xứ:</label>
-                                        <div class="col-sm-10">
-                                            <select value="{{ old('origin', $product->origin) }}"
-                                                class="setupSelect2 from-control" name="origin" id="">
-                                                @if (isset($product))
-                                                    <option value="{{ old('origin', $product->origin) }}">
-                                                        {{ $product->origin }}</option>
-                                                @endif
-                                                @if (isset($provinces))
-                                                    @foreach ($provinces as $province)
-                                                        <option value="{{ $province->name }}">
-                                                            {{ $province->name }}</option>
-                                                    @endforeach
-                                                @endif
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group"><label class="col-sm-2 control-label">Màu sắc</label>
-                                        <div class="col-sm-10">
-                                            @if (isset($colors))
-                                                @foreach ($colors as $color)
-                                                    <label class="checkbox-inline">
-                                                        <input value="{{ $color->id }}" name="id_attr[]"
-                                                            type="checkbox" value="{{ $color->type }}"
-                                                            id="inlineCheckbox1">
-                                                        <i style="color: {{ $color->value }}"
-                                                            class="fa fa-circle"></i>
-                                                    </label>
-                                                @endforeach
-                                            @endif
-
-
-                                        </div>
-                                    </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Kích thước</label>
-                                        <div class="col-sm-10">
-                                            @if (isset($sizes))
-                                                @foreach ($sizes as $size)
-                                                    <label class="checkbox-inline">
-                                                        <input value="{{ $size->id }}" name="id_attr[]"
-                                                            type="checkbox" value="{{ $size->type }}"
-                                                            id="inlineCheckbox1">
-                                                        {{ $size->value }}
-                                                    </label>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group"><label class="col-sm-2 control-label">Số lượng:</label>
-                                        <div class="col-sm-10">
-                                            <input value="{{ old('quantity') }}" name="quantity" type="number"
-                                                class="form-control" placeholder="">
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </div>
-                        <div id="tab-4" class="tab-pane">
-                            <div class="panel-body">
-
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-stripped">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    Image preview
-                                                </th>
-                                                <th>
-                                                    Image url
-                                                </th>
-                                                <th>
-                                                    Sort order
-                                                </th>
-                                                <th>
-                                                    Actions
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/2s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image1.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="1">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/1s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image2.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="2">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/3s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image3.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="3">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/4s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image4.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="4">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/5s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image5.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="5">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/6s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image6.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="6">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/7s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image7.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="7">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
-
                             </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <fieldset class="form-horizontal">
+                                        <div class="form-group"><label class="col-sm-2 control-label">Trọng
+                                                lượng:</label>
+                                            <div class="col-sm-10">
+                                                <input
+                                                    value="{{ number_format(old('weight', $product->weight), 0, ',', '.') }}"
+                                                    name="weight" type="number" class="form-control"
+                                                    placeholder="560gram">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Trạng thái:</label>
+                                            <div class="col-sm-10">
+                                                {{-- {{$product->status}} --}}
+                                                <select value="{{ old('status', $product->status) }}" name="status"
+                                                    id="" class="form-control">
+                                                    <option value="0"
+                                                        {{ $product->status == 0 ? 'selected' : false }}>Chưa kích hoạt
+                                                    </option>
+                                                    <option value="1"
+                                                        {{ $product->status == 1 ? 'selected' : false }}>Kích hoạt
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group"><label class="col-sm-2 control-label">Danh mục:</label>
+                                            <div class="col-sm-10">
+                                                <select value="{{ old('category_id') }}" name="category_id"
+                                                    id="" class="setupSelect2 form-control">
+                                                    <option value="">[ Chọn danh mục ]</option>
+
+                                                    @if (isset($categories))
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}"
+                                                                {{ $product->category_id == $category->id ? 'selected' : false }}>
+                                                                {{ $category->name }}</option>
+                                                        @endforeach
+                                                    @endif
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Thương hiệu:</label>
+                                            <div class="col-sm-10">
+                                                <select value="{{ old('brand_id') }}" name="brand_id" id=""
+                                                    class="setupSelect2 form-control">
+                                                    <option value="">[ Chọn thương hiệu ]</option>
+                                                    @if (isset($brands))
+                                                        @foreach ($brands as $brand)
+                                                            <option style="width: 100%" value="{{ $brand->id }}"
+                                                                {{ $product->brand_id == $brand->id ? 'selected' : false }}>
+                                                                {{ $brand->name }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group"><label class="col-sm-2 control-label">Xuất xứ:</label>
+                                            <div class="col-sm-10">
+                                                <select name="origin" id=""
+                                                    class="setupSelect2 form-control">
+
+                                                    @if (isset($provinces))
+                                                        @foreach ($provinces as $province)
+                                                            <option value="{{ $province->code }}"
+                                                                {{ $product->province_id == $province->id ? 'selected' : false }}>
+                                                                {{ $province->name }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group"><label class="col-sm-2 control-label"></label>
+                                            <div class="col-sm-10">
+                                                @if (isset($colors) && isset($sizes))
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="ibox float-e-margins">
+                                                                <div class="ibox-title">
+                                                                    <h5>Các thuộc tính của sản phẩm : </h5>
+                                                                </div>
+                                                                <div class="ibox-content">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Thuộc tính</th>
+                                                                                <th>Giá</th>
+                                                                                <th>Số lượng stock</th>
+                                                                                <th>SKU</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach ($colors as $color)
+                                                                                @foreach ($sizes as $size)
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <input
+                                                                                                value="{{ $color->id }}"
+                                                                                                name="attribute_type[]"
+                                                                                                type="hidden">
+                                                                                            <input
+                                                                                                value="{{ $color->value }}"
+                                                                                                name="attribute_value[]"
+                                                                                                type="hidden">
+
+                                                                                            <input
+                                                                                                value="{{ $size->id }}"
+                                                                                                name="attribute_type[]"
+                                                                                                type="hidden">
+                                                                                            <input
+                                                                                                value="{{ $size->value }}"
+                                                                                                name="attribute_value[]"
+                                                                                                type="hidden">
+
+                                                                                            <strong>{{ $size->value }}</strong>
+                                                                                            |
+                                                                                            <strong><i
+                                                                                                    class="fa fa-circle"
+                                                                                                    style="color: {{ $color->value }}">
+                                                                                                </i></strong>
+                                                                                        </td>
+                                                                                        <td> <input
+                                                                                                value="{{ old('pricePro[]') }}"
+                                                                                                name="pricePro[]"
+                                                                                                id="priceInput"
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="$160.00">
+                                                                                        </td>
+                                                                                        <td> <input name="stock[]"
+                                                                                                type="text"
+                                                                                                class="form-control">
+                                                                                        </td>
+                                                                                        <td><input
+                                                                                                value="{{ old('sku[]') }}"
+                                                                                                name="sku[]"
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="SKU123..">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                @endforeach
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            {{-- <div id="tab-4" class="tab-pane">
+                            <div class="panel-body">
+                                <div class="table-responsive" id="gallery_load">
+                                </div>
+                            </div>
+                        </div> --}}
                         </div>
-                    </div>
+                    @endif
                 </div>
                 <div class="text-right">
                     <div class="form-group col-sm-12 m-t-xl"> <button type="submit" class="btn btn-primary">Lưu

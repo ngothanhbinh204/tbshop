@@ -31,6 +31,10 @@ class ShopController extends Controller
 
     public function index(Request $request)
     {
+        // $products = Product::with(['attribute' => function ($query) {
+        //     $query->where('type', 'color');
+        // }])->get();
+        // dd($products);
         $categories = Category::getCategories();
         $brands = Brand::getBrands();
         $colors = Attribute::getColors();
@@ -41,6 +45,9 @@ class ShopController extends Controller
             $keywords = $request->input('keywords');
         }
         $products = $this->getProduct($filters);
+
+        // Lọc màu duy nhất từ danh sách sản phẩm
+
         return view('frontend.client.shop', compact(
             'products',
             'categories',
@@ -52,6 +59,7 @@ class ShopController extends Controller
     }
     public function getProduct($filters = [])
     {
+
         $query = Product::with(['attribute']);
         // nếu tồn tại danh mục id
         if (isset($filters['category_id'])) {
@@ -106,7 +114,12 @@ class ShopController extends Controller
                     ->where('value', $filters['size']);
             });
         }
-        return $query->paginate(1);
+
+        $query->with(['attribute' => function ($query) {
+            $query->where('type', 'color');
+        }]);
+
+        return $query->paginate(9);
     }
 
     public function filterProductByCategories(Request $request)
@@ -165,7 +178,7 @@ class ShopController extends Controller
     public function productDetail($id)
     {
 
-        $product = Product::with(['categories', 'brands', 'product_attribute'])->findOrFail($id);
+        $product = Product::with(['attribute','categories', 'brands', 'product_attribute'])->findOrFail($id);
         if ($product) {
             // gallery
             $gallery = Gallery::where('product_id', $id)->get();
@@ -174,8 +187,8 @@ class ShopController extends Controller
             $colors = [];
             $sizes = [];
             $prices = [];
+
             foreach ($productAttr as $item) {
-                // Access the color_value and size_value directly from the object
                 $colors[] = $item->color_value;
                 $sizes[] = $item->size_value;
                 $colorSizePrice[] = [
@@ -184,15 +197,20 @@ class ShopController extends Controller
                     'price' => $item->price,
                 ];
             }
+
             $colorUnique = collect($colors)->unique();
             $sizeUnique = collect($sizes)->unique();
+            $productLienQuan = Product::where('category_id', $product->category_id)
+                ->get();
+            // dd($productLienQuan);
             return view('frontend.client.shopDetail', compact(
                 'product',
                 'gallery',
                 'productAttr',
                 'colorSizePrice',
                 'colorUnique',
-                'sizeUnique'
+                'sizeUnique',
+                'productLienQuan'
             ));
         }
     }

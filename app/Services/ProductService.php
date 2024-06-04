@@ -49,25 +49,23 @@ class ProductService implements ProductServiceInterface
     }
 
 
-    public function create(StoreProductRequest $request)
+    public function create(StoreProductRequest $request, $new_image)
     {
         DB::beginTransaction();
         try {
             $payload = $request->except('_token', 'files');
             $attributeTypes = $payload['attribute_type'];
             $attributeValues = $payload['attribute_value'];
+            $payload['image'] = $new_image;
             $prices = $payload['pricePro'];
             $stocks = $payload['stock'];
             $skus = $payload['sku'];
             $attributes = [];
             $priceIndex = 0;
-
             for ($i = 0; $i < count($attributeTypes); $i += 2) {
                 if (!empty($prices[$priceIndex]) && !empty($stocks[$priceIndex]) && !empty($skus[$priceIndex])) {
                     $randomSku = Str::random(4);
-
                     $sku = $skus[$priceIndex] . $randomSku;
-
                     $attributes[] = [
                         'attributes_id' => $attributeTypes[$i],
                         'attributes_value' => $attributeValues[$i],
@@ -85,14 +83,7 @@ class ProductService implements ProductServiceInterface
                 }
                 $priceIndex++;
             }
-
-            // dd($attributes);
-
-
             $product = $this->productRepository->create($payload);
-
-
-
             foreach ($attributes as $attribute) {
                 ProductAttribute::create([
                     'product_id' => $product->id,
@@ -105,7 +96,7 @@ class ProductService implements ProductServiceInterface
             }
 
             DB::commit();
-            return redirect()->route('product.index')->with('success', 'Thêm sản phẩm mới thành công');
+            return $product;
         } catch (\Exception $e) {
             DB::rollBack();
             echo $e->getMessage();
@@ -117,6 +108,12 @@ class ProductService implements ProductServiceInterface
     {
         $product = $this->productRepository->delete($id);
         return redirect()->route('product.index')->with('success', 'Xoá sản phẩm thành công');
+    }
+
+    public function update($payload, $id)
+    {
+        $product = $this->productRepository->update($payload, $id);
+        return redirect()->route('product.index')->with('success', 'Cập nhật sản phẩm thành công');
     }
 
 

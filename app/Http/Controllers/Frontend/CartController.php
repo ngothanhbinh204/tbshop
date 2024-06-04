@@ -73,6 +73,7 @@ class CartController extends Controller
             } else {
                 // chưa có user -> tạo session cart cho user
                 $cart = session()->get('cart', []);
+                // dd($cart[0]['product_size']);
                 $this->addProductToSesstionCart($cart, $product, $request);
                 session()->put('cart', $cart);
                 // $cart = session()->get('cart', []);
@@ -116,12 +117,14 @@ class CartController extends Controller
         $productQuantity = $request->product_quantity;
         $productId = $request->id_product;
 
-        foreach ($cart as $index => $item) {
-            if ($item['id_product'] == $productId && $item['product_size'] = $productSize && $item['product_color'] = $productColor) {
-                $cart[$index]['product_quantity'] += $productQuantity;
+        for ($i = 0; $i < count($cart); $i++) {
+            if (($cart[$i]['id_product'] == $productId) && ($cart[$i]['product_size'] == $productSize) && ($cart[$i]['product_color'] == $productColor)) {
+                $cart[$i]['product_quantity'] += $productQuantity;
                 return;
             }
         }
+
+
         $cart[] = [
             'product_size' => $request->product_size,
             'product_color' => $request->product_color,

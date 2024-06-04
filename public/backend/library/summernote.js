@@ -5,10 +5,6 @@ $(document).ready(function () {
 
 });
 
-
-
-
-
 $(document).ready(function () {
     $('#summernoteProduct').summernote();
     $('.input-group.date').datepicker({

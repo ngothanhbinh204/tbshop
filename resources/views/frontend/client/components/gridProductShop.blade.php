@@ -84,64 +84,7 @@
         @if (isset($products))
             @foreach ($products as $product)
                 <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="{{ $product->image }}">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}"
-                                            alt=""></a></li>
-                                <li><a href="#"><img src="{{ asset('frontend/img/icon/compare.png') }}"
-                                            alt="">
-                                        <span>Compare</span></a>
-                                </li>
-                                <li><a href="{{ route('client.product.detail', ['id' => $product->id]) }}"><img
-                                            src="{{ asset('frontend/img/icon/search.png') }}" alt=""></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>{{ $product->name }}</h6>
-                            <a href="{{ route('client.product.detail', ['id' => $product->id]) }}" class="add-cart">+
-                                Xem chi tiết</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5> {{ number_format($product->attribute[0]->pivot->price, 0, ',', '.') }} đ</h5>
-                            {{ $product->attribute[0]->pivot->attribute_value }}
-                            <div class="product__color__select">
-                                @if ($product->attribute->isNotEmpty())
-                                    <ul>
-                                        @foreach ($product->attribute as $attribute)
-                                            @php
-                                                // Giải mã attribute_value nếu nó là JSON
-                                                $attributeValue = json_decode($attribute->pivot->attribute_value, true);
-                                            @endphp
-                                            @if (isset($attributeValue['type']) && $attributeValue['type'] === 'color')
-                                                @foreach ($product->attribute as $color)
-                                                    <label style="background : {{ $attributeValue['value'] }}"
-                                                        for="">
-                                                        <input type="radio" id="">
-                                                    </label>
-                                                @endforeach
-                                            @else
-                                                <label style="background :   {{ $attribute->pivot->attribute_value }}"
-                                                    for="">
-                                                    <input type="radio" id="">
-                                                </label>
-                                            @endif
-                                        @endforeach
-
-
-                                    </ul>
-                                @else
-                                    <p>Không có màu</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                    @include('frontend.client.components.productSingle')
                 </div>
             @endforeach
         @endif

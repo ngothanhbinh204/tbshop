@@ -23,10 +23,26 @@ class HomeController extends Controller
                 $query->where('type', 'color');
             }])->distinct()
             ->get();
-        // dd($productsNew_hotSale);
+
+        // Lấy sản phẩm mới nhất
+        $newPro = Product::orderBy('created_at', 'desc')
+            ->get();
+
+        $salePro = Product::where('price_sale', '>', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $bestOrderPro = Product::withCount('orders')
+            ->orderByDesc('orders_count')
+            ->limit(10)
+            ->get();
+
         return view('frontend.client.home', compact(
             'productsNew_hotSale',
             'latestBlogs',
+            'newPro',
+            'salePro',
+            'bestOrderPro'
         ));
     }
 

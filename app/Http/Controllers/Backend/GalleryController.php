@@ -94,6 +94,7 @@ class GalleryController extends Controller
 
     public function selectGallery(Request $request)
     {
+        dd("ABC");
         $product_id = $request->pro_id;
         $gallery = Gallery::where('product_id', $product_id)->get();
         $gallery_count = $gallery->count();

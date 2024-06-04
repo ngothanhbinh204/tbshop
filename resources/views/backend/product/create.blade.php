@@ -13,7 +13,7 @@
         </div>
     @endif
     <div class="row">
-        <form action="{{ route('product.store') }}" method="post">
+        <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="col-lg-12">
                 <div class="tabs-container">
@@ -68,6 +68,16 @@
                                         <div class="col-sm-10"><input value="{{ old('price_sale') }}" name="price_sale"
                                                 id="" type="number" class="form-control"
                                                 placeholder="$160.00"></div>
+                                    </div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">Hình ảnh:</label>
+
+                                        <div class="col-sm-10">
+
+                                            <input type="file" class="form-control" id="file" name="image"
+                                                accept="image/*">
+                                            <span id="error_gallery"></span>
+                                        </div>
+
                                     </div>
                                     {{-- <div class="form-group"><label class="col-sm-2 control-label">Mã hàng hóa:</label>
                                         <div class="col-sm-10">
@@ -218,153 +228,18 @@
                                                     </div>
                                                 </div>
                                             @endif
-
-
                                         </div>
                                     </div>
                                 </fieldset>
                             </div>
                         </div>
-                        <div id="tab-4" class="tab-pane">
+
+                        {{-- <div id="tab-4" class="tab-pane">
                             <div class="panel-body">
-
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-stripped">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    Image preview
-                                                </th>
-                                                <th>
-                                                    Image url
-                                                </th>
-                                                <th>
-                                                    Sort order
-                                                </th>
-                                                <th>
-                                                    Actions
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/2s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image1.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="1">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/1s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image2.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="2">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/3s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image3.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="3">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/4s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image4.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="4">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/5s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image5.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="5">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/6s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image6.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="6">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="img/gallery/7s.jpg">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" disabled
-                                                        value="http://mydomain.com/images/image7.png">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" value="7">
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-white"><i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="table-responsive" id="gallery_load">
                                 </div>
-
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="text-right">

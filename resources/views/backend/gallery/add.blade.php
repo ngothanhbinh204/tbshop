@@ -44,18 +44,20 @@
                     <li class="active"><a data-toggle="tab" href="#tab-4"> Hình ảnh</a></li>
                 </ul>
                 <div class="tab-content">
+
                     <form action="">
                         @csrf
                         <input type="hidden" value="{{ $pro_id }}" name="pro_id" class="pro_id">
                         <div id="tab-4" class="tab-pane active">
                             <div class="panel-body">
                                 <div class="table-responsive" id="gallery_load">
-
                                 </div>
-
                             </div>
                         </div>
                     </form>
+
+                    <script></script>
+
                 </div>
             </div>
             <div class="text-right">

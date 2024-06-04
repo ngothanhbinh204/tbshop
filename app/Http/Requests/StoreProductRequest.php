@@ -25,6 +25,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'image' => 'required',
             // 'price' => 'required|numeric',
             'description' => 'required|string',
             'price_sale' => 'nullable|numeric',
@@ -43,6 +44,8 @@ class StoreProductRequest extends FormRequest
             'name.required' => 'Tên sản phẩm là bắt buộc.',
             'name.string' => 'Tên sản phẩm phải là chuỗi.',
             'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
+
+            'image.required' => 'Ảnh sản phẩm là bắt buộc.',
             // 'price.required' => 'Giá là bắt buộc.',
             // 'price.numeric' => 'Giá phải là số.',
             'description.required' => 'Mô tả là bắt buộc.',

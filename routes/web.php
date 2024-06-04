@@ -74,7 +74,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('product_attribute/{id}', [ProductController::class, 'productAttributes'])->name('product.productAttributes')->middleware('admin');
     Route::get('detail/{id}', [ProductController::class, 'detail'])->name('product.detail')->middleware('admin');
     Route::get('edit/{id}', [ProductController::class, 'edit'])->name('product.edit')->middleware('admin');
-    Route::put('update/{id}', [ProductController::class, 'updateProduct'])->name('product.update')->middleware('admin');
+    Route::post('update/{id}', [ProductController::class, 'update'])->name('product.update')->middleware('admin');
     Route::delete('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
     // Route::put('removePost/{id}', [ProductController::class, 'removePost'])->name('product.removePost')->middleware('admin');
 });
@@ -84,11 +84,12 @@ Route::group(['prefix' => 'attribute'], function () {
     Route::get('index', [AttributeController::class, 'index'])->name('attribute.index')->middleware('admin');
     Route::get('create', [AttributeController::class, 'create'])->name('attribute.create')->middleware('admin');
     Route::post('store', [AttributeController::class, 'store'])->name('attribute.store')->middleware('admin');
+    // Route::post('update', [AttributeController::class, 'update'])->name('attribute.update')->middleware('admin');
 });
-
 
 /* GALLERY */
 Route::get('gallery/add/{product_id}', [GalleryController::class, 'addGallery'])->name('admin.gallery.add');
+
 Route::post('gallery/select-gallery', [GalleryController::class, 'selectGallery'])->name('admin.gallery.select');
 Route::post('gallery/insert-gallery/{pro_id}', [GalleryController::class, 'insertGallery'])->name('admin.gallery.insert');
 Route::post('gallery/update-gallery-image', [GalleryController::class, 'updateGalleryImage'])->name('admin.gallery.update_image');

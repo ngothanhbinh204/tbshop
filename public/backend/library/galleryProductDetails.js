@@ -1,3 +1,8 @@
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 $(document).ready(function () {
 
     load_gallery();
@@ -5,13 +10,13 @@ $(document).ready(function () {
     // Hàm load table gallery
    function load_gallery(){
    var pro_id =  $('.pro_id').val();
+//    console.log("ádads");
    var _token = $('input[name="_token"]').val();
-    // alert(pro_id);
+    alert(pro_id);
     $.ajax({
         url: '/gallery/select-gallery',
         method: "POST",
         data: {
-            _token : _token,
             pro_id : pro_id,
         },
         success:function (data) {
