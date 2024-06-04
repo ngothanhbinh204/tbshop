@@ -3,6 +3,6 @@
         10GB of <strong>250GB</strong> Free.
     </div>
     <div>
-        <strong>Copyright</strong> Example Company &copy; 2014-2017
+        <strong>Copyright</strong> ngothanhbinh.click Company &copy; 2024
     </div>
 </div>

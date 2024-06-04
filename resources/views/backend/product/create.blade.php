@@ -67,7 +67,7 @@
                                             mãi:</label>
                                         <div class="col-sm-10"><input value="{{ old('price_sale') }}" name="price_sale"
                                                 id="" type="number" class="form-control"
-                                                placeholder="$160.00"></div>
+                                                placeholder="25%"></div>
                                     </div>
                                     <div class="form-group"><label class="col-sm-2 control-label">Hình ảnh:</label>
 

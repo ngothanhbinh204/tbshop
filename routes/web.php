@@ -75,7 +75,7 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('detail/{id}', [ProductController::class, 'detail'])->name('product.detail')->middleware('admin');
     Route::get('edit/{id}', [ProductController::class, 'edit'])->name('product.edit')->middleware('admin');
     Route::post('update/{id}', [ProductController::class, 'update'])->name('product.update')->middleware('admin');
-    Route::delete('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+    Route::delete('delete', [ProductController::class, 'delete'])->name('product.delete');
     // Route::put('removePost/{id}', [ProductController::class, 'removePost'])->name('product.removePost')->middleware('admin');
 });
 
@@ -102,8 +102,8 @@ Route::group(['prefix' => 'category'], function () {
     Route::get('index', [CategoryController::class, 'index'])->name('category.index')->middleware('admin');
     Route::get('product-in-category/{id}', [CategoryController::class, 'productInCate'])->name('category.product_in_cate')->middleware('admin');
     Route::post('store', [CategoryController::class, 'store'])->name('category.store')->middleware('admin');
-    Route::delete('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete')->middleware('admin');
     Route::put('edit/{id}', [CategoryController::class, 'update'])->name('category.update')->middleware('admin');
+    Route::delete('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete')->middleware('admin');
 });
 
 /* ROLES */

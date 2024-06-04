@@ -20,6 +20,7 @@ $(document).ready(function () {
 
     $('.deleteItem').click(function () {
         var productId = $(this).data('product-id');
+        var _url = $(this).data('action');
         swal({
             title: "Bạn chắc chắn xoá không?",
             text: "Sản phẩm sau khi xoá sẽ không thể khôi phục!",
@@ -32,9 +33,10 @@ $(document).ready(function () {
             if (isConfirmed) {
                 // Gửi yêu cầu xóa sản phẩm bằng phương thức POST
                 $.ajax({
-                    url: 'product/delete/' + productId , // Thay đổi đường dẫn tùy thuộc vào URL của bạn
+                    url: _url , 
                     type: 'POST',
                     data: {
+                        id: productId,
                         _method: 'DELETE', // Sử dụng phương thức DELETE thông qua _method
                         _token: _token 
                     },

@@ -1,26 +1,34 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+// $.ajaxSetup({
+//     headers: {
+//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//     }
+// });
 $(document).ready(function () {
+        // alert("âcsd");
 
     load_gallery();
 
     // Hàm load table gallery
    function load_gallery(){
    var pro_id =  $('.pro_id').val();
-//    console.log("ádads");
    var _token = $('input[name="_token"]').val();
-    alert(pro_id);
+    // alert(pro_id);
     $.ajax({
         url: '/gallery/select-gallery',
         method: "POST",
         data: {
+            _token : _token,
             pro_id : pro_id,
         },
         success:function (data) {
             $('#gallery_load').html(data);
+        },
+        error: function (xhr, status, error) {
+            console.log("lỗi", xhr);
+            console.log("lỗi", status);
+            console.log("lỗi", error);
+
+            // swal("Lỗi!", "Đã xảy ra lỗi khi xoá sản phẩm.", "error");
         }
     });
    }

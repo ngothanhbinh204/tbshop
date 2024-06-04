@@ -72,7 +72,6 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     Thêm thuộc tính
 </button>
-</div>
 <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated bounceInRight">

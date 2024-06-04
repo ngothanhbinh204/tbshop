@@ -1,8 +1,14 @@
 @include('backend.dashboard.components.heading', [
     'title' => config('apps.categories.index.title'),
 ])
+
+
 <div class="row">
+    
     <div class="col-lg-12">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Thêm danh mục sản phẩm
+        </button>
         <div class="ibox">
             <div class="ibox-content">
 
@@ -25,21 +31,25 @@
                                         </a>
                                     </td>
                                     <td>{{ $category->slug }}</td>
-                                    <td>{{ $category->description }}</td>
+                                    <td>{!! $category->description !!}</td>
                                     <td class="text-right">
                                         <div class="">
                                             <a href="" class="btn btn-circle btn-primary dim">
                                                 <i class="fa fa-edit">
                                                 </i>
                                             </a>
-                                            <form action="" method="POST">
-                                                @csrf
+                                            <form action="{{ route('category.delete', $id = $category->id) }}"
+                                                id="form-remove-category-{{ $category->id }}" method="post">
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-circle btn-danger">
+                                                @csrf
+                                                {{-- @method('DELETE') --}}
+                                                <button type="submit" data-id="{{ $category->id }}"
+                                                    class="btn btn-circle btn-danger btn-remove-category">
                                                     <i class="fa fa-trash ">
                                                     </i>
                                                 </button>
                                             </form>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -58,47 +68,48 @@
             </div>
         </div>
     </div>
+
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    Thêm danh mục sản phẩm
-</button>
-</div>
 <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content animated bounceInRight">
+        <div class="modal-content animated bounceInDown">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
                         class="sr-only">Close</span></button>
-                <i class="fa fa-laptop modal-icon"></i>
-                <h4 class="modal-title">Thêm thuộc tính</h4>
-                <small class="font-bold">Thêm thuộc tính như màu sắc, kích thước cho sản phẩm</small>
+                {{-- <i class="fa fa-laptop modal-icon"></i> --}}
+                <h4 class="modal-title">Thêm Danh Mục Sản Phẩm</h4>
+                <small class="font-bold">Thêm danh mục mới cho sản phẩm</small>
             </div>
             <form action="{{ route('category.store') }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Tên thuộc tính</label>
-                        <select name="type" id="inputcategory" class="form-control" required>
-                            <option value="color">Màu sắc</option>
-                            <option value="size">Kích thước</option>
+                        <label>Tên danh mục</label>
+                        <input name="name" type="text" class="form-control" placeholder="Phụ kiện ...">
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả danh mục</label>
+                        <textarea name="description" id="summernoteProduct"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parent_id">Danh mục cha:</label>
+                        <select class="form-control" id="parent_id" name="parent_id">
+                            <option value="">ROOT</option>
+                            @foreach ($categories2 as $category)
+                                @include('backend.category.components.category', [
+                                    'category' => $category,
+                                    'level' => 0,
+                                ])
+                            @endforeach
                         </select>
                     </div>
-                    <div class="form-group colorClassname">
-                        <label>Giá trị màu sắc</label>
-                        <input name="value" id="v1" class="form-control" type="color"
-                            placeholder="Chọn màu sắc" class="form-control" value="df">
 
-                    </div>
-                    <div style="display:none" class="form-group sizeClassname">
-                        <label>Giá trị kích thước</label>
-                        <input name="" id="v2" class="form-control " type="text"
-                            placeholder="Nhập kích thước ( S - M - L - XL - ...)" class="form-control">
-                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Tạo danh mục</button>
                 </div>
             </form>
         </div>

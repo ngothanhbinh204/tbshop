@@ -127,7 +127,8 @@
                                                                 <i class="fa fa-edit ">
                                                                 </i>
                                                             </a>
-                                                            <button type="submit" data-product-id="{{ $product->id }}"
+                                                            <button data-action="{{ route('product.delete') }}"
+                                                                type="submit" data-product-id="{{ $product->id }}"
                                                                 class="btn btn-circle btn-danger deleteItem">
                                                                 <i class="fa fa-trash ">
                                                                 </i>

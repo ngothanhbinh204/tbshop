@@ -230,9 +230,10 @@ class ProductController extends Controller
         return redirect()->route('product.index')->with('success', 'Cập nhật sản phẩm thành công');
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        if ($this->productService->delete($id)) {
+        // dd($request->all());
+        if ($this->productService->delete($request->id)) {
             return redirect()->route('product.index')->with('success', 'Xoá sản phẩm thành công');
         }
         return redirect()->route('product.index')->with('error', 'Xoá sản phẩm không thành công, Hãy thử lại ');

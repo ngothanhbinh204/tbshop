@@ -10,6 +10,7 @@
 <script src="{{ asset('backend/library/statistical.js') }}"></script>
 <script src="{{ asset('backend/library/chartDonut.js') }}"></script>
 <script src="{{ asset('backend/library/update_order_quantity.js') }}"></script>
+<script src="{{ asset('backend/library/removeCategory.js') }}"></script>
 <script src="{{ asset('backend/library/galleryProductDetails.js') }}"></script>
 
 <script src="{{ asset('backend/library/summernote.js') }}"></script>
