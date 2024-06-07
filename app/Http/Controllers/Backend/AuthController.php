@@ -21,8 +21,15 @@ class AuthController extends Controller
 
     public function index()
     {
+        // $user = auth()->user();
+        // dd($user);
+
         if (Auth::id() > 0) {
-            return redirect()->route('dashboard.index');
+            $user = auth()->user();
+            if ($user->user_role === 1) {
+                // dd("Có");
+                return redirect()->route('dashboard.index');
+            } 
         };
         return view('backend.auth.login');
     }
@@ -65,16 +72,28 @@ class AuthController extends Controller
     // Trước khi vào được phương thức login -> chạy qua AuthRequest sau đó mơi tới login ( check form )
     // Pass được request -> chạy login
     {
+        // dd("ádasd");
         $credentials = [
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ];
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            $user = Auth::user();
 
-            return redirect()->route('dashboard.index')->with('success', 'Đăng Nhập Thành Công');
+            $user = Auth::user();
+            $user->user_role;
+            // Kiểm tra nếu người dùng đã đăng nhập và là admin, chuyển hướng đến dashboard
+            if ($user->user_role == 1) {
+                // dd($user->user_role);
+                return redirect()->route('dashboard.index')->with('success', 'Đăng Nhập Thành Công');
+            } else {
+                // dd($user->user_role);
+                Auth::logout();
+                return redirect()->route('home.index')->with('error', 'Bạn không có quyền vào trang này !!! 2');
+            }
         }
+
         return redirect()->route('auth.admin')->with('error', 'Email hoặc mật khẩu không chính xác');
     }
 

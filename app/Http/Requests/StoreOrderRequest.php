@@ -26,9 +26,9 @@ class StoreOrderRequest extends FormRequest
         $rules = [
             'user_name' => 'required|string|max:255',
             'user_email' => 'required|email|max:255',
-            'province_id' => 'required|exists:provinces,code',
-            'district_id' => 'required|exists:districts,code',
-            'ward_id' => 'required|exists:wards,code',
+            // 'province_id' => 'required|exists:provinces,code',
+            // 'district_id' => 'required|exists:districts,code',
+            // 'ward_id' => 'required|exists:wards,code',
             'user_address' => 'required|string|max:255',
             'user_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'ship' => 'required',
@@ -57,14 +57,14 @@ class StoreOrderRequest extends FormRequest
             'user_email.email' => 'Email không đúng định dạng.',
             'user_email.max' => 'Email không được vượt quá 255 ký tự.',
 
-            'province_id.required' => 'Thành phố là bắt buộc.',
-            'province_id.exists' => 'Thành phố không tồn tại.',
+            // 'province_id.required' => 'Thành phố là bắt buộc.',
+            // 'province_id.exists' => 'Thành phố không tồn tại.',
 
-            'district_id.required' => 'Quận/Huyện là bắt buộc.',
-            'district_id.exists' => 'Quận/Huyện không tồn tại.',
+            // 'district_id.required' => 'Quận/Huyện là bắt buộc.',
+            // 'district_id.exists' => 'Quận/Huyện không tồn tại.',
 
-            'ward_id.required' => 'Phường/Xã là bắt buộc.',
-            'ward_id.exists' => 'Phường/Xã không tồn tại.',
+            // 'ward_id.required' => 'Phường/Xã là bắt buộc.',
+            // 'ward_id.exists' => 'Phường/Xã không tồn tại.',
 
             'user_address.required' => 'Địa chỉ là bắt buộc.',
             'user_address.string' => 'Địa chỉ phải là chuỗi ký tự.',

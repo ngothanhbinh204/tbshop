@@ -164,7 +164,7 @@
 
                                         <div class="form-group"><label class="col-sm-2 control-label"></label>
                                             <div class="col-sm-10">
-                                                @if (isset($colors) && isset($sizes))
+                                                @if ($product->product_attribute)
                                                     <div class="row">
                                                         <div class="col">
                                                             <div class="ibox float-e-margins">
@@ -182,57 +182,61 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            @foreach ($colors as $color)
-                                                                                @foreach ($sizes as $size)
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            <input
-                                                                                                value="{{ $color->id }}"
-                                                                                                name="attribute_type[]"
-                                                                                                type="hidden">
-                                                                                            <input
-                                                                                                value="{{ $color->value }}"
-                                                                                                name="attribute_value[]"
-                                                                                                type="hidden">
+                                                                            @if ($product->product_attribute)
+                                                                                {{-- @foreach ($colors as $color)
+                                                                                    @foreach ($sizes as $size)
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <input
+                                                                                                    value="{{ $color->id }}"
+                                                                                                    name="attribute_type[]"
+                                                                                                    type="hidden">
+                                                                                                <input
+                                                                                                    value="{{ $color->value }}"
+                                                                                                    name="attribute_value[]"
+                                                                                                    type="hidden">
 
-                                                                                            <input
-                                                                                                value="{{ $size->id }}"
-                                                                                                name="attribute_type[]"
-                                                                                                type="hidden">
-                                                                                            <input
-                                                                                                value="{{ $size->value }}"
-                                                                                                name="attribute_value[]"
-                                                                                                type="hidden">
+                                                                                                <input
+                                                                                                    value="{{ $size->id }}"
+                                                                                                    name="attribute_type[]"
+                                                                                                    type="hidden">
+                                                                                                <input
+                                                                                                    value="{{ $size->value }}"
+                                                                                                    name="attribute_value[]"
+                                                                                                    type="hidden">
 
-                                                                                            <strong>{{ $size->value }}</strong>
-                                                                                            |
-                                                                                            <strong><i
-                                                                                                    class="fa fa-circle"
-                                                                                                    style="color: {{ $color->value }}">
-                                                                                                </i></strong>
-                                                                                        </td>
-                                                                                        <td> <input
-                                                                                                value="{{ old('pricePro[]') }}"
-                                                                                                name="pricePro[]"
-                                                                                                id="priceInput"
-                                                                                                type="text"
-                                                                                                class="form-control"
-                                                                                                placeholder="$160.00">
-                                                                                        </td>
-                                                                                        <td> <input name="stock[]"
-                                                                                                type="text"
-                                                                                                class="form-control">
-                                                                                        </td>
-                                                                                        <td><input
-                                                                                                value="{{ old('sku[]') }}"
-                                                                                                name="sku[]"
-                                                                                                type="text"
-                                                                                                class="form-control"
-                                                                                                placeholder="SKU123..">
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @endforeach
-                                                                            @endforeach
+                                                                                                <strong>{{ $size->value }}</strong>
+                                                                                                |
+                                                                                                <strong><i
+                                                                                                        class="fa fa-circle"
+                                                                                                        style="color: {{ $color->value }}">
+                                                                                                    </i></strong>
+                                                                                            </td>
+                                                                                            <td> <input
+                                                                                                    value="{{ old('pricePro[]') }}"
+                                                                                                    name="pricePro[]"
+                                                                                                    id="priceInput"
+                                                                                                    type="text"
+                                                                                                    class="form-control"
+                                                                                                    placeholder="$160.00">
+                                                                                            </td>
+                                                                                            <td> <input name="stock[]"
+                                                                                                    type="text"
+                                                                                                    class="form-control">
+                                                                                            </td>
+                                                                                            <td><input
+                                                                                                    value="{{ old('sku[]') }}"
+                                                                                                    name="sku[]"
+                                                                                                    type="text"
+                                                                                                    class="form-control"
+                                                                                                    placeholder="SKU123..">
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    @endforeach
+                                                                                @endforeach --}}
+
+                                                                            @endif
+
                                                                         </tbody>
                                                                     </table>
                                                                 </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Gallery;
+use App\Models\Comment;
 use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\ProductAttribute;
@@ -178,11 +179,12 @@ class ShopController extends Controller
     public function productDetail($id)
     {
 
-        $product = Product::with(['attribute','categories', 'brands', 'product_attribute'])->findOrFail($id);
+        $product = Product::with(['attribute', 'categories', 'brands', 'product_attribute'])->findOrFail($id);
         if ($product) {
             // gallery
             $gallery = Gallery::where('product_id', $id)->get();
             $productAttr = $this->productService->getProductAttributePairs($id);
+            $comments = Comment::with('product', 'user')->where('product_id', $id)->orderByDesc('created_at')->get();
             $colorSizePrice = [];
             $colors = [];
             $sizes = [];
@@ -206,11 +208,12 @@ class ShopController extends Controller
             return view('frontend.client.shopDetail', compact(
                 'product',
                 'gallery',
+                'comments',
                 'productAttr',
                 'colorSizePrice',
                 'colorUnique',
                 'sizeUnique',
-                'productLienQuan'
+                'productLienQuan',
             ));
         }
     }

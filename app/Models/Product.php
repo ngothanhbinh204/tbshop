@@ -58,6 +58,11 @@ class Product extends Model
         return $this->belongsToMany(Order::class, 'product_order', 'id_product', 'id_order');
     }
 
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public static function getById($id)
     {
         return self::where('id', '=', $id)->first();

@@ -10,72 +10,81 @@
     @if (session('message'))
         <h2 style="text-align: center; width: 100%; color: red">{{ session('message') }}</h2>
     @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     @if (isset($product))
-        <form action="{{ route('client.cart.add') }}" method="post">
-            @csrf
-            <input name="id_product" type="hidden" value="{{ $product->id }}">
-            <section class="shop-details">
-                <div class="product__details__pic">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="product__details__breadcrumb">
-                                    <a href="{{ route('home.index') }}">Trang Chủ</a>
-                                    <a href="{{ route('shop.index') }}">Cửa hàng</a>
-                                    <span>Chi tiết sản phẩm</span>
-                                </div>
+
+        <section class="shop-details">
+            <div class="product__details__pic">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product__details__breadcrumb">
+                                <a href="{{ route('home.index') }}">Trang Chủ</a>
+                                <a href="{{ route('shop.index') }}">Cửa hàng</a>
+                                <span>Chi tiết sản phẩm</span>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
-                                            <div class="product__thumb__pic set-bg"
-                                                data-setbg="img/shop-details/thumb-1.png">
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
-                                            <div class="product__thumb__pic set-bg"
-                                                data-setbg="img/shop-details/thumb-2.png">
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
-                                            <div class="product__thumb__pic set-bg"
-                                                data-setbg="img/shop-details/thumb-3.png">
-                                            </div>
-                                        </a>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <style type="text/css">
-                                    .lSSlideOuter .lSPager.lSGallery img {
-                                        display: block;
-                                        height: 135px;
-                                        max-width: 100%;
-                                    }
-                                </style>
-                                <div class="tab-content">
-                                    <ul id="lightSlider">
-                                        @foreach ($gallery as $key => $gal)
-                                            <li data-thumb="{{ asset('uploads/gallery/' . $gal->image) }}"
-                                                data-src="{{ asset('uploads/gallery/' . $gal->image) }}">
-                                                <img src="{{ asset('uploads/gallery/' . $gal->image) }}" alt="">
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                                        <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-1.png">
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+                                        <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-2.png">
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
+                                        <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-3.png">
+                                        </div>
+                                    </a>
+                                </li>
 
-                                </div>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <style type="text/css">
+                                .lSSlideOuter .lSPager.lSGallery img {
+                                    display: block;
+                                    height: 135px;
+                                    max-width: 100%;
+                                }
+                            </style>
+                            <div class="tab-content">
+                                <ul id="lightSlider">
+                                    @foreach ($gallery as $key => $gal)
+                                        <li data-thumb="{{ asset('uploads/gallery/' . $gal->image) }}"
+                                            data-src="{{ asset('uploads/gallery/' . $gal->image) }}">
+                                            <img src="{{ asset('uploads/gallery/' . $gal->image) }}" alt="">
+                                        </li>
+                                    @endforeach
+                                </ul>
+
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <form action="{{ route('client.cart.add') }}" method="post">
+                @csrf
+                <input name="id_product" type="hidden" value="{{ $product->id }}">
                 <div id="productInfo" class="product__details__content">
                     <div class="container">
                         <div class="row d-flex justify-content-center">
@@ -92,17 +101,22 @@
                                         @if (isset($product->price_sale))
                                             <span
                                                 style="
-                                    background-color: black;
-                                    color: white;
-                                    padding: 5px
-                                    ">Giảm
+                                                background-color: black;
+                                                color: white;
+                                                padding: 5px
+                                                  ">Giảm
                                                 {{ number_format($product->price_sale, 0, ',', '.') }} %</span>
                                         @endif
 
                                     </div>
                                     <h3>
                                         <input type="hidden" id="hiddenPriceInput" name="product_price">
+
+                                        <input type="hidden" id="priceSale" name="price_sale"
+                                            value="{{ $product->price_sale }}">
+
                                         <div class="priceStock" id="priceDisplaySale"></div>
+
                                         <div id="priceDisplayStock"></div>
                                         <span></span>
                                     </h3>
@@ -159,7 +173,7 @@
                                                 <div class="" id="stockDisplay"></div>
                                             </li>
                                             <li><span>Danh mục:</span> {{ $product->categories->name }}</li>
-                                            <li><span>Tag:</span> Clothes, Skin, Body</li>
+                                            {{-- <li><span>Tag:</span> Clothes, Skin, Body</li> --}}
                                         </ul>
                                     </div>
                                 </div>
@@ -170,11 +184,13 @@
                                 <div class="product__details__tab">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="tab" href="#tabs-5" role="tab">Mô
+                                            <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                                                role="tab">Mô
                                                 tả</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Khách hàng
+                                            <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Khách
+                                                hàng
                                                 đánh giá</a>
                                         </li>
                                         <li class="nav-item">
@@ -282,9 +298,106 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
-            </section>
-        </form>
+            </form>
+            <div class="product__details__content">
+                <div class="container">
+                    <div class="row d-flex justify-content-center">
+                        <div class="blog__details__comment">
+                            <h4>Khu vực bình luận</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 comments p-4 mb-3">
+                                    @if ($comments)
+                                        @foreach ($comments as $item)
+                                            <div class="blog__details__author mb-3">
+                                                <div class="blog__details__author__pic">
+                                                    @if (isset($item->user->image))
+                                                        <img src="{{ asset('uploads/user/' . $item->user->image) }}"
+                                                            alt="">
+                                                    @else
+                                                        <img src="{{ asset('uploads/user/user_default.jpg') }}"
+                                                            alt="">
+                                                    @endif
+
+                                                </div>
+                                                <div class="blog__details__author__text">
+                                                    <span class="mr-3">{{ $item->user->username }}</span>
+
+                                                    <span>
+                                                        <i style="color: #ffd43b" class="fa fa-clock-o"
+                                                            aria-hidden="true"></i>
+                                                        {{ date('d-m-Y, H:i:s', strtotime($item->created_at)) }}
+                                                    </span>
+                                                </div>
+                                                <p class="m-2"> <strong>Nội dung :</strong> {{ $item->comment }}</p>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                <form method="POST" action="{{ route('client.comment.store', $id = $product->id) }}">
+                                    {{-- @method('POST') --}}
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 mb-3 block-comment">
+                                            @if (auth()->user())
+                                                <section class='rating-widget'>
+                                                    <div class='rating-stars text-center'>
+                                                        <p>Gửi đánh giá</p>
+                                                        <input type="hidden" class="star_rating_value" name="star">
+                                                        <ul id='stars'>
+                                                            <li class='star' title='Rất tệ' data-value='1'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Tệ' data-value='2'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Tốt' data-value='3'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Tuyệt' data-value='4'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Cực kỳ tốt!!!' data-value='5'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div style="display: none" class='success-box'>
+                                                        <div class='clearfix'></div>
+                                                        <img alt='tick image' width='32'
+                                                            src='data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0MjYuNjY3IDQyNi42NjciIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQyNi42NjcgNDI2LjY2NzsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxwYXRoIHN0eWxlPSJmaWxsOiM2QUMyNTk7IiBkPSJNMjEzLjMzMywwQzk1LjUxOCwwLDAsOTUuNTE0LDAsMjEzLjMzM3M5NS41MTgsMjEzLjMzMywyMTMuMzMzLDIxMy4zMzMgIGMxMTcuODI4LDAsMjEzLjMzMy05NS41MTQsMjEzLjMzMy0yMTMuMzMzUzMzMS4xNTcsMCwyMTMuMzMzLDB6IE0xNzQuMTk5LDMyMi45MThsLTkzLjkzNS05My45MzFsMzEuMzA5LTMxLjMwOWw2Mi42MjYsNjIuNjIyICBsMTQwLjg5NC0xNDAuODk4bDMxLjMwOSwzMS4zMDlMMTc0LjE5OSwzMjIuOTE4eiIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K' />
+                                                        <div class='text-message'></div>
+                                                        <div class='clearfix'></div>
+                                                    </div>
+                                                </section>
+                                                <div class="col-lg-12 text-center">
+                                                    <textarea placeholder="Đánh giá về sản phẩm" name="comment"></textarea>
+                                                    <button type="submit" class="site-btn write-comment">Gửi bình
+                                                        luận</button>
+                                                </div>
+                                            @else
+                                                <span class="text-danger">Vui lòng đăng nhập để đánh giá sản phẩm
+                                                    <div class="ml-2">
+                                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                                        <a href="{{ route('login.client.index') }}">Đăng nhập ngay</a>
+                                                    </div>
+                                                </span>
+                                            @endif
+
+                                        </div>
+
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+        </section>
+
     @endif
     <!-- Shop Details Section End -->
 
@@ -340,6 +453,8 @@
                 var color = $('input[name="product_color"]:checked').val();
                 var size = $('input[name="product_size"]:checked').val();
                 var idPro = $('#idPro').val();
+                var price_sale = $('#priceSale').val();
+                // console.log(price_sale);
                 var addToCartBtn = $('#addToCartBtn');
                 addToCartBtn.prop('disabled', true);
                 var selectedColor = color;
@@ -361,8 +476,10 @@
                             size: size
                         },
                         success: function(response) {
-                            $('#priceDisplayStock').html('Giá: ' + response.price);
                             $('#priceDisplaySale').html(response.price);
+                            $('#priceDisplayStock').html('Giá: ' + (response.price - (price_sale *
+                                0.01 *
+                                response.price)) + ' VNĐ');
                             $('#skuDisplay').html('SKU: ' + response.sku);
                             $('#stockDisplay').html('Còn lại :' + response.stock);
                             $('#priceInput').val(response.price);
@@ -391,5 +508,57 @@
             // $('#sizeSelect').change(updatePrice);
             updatePrice();
         });
+
+        $(document).ready(function() {
+            $('#stars li').on('mouseover', function() {
+                var onStar = parseInt($(this).data('value'), 10);
+                $(this).parent().children('li.star').each(function(e) {
+                    if (e < onStar) {
+                        $(this).addClass('hover');
+                    } else {
+                        $(this).removeClass('hover');
+                    }
+                });
+            }).on('mouseout', function() {
+                $(this).parent().children('li.star').each(function(e) {
+                    $(this).removeClass('hover');
+                });
+            });
+
+            /* 2. Action to perform on click */
+            $('#stars li').on('click', function() {
+                var inputValueRating = $('.star_rating_value');
+                var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+                var stars = $(this).parent().children('li.star');
+
+                for (i = 0; i < stars.length; i++) {
+                    $(stars[i]).removeClass('selected');
+                }
+
+                for (i = 0; i < onStar; i++) {
+                    $(stars[i]).addClass('selected');
+                }
+
+                // JUST RESPONSE (Not needed)
+                var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+                inputValueRating.val(ratingValue);
+                var value = inputValueRating.val();
+                console.log(value);
+                var msg = "";
+                if (ratingValue > 1) {
+                    msg = "Cảm ơn bạn đã đánh giá " + ratingValue + " sao.";
+                } else {
+                    msg = "Chúng tôi sẽ cải thiện chất lượng sản phẩm. Bạn đã đánh giá " + ratingValue +
+                        " sao.";
+                }
+                responseMessage(msg);
+            });
+        });
+
+
+        function responseMessage(msg) {
+            $('.success-box').fadeIn(200);
+            $('.success-box div.text-message').html("<span>" + msg + "</span>");
+        }
     </script>
 @endsection

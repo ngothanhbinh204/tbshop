@@ -33,11 +33,11 @@ class ProductOrder extends Model
         return $this->belongsTo(Order::class, 'id_order');
     }
 
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'id_product');
     }
-
 
     public function product_attribute()
     {

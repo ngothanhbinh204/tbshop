@@ -46,6 +46,7 @@
 <script src="{{ asset('backend/js/inspinia.js') }}"></script>
 <script src="{{ asset('backend/js/plugins/pace/pace.min.js') }}"></script>
 
+<script src="{{ asset('backend/js/plugins/chosen/chosen.jquery.js') }}"></script>
 
 <!-- SUMMERNOTE -->
 <script src="{{ asset('backend/js/plugins/summernote/summernote.min.js') }}"></script>

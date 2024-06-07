@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    {{-- @if ($errors->any())
+    @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -21,7 +21,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif --}}
+    @endif
     <div class="container">
         <input type="checkbox" id="flip">
         <div class="cover">
@@ -73,35 +73,35 @@
                     </form>
                 </form>
 
-                <form action="" method="post" class="signup-form">
+                <form action="{{ route('client.auth.register') }}" method="post" class="signup-form">
+                    @csrf
                     <div class="title">Đăng Ký</div>
-                    <form action="#">
-                        <div class="input-boxes">
-                            <div class="input-box">
-                                <i class="fas fa-user"></i>
-                                <input type="text" placeholder="Nhập tên người dùng" required>
-                            </div>
-                            <div class="input-box">
-                                <i class="fas fa-envelope"></i>
-                                <input type="text" placeholder="Nhập email" required>
-                            </div>
-                            <div class="input-box">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" placeholder="Nhập mật khẩu" required>
-                            </div>
-                            <div class="input-box">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" placeholder="Nhập lại mật khẩu" required>
-                            </div>
-                            <div class="button input-box">
-                                <input type="submit" value="Đăng Ký">
-                            </div>
-                            <div class="text sign-up-text">Bạn đã có tài khoản? <label for="flip">Đăng nhập
-                                    ngay</label></div>
-                            <div class="text sign-up-text "> <label for="flip">
-                                    <a href="{{ route('home.index') }}">Về trang chủ</a></label></div>
+                    <div class="input-boxes">
+                        <div class="input-box">
+                            <i class="fas fa-user"></i>
+                            <input name="username" type="text" placeholder="Nhập tên người dùng" required>
                         </div>
-                    </form>
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input name="email" type="text" placeholder="Nhập email" required>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input name="password" type="password" placeholder="Nhập mật khẩu" required>
+                        </div>
+                        <input type="hidden" name="user_role" value="0">
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input name="re_password" type="password" placeholder="Nhập lại mật khẩu" required>
+                        </div>
+                        <div class="button input-box">
+                            <input type="submit" value="Đăng Ký">
+                        </div>
+                        <div class="text sign-up-text">Bạn đã có tài khoản? <label for="flip">Đăng nhập
+                                ngay</label></div>
+                        <div class="text sign-up-text "> <label for="flip">
+                                <a href="{{ route('home.index') }}">Về trang chủ</a></label></div>
+                    </div>
                 </form>
 
             </div>

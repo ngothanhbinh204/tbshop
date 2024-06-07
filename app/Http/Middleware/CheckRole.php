@@ -22,15 +22,16 @@ class CheckRole
         // 2 : Cộng tác viên
         // 3 : Biên tập viên
         if (Auth::check()) {
-            $role_id = Auth::user()->role_id;
-            switch ($role_id) {
-                case 1: // Admin
-                    return redirect()->route('dashboard.index');
-                    break;
-                default:
-                    return redirect()->route('auth.test');
+            // Kiểm tra vai trò của người dùng
+            if (Auth::user("user_role") == 1) {
+                // Nếu là admin, chuyển hướng đến trang admin
+                return redirect()->route('admin.dashboard');
+            } else {
+                // Nếu là client, chuyển hướng đến trang client
+                return redirect()->back()->with('error', 'Bạn không có quyền vào trang này');
             }
         }
+
         return $next($request);
     }
 }

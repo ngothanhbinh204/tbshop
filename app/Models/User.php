@@ -81,6 +81,8 @@ class User extends Authenticatable implements JWTSubject
     //     $this->attributes['password'] = bcrypt($value);
     // }
 
+
+
     public function coupons()
     {
         return $this->belongsToMany(Coupon::class, 'coupon_user')
@@ -115,5 +117,15 @@ class User extends Authenticatable implements JWTSubject
     public function ward()
     {
         return $this->belongsTo(Ward::class);
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'id_user');
     }
 }

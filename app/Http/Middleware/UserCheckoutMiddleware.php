@@ -19,10 +19,10 @@ class UserCheckoutMiddleware
     {
         $cart = app(Cart::class)->firstOrCreateBy(auth()->user()->id);
 
-        if($cart->product->count() > 0){
+        if ($cart->product->count() > 0) {
             return $next($request);
         } else {
-            return back()->with("error","Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán");
+            return back()->with("error", "Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán");
         }
     }
 }

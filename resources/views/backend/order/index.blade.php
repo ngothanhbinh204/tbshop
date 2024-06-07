@@ -63,12 +63,14 @@
                                                                     data-html="true"
                                                                     data-content='<button class=" btn btn-sm status-text  update-status-btn">Cập nhật</button>'>
                                                                     {{ $item->status }}
+                                                                    
                                                                 </span>
                                                             @else
                                                                 <span class="label status-text">
                                                                     Chưa xác định
                                                                 </span>
                                                             @endif
+
                                                             <select style="display: none" name="status"
                                                                 class="form-control select-status" id=""
                                                                 data-action="{{ route('orders.update_status', $item->id) }}">
@@ -100,6 +102,7 @@
                                                         <div class="btn-group">
                                                             <a class="btn-white btn btn-xs"
                                                                 href="{{ route('orders.details', $id = $item->id) }}">Xem</a>
+
                                                             <button class="btn-white btn btn-xs">Chỉnh sửa</button>
                                                             <form class="btn-group"
                                                                 action="{{ route('orders.remove', $item->id) }}"

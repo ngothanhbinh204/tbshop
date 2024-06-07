@@ -11,8 +11,6 @@ $(function () {
         'Giao thành công': 'success',
         'Huỷ': 'danger'
     };
-
-    
     $(document).on('click', '.update-status-btn', function () {
         var $popover = $(this).closest('.popover');
         var statusContainer = $(this).closest('.order-status');
@@ -47,6 +45,7 @@ $(function () {
 
             $(this).hide();
         })
+        
     })
 
 

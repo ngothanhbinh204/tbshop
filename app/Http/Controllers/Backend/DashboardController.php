@@ -73,8 +73,8 @@ class DashboardController extends Controller
         $post = Post::all()->count();
         $order = Order::all()->count();
         $users = User::all()->count();
-
         $user_new = User::with('province')->orderByDesc('id')->take(10)->get();
+        // dd($user_new);
         $product_views = Product::orderByDesc('views')->take(20)->get();
         $post_views = Post::orderByDesc('views')->with('users')->take(20)->get();
         $template = 'backend.dashboard.home.index';

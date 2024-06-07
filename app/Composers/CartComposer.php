@@ -3,7 +3,7 @@
 namespace App\Composers;
 
 use Illuminate\View\View;
-use App\Services\CartService; // Giả sử bạn có một service để quản lý giỏ hàng
+use App\Services\CartService;
 use App\Models\Cart;
 
 class CartComposer
@@ -12,13 +12,11 @@ class CartComposer
 
     public function __construct(cart $cart)
     {
-        // Gán dịch vụ giỏ hàng cho biến thành viên
         $this->cart = $cart;
     }
 
     public function compose(View $view)
     {
-        // Lấy dữ liệu từ dịch vụ giỏ hàng và gán cho view
         if (auth()->check()) {
             $cartCount =  $this->cart->countProductInCart(auth()->user()->id);
             $view->with('countProductInCart', $cartCount);

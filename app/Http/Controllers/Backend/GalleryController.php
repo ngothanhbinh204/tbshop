@@ -111,12 +111,6 @@ class GalleryController extends Controller
                     Hình ảnh
                 </th>
                 <th>
-                    Tên ảnh
-                </th>
-                <th>
-                    Đường dẫn ảnh
-                </th>
-                <th>
                     Thao tác
                 </th>
             </tr>
@@ -141,15 +135,12 @@ class GalleryController extends Controller
                     name="file" 
                     id="file-' . $gal->id . '" 
                     accept="image/*" />
-
-                    </td>
-                    <td contenteditable class="edit_gal_name" data-gal_id="' . $gal->id . '" >' . $gal->name . '</td>
-                    <td>
-                        ' . asset('uploads/gallery/' . $gal->image) . '
-                    </td>
-                    <td>
-                        <button type="button" data-gal_id="' . $gal->id . '"  class="btn btn-white delete-gallery "><i class="fa fa-trash"></i>
+                     <button style="position: absoluted " type="button" data-gal_id="' . $gal->id . '"  class="btn btn-white delete-gallery "><i class="fa fa-trash"></i>
                         </button>
+                    </td>
+                  
+                    <td>
+                       
                     </td>
                 </tr> 
                 ';

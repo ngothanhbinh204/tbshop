@@ -131,7 +131,8 @@
                         @endphp
                         <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix {{ trim($classSp) }}">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/product/'.$product->image) }}">
+                                <div class="product__item__pic set-bg"
+                                    data-setbg="{{ asset('uploads/product/' . $product->image) }}">
                                     <span class="{{ trim($classSp) ? 'is_sale' : 'label' }} ">
                                         {{ trim($classSp) }}
                                     </span>
@@ -296,4 +297,75 @@
         </div>
     </section>
     <!-- Latest Blog Section End -->
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#search-input').on('keyup', function() {
+                let query = $(this).val();
+
+                if (query.length > 2) { // Bắt đầu tìm kiếm khi chuỗi dài hơn 2 ký tự
+                    $.ajax({
+                        url: '/search',
+                        type: 'GET',
+                        data: {
+                            'query': query
+                        },
+                        success: function(data) {
+                            $('#search-results').empty();
+                            if (data.length > 0) {
+                                $.each(data, function(index, product) {
+                                    let productUrl =
+                                        "{{ route('client.product.detail', ':id') }}";
+                                    productUrl = productUrl.replace(':id', product.id);
+                                    let productItem = `
+                                        <div class="product__item sale">
+                                            <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/product/') }}/${product.image}">
+                                                ${product.price_sale > 0 ? `<span class="label">Sale ${product.price_sale}%</span>` : ''}
+                                                <ul class="product__hover">
+                                                    <li><a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}" alt=""></a></li>
+                                                    <li><a href="#"><img src="{{ asset('frontend/img/icon/compare.png') }}" alt="">
+                                                            <span>Compare</span></a>
+                                                    </li>
+                                                    <li><a href="${productUrl}"><img
+                                                                src="{{ asset('frontend/img/icon/search.png') }}" alt=""></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product__item__text">
+                                                <h6>${product.name}</h6>
+                                                <a href="${productUrl}" class="add-cart">+ Xem chi tiết</a>
+                                                <div class="rating">
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <h5>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}</h5>
+                                            </div>
+                                        </div>`;
+                                    $('#search-results').append(productItem);
+                                });
+                            } else {
+                                $('#search-results').append(
+                                    '<div>Không tìm thấy sản phẩm nào</div>');
+                            }
+                        },
+                        error: function() {
+                            $('#search-results').empty().append('<div>Đã xảy ra lỗi</div>');
+                        }
+                    });
+                } else {
+                    $('#search-results').empty();
+                }
+            });
+
+            // Đóng search model
+            $('.search-close-switch').on('click', function() {
+                $('.search-model').hide();
+            });
+        });
+    </script>
 @endsection

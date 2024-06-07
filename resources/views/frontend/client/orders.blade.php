@@ -36,8 +36,7 @@
                                 <form action="{{ route('client.orders.cancel', $item->id) }}" method="POST"
                                     id="form-cancel{{ $item->id }}">
                                     @csrf
-                                    <button class="btn btn-cancel btn-danger" data-id="{{ $item->id }}">Cancel
-                                        Order</button>
+                                    <button class="btn btn-cancel btn-danger" data-id="{{ $item->id }}">Huỷ đơn hàng</button>
                                 </form>
                             @endif
                         </td>

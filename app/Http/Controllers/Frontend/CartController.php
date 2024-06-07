@@ -35,10 +35,13 @@ class CartController extends Controller
     public function index()
     {
         $countProductInCart1 = 0;
+
         if (Auth::check()) {
+            //kiểm tra nguoi dung đnăg nahpj
             if ($this->cart->countProductInCart(auth()->user()->id) <= 0) {
                 Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
             }
+
             $countProductInCart1 = $this->cart->countProductInCart(auth()->user()->id);
             $cart = $this->cart->firstOrCreateBy(auth()->user()->id)->load('product');
             $salePrice = $this->productService->getSalePriceAttribute();
@@ -61,9 +64,11 @@ class CartController extends Controller
     {
         $cart = '';
         $productByAttribute = $this->productService->getProductByColor_Size($request->id_product, $request->product_color, $request->product_size);
+
         if ($request->product_quantity > $productByAttribute->stock) {
             return back()->with('error', 'Số lượng sản phẩm này vượt quá số lượng tồn kho. Vui lòng giảm số lượng hoặc chọn sản phẩm khác');
         }
+
         if ($request->product_size && $request->product_color && $request->product_price) {
             $product = $this->product->findOrFail($request->id_product);
             if (auth()->user()) {
@@ -85,11 +90,11 @@ class CartController extends Controller
         }
     }
 
-    private function checkProductInSessionCart($cart, $productId, $productSize, $productColor)
-    {
-        $productKey = $productId . '-' . $productSize . '-' . $productColor;
-        return isset($cart[$productKey]);
-    }
+    // private function checkProductInSessionCart($cart, $productId, $productSize, $productColor)
+    // {
+    //     $productKey = $productId . '-' . $productSize . '-' . $productColor;
+    //     return isset($cart[$productKey]);
+    // }
 
 
     public function addProductToCart($cart, $product, $request)
@@ -123,8 +128,6 @@ class CartController extends Controller
                 return;
             }
         }
-
-
         $cart[] = [
             'product_size' => $request->product_size,
             'product_color' => $request->product_color,
@@ -141,7 +144,6 @@ class CartController extends Controller
     {
 
         $cartProduct = $this->cartProduct->with('cart')->find($cart_product_id);
-        // dd($cartProduct);
         $dataUpdate = $request->all();
         // dd($cartProduct);
         if ($dataUpdate['product_quantity'] < 1) {

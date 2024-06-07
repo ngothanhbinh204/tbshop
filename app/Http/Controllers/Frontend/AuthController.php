@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Services\Interfaces\UserServiceInterface as UserService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\CartProduct;
+use Illuminate\Support\Facades\Session;
+
 
 
 
@@ -16,19 +22,46 @@ class AuthController extends Controller
 {
     protected $cart;
     protected $cartProduct;
+    protected $userService;
 
-    public function __construct(Cart $cart, CartProduct $cartProduct)
+    public function __construct(Cart $cart, CartProduct $cartProduct, UserService $userService)
     {
+
         $this->cart = $cart;
         $this->cartProduct = $cartProduct;
+        $this->userService = $userService;
     }
     public function index(Request $request)
     {
+        Session::put('product_page_url', url()->previous());
+
         return view("frontend.client.login");
+    }
+
+    public function register(StoreUserRequest $request)
+    {
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+            // dd($request);
+            $payload = $request->except('_token', 're_password');
+            $payload['password'] = Hash::make($payload['password']);
+            $payload['status'] = 1;
+            $user = User::create($payload);
+            // $user = $this->userRepository->create($payload);
+            DB::commit();
+            return redirect()->route('home.index')->with('success', 'Đăng ký thành công');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
+            return false;
+            return redirect()->route('login.client.index')->with('error', 'Đăng ký không thành công');
+        }
     }
     public function login(Request $request)
     {
-
+        $productPageUrl = Session::pull('product_page_url');
         $messages = [
             'emailOrUsername.required' => 'Email hoặc tên đăng nhập là bắt buộc.',
             'password.required' => 'Mật khẩu là bắt buộc.',
@@ -59,7 +92,8 @@ class AuthController extends Controller
                 $user = Auth::user();
                 // Chuyển dữ liệu từ session cart sang database
                 $this->migrateSessionCartToDatabase();
-                return redirect()->route('home.index')->with('success', 'Đăng Nhập Thành Công');
+                // chuyểh hướng tới trang cố đăng nhập trước đó
+                return redirect()->intended($productPageUrl ?? '/')->with('success', 'Đăng Nhập Thành Công');
             } else {
                 return back()->withErrors([
                     'password' => 'Mật khẩu không chính xác.',
@@ -117,6 +151,5 @@ class AuthController extends Controller
             // Xoá session cart sau khi chuyển cartproduct sang database
             session()->forget('cart');
         }
-        
     }
 }

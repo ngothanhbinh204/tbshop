@@ -49,53 +49,8 @@
                                 </div>
 
 
-                                <div class="row mb-3">
 
-                                    <div class="col-sm-6 col-md-6 col-lg-4">
-                                        <div class="checkout__input">
-                                            <p>Thành Phố<span>*</span></p>
-                                            <select style="max-height: 150px; overflow-y: auto;"
-                                                class="province select2 location" name="province_id" id="province_id"
-                                                data-target="districts">
-                                                <option value="{{ old('province_id') }}">
-                                                    [Chọn Thành Phố]
-                                                </option>
-                                                {{-- Xuất danh sách thành phố --}}
-                                                @if (isset($provinces))
-                                                    @foreach ($provinces as $province)
-                                                        <option value="{{ $province->code }}">{{ $province->name }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6 col-lg-4">
-                                        <div class="checkout__input">
-                                            <p>Quận / Huyện<span>*</span></p>
-                                            <select class="districts select2 location" name="district_id" id="district_id"
-                                                data-target="wards">
-                                                <option value="{{ old('district_id') }}" disabled selected>
-                                                    Chọn Quận / Huyện
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6 col-lg-4">
-                                        <div class="checkout__input">
-                                            <p>Phường / Xã<span>*</span></p>
-                                            <select class="select2  wards" name="ward_id" id="ward_id">
-                                                <option value="{{ old('ward_id') }}" disabled selected>
-                                                    Chọn Phường / Xã
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a class="addAddress primary-btn text-white">Thêm địa chỉ </a>
+                                {{-- <a class="addAddress primary-btn text-white">Thêm địa chỉ </a> --}}
 
 
                                 <div class="checkout__input">
@@ -189,7 +144,7 @@
                                             dụng</a>
                                     </div>
                                 </div>
-                                <div class="checkout__input__checkbox">
+                                {{-- <div class="checkout__input__checkbox">
                                     <label for="acc">
                                         Tạo tài khoản ngay?
                                         <input type="checkbox" id="acc" name="acc"
@@ -203,7 +158,7 @@
                                 <div class="checkout__input">
                                     <p>Mật khẩu tài khoản<span>*</span></p>
                                     <input name="user_password" type="password">
-                                </div>
+                                </div> --}}
 
 
                                 <div class="checkout__input__checkbox">
@@ -328,7 +283,7 @@
             $('.applyShip').on('click', function() {
                 ship = parseInt($('input[name="ship"]:checked').val());
                 var labelValue = "";
-                
+
                 $('.form-check-input[name="ship"]').on('change', function() {
                     labelValue = $(this).next('label').text().trim(); // Lấy giá trị của label tương ứng
                     console.log("Label được chọn:", labelValue);
@@ -358,17 +313,17 @@
                 var wardSelected = $('#ward_id option:selected').text().trim();
                 var address = $('input[name="user_address"]').val();
 
-                $('.addAddress').on('click', function() {
-                    console.log("Côsoo");
-                    if (provinceSelected && districtSelected && wardSelected) {
-                        var fullAddress = provinceSelected + ' - ' + districtSelected + ' - ' +
-                            wardSelected;
-                        if (address) {
-                            fullAddress += ' - ' + address;
-                        }
-                        $('input[name="user_address"]').val(fullAddress);
-                    }
-                });
+                // $('.addAddress').on('click', function() {
+                //     console.log("Côsoo");
+                //     if (provinceSelected && districtSelected && wardSelected) {
+                //         var fullAddress = provinceSelected + ' - ' + districtSelected + ' - ' +
+                //             wardSelected;
+                //         if (address) {
+                //             fullAddress += ' - ' + address;
+                //         }
+                //         $('input[name="user_address"]').val(fullAddress);
+                //     }
+                // });
 
             })
         })

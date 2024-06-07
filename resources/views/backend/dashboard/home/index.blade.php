@@ -278,7 +278,7 @@
                                                         {{ date('d/m/Y', strtotime($item->created_at)) }}</td>
                                                     <td>{{ $item->username }}</td>
                                                     <td class="text-navy"> <i class="fa fa-level-up"></i>
-                                                        {{ $item->province->name }} </td>
+                                                        {{-- {{ $item->province->name }} </td> --}}
                                                 </tr>
                                             @endif
                                         @endforeach

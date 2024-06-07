@@ -160,15 +160,36 @@ class ProductController extends Controller
                 'categories.name as name_category',
                 'brands.name as name_brand'
             ],
-            ['categories', 'brands']
+            ['categories', 'brands', 'product_attribute']
         );
-        // dd($product);
+        $productAttr = $this->productService->getProductAttributePairs($id);
+        $colorSizePrice = [];
+        $colors = [];
+        $sizes = [];
+        $prices = [];
+
+        foreach ($productAttr as $item) {
+            $colors[] = $item->color_value;
+            $sizes[] = $item->size_value;
+            $colorSizePrice[] = [
+                'color' => $item->color_value,
+                'size' => $item->size_value,
+                'price' => $item->price,
+            ];
+        }
+        // var_dump($colors);
+        // dd($sizes);
+        // $colorUnique = collect($colors)->unique();
+        // $sizeUnique = collect($sizes)->unique();
         return view('backend.dashboard.layout', compact(
             'template',
             'product',
             'categories',
             'brands',
             'provinces',
+            'colorSizePrice',
+            'colors',
+            'sizes',
         ));
     }
 
@@ -190,6 +211,7 @@ class ProductController extends Controller
                 File::delete($path_gallery . $product->image);
             }
             // Lưu ảnh mới
+            
             $get_name_image = $get_image->getClientOriginalName();
             $name_image = current(explode('.', $get_name_image));
             $new_image = $name_image . rand(0, 99) . '.' . $get_image->getClientOriginalExtension();

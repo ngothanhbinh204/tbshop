@@ -19,8 +19,13 @@ class LoginMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Auth::id() > 0) {
-            return redirect()->route('dashboard.index');
-        }
+            $user = auth()->user();
+            dd($user);
+            if ($user->user_role === 1) {
+                // dd("Có");
+                return redirect()->route('dashboard.index');
+            }
+        };
         return $next($request);
     }
 }

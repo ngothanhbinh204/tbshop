@@ -98,7 +98,6 @@ class UserController extends Controller
     {
         
         if ($this->userService->create($request)) {
-
             session()->push('notifications', ['message' => 'Thêm người dùng thành công', 'type' => 'success']);
             return redirect()->route('user.index')->with('success', 'Thêm mới người dùng thành công');
         }

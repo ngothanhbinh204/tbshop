@@ -72,28 +72,28 @@ class CheckoutController extends Controller
     public function store(StoreOrderRequest $request)
     {
         // dd($request);
-        $dataCreateUser = [];
-        if ($request->has('acc') && $request->has('user_name') && $request->has('user_email') && $request->has('user_phone') && $request->has('user_address') && $request->has('user_password')) {
-            $existingUser = User::where('email', $request->user_email)
-                ->orWhere('username', $request->user_name)
-                ->first();
-            if ($existingUser) {
-                $flagExitsUser = true;
-                return redirect()->back()->with('error', 'Người dùng đã tồn tại');
-            } else {
-                $dataCreateUser = [
-                    'username' => $request->user_name,
-                    'email' => $request->user_email,
-                    'phone' => $request->user_phone,
-                    'address' => $request->user_address,
-                    'password' => $request->user_password,
-                    'province_id' => $request->province_id,
-                    'district_id' => $request->district_id,
-                    'ward_id' => $request->ward_id,
-                ];
-                $this->userService->createClient($dataCreateUser);
-            }
-        }
+        // $dataCreateUser = [];
+        // if ($request->has('acc') && $request->has('user_name') && $request->has('user_email') && $request->has('user_phone') && $request->has('user_address') && $request->has('user_password')) {
+        //     $existingUser = User::where('email', $request->user_email)
+        //         ->orWhere('username', $request->user_name)
+        //         ->first();
+        //     if ($existingUser) {
+        //         $flagExitsUser = true;
+        //         return redirect()->back()->with('error', 'Người dùng đã tồn tại');
+        //     } else {
+        //         $dataCreateUser = [
+        //             'username' => $request->user_name,
+        //             'email' => $request->user_email,
+        //             'phone' => $request->user_phone,
+        //             'address' => $request->user_address,
+        //             'password' => $request->user_password,
+        //             'province_id' => $request->province_id,
+        //             'district_id' => $request->district_id,
+        //             'ward_id' => $request->ward_id,
+        //         ];
+        //         $this->userService->createClient($dataCreateUser);
+        //     }
+        // }
 
         DB::beginTransaction();
         try {
@@ -123,7 +123,6 @@ class CheckoutController extends Controller
                         if ($product->price_sale > 0) {
                             $discountPrice = $item->product_price - ($item->product_price * ($product->price_sale / 100));
                         }
-
                         $this->productOrder->create([
                             'id_order' => $orderDone->id,
                             'id_product' => $item->id_product,
@@ -133,7 +132,6 @@ class CheckoutController extends Controller
                             'product_quantity' => $item->product_quantity,
                             'total' => $item->product_quantity * $discountPrice,
                         ]);
-                        
                     }
 
 
@@ -164,7 +162,6 @@ class CheckoutController extends Controller
                 if ($cart) {
                     $cart->product()->delete();
                 }
-
             }
             DB::commit();
             Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);

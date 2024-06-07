@@ -45,6 +45,15 @@ class HomeController extends Controller
             'bestOrderPro'
         ));
     }
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->get(['id', 'name', 'image', 'price_sale']);
+
+        return response()->json($products);
+    }
 
     public function shop()
     {

@@ -16,7 +16,6 @@ $(document).ready(function() {
 
     })
 })
-
 // $(document).on('click', '.btn-update-quantity', _.debounce(function(e) {
 //     let url = $(this).data('action');
 //     let id = $(this).data('id');

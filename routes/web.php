@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\OrderController as AdminOrderController;
 
 // FrontEnd
+use App\Http\Controllers\Frontend\MailController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\BlogController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\AuthController as AuthClientController;
+use App\Http\Controllers\Frontend\CommentController as CommentClientController;
 use App\Http\Controllers\Frontend\BaseClientController;
 
 
@@ -41,6 +43,7 @@ Route::post('ajax/dashboard/deleteProduct/{id}', [AjaxDashboardController::class
 Route::get('/', function () {
     return  view('welcome');
 });
+Route::get('send-mail', [MailController::class, 'sendTestMail']);
 
 /*USERS */
 Route::group(['prefix' => 'user'], function () {
@@ -130,12 +133,16 @@ Route::get('/product-detail/{id}', [ShopController::class, 'productDetail'])->na
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/blog-detail/{id}', [BlogController::class, 'blogDetail'])->name('client.blog.detail');
 
+
+Route::post('/comment-store/{id}', [CommentClientController::class, 'store'])->name('client.comment.store');
+
 // CARTS
 
 Route::get('/cart', [CartController::class, 'index'])->name('client.cart.index');
 Route::post('/cart', [CartController::class, 'store'])->name('client.cart.add');
 Route::post('/session-update-quantity-product-in-cart', [CartController::class, 'sessionUpdateQuantityProduct'])->name('client.cart.session_update_quantity_product');
 Route::post('/session-remove-product-in-cart/{productId}', [CartController::class, 'sessionRemoveProductInCart'])->name('client.cart.session_remove_product');
+
 Route::middleware(['cart'])->group(function () {
     Route::post('/update-quantity-product-in-cart/{cart_product_id}/{id_cart}', [CartController::class, 'updateQuantityProduct'])->name('client.cart.update_quantity_product');
     Route::post('/remove-product-in-cart/{cart_product_id}', [CartController::class, 'removeProductInCart'])->name('client.cart.remove_product');
@@ -144,7 +151,7 @@ Route::middleware(['cart'])->group(function () {
     Route::post('/apply-coupon/{id_cart}', [CartController::class, 'applyCoupon'])->name('client.cart.apply_coupon');
 
     // Checkout
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index')->middleware('user.can_checkout_cart');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index')->middleware('user.can_checkout_cart', 'check_payment');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('client.checkout.store')->middleware('user.can_checkout_cart');
 });
 //  ORDER CLIENT
@@ -165,6 +172,7 @@ Route::post('/filter-by-date', [DashboardController::class, 'filterByDate'])->na
 Route::post('/dashboard-filter', [DashboardController::class, 'dashboardFilter'])->name('dashboard_filter');
 
 
+Route::get('/search', [HomeController::class, 'search']);
 
 
 
@@ -178,6 +186,7 @@ Route::group(['prefix' => 'ajax'], function () {
 
 Route::get('/login-client', [AuthClientController::class, 'index'])->name('login.client.index');
 Route::post('/login-client', [AuthClientController::class, 'login'])->name('client.auth.login');
+Route::post('/register-client', [AuthClientController::class, 'register'])->name('client.auth.register');
 Route::get('/logout-client', [AuthClientController::class, 'logout'])->name('client.logout');
 Route::get('/password/reset', [AuthClientController::class, 'logout'])->name('client.logout');
 
@@ -189,12 +198,13 @@ Route::group(['prefix' => 'password'], function () {
     Route::get('reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 });
-/*BACKEND ROUTES */
 
 
+
+/*BACKEND ROUTES ADMIN */
 
 Route::get('admin', [AuthController::class, 'index'])->name('auth.admin');
-Route::post('login', [AuthController::class, 'login'])->name('auth.login')->middleware('login');
+Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('test', [AuthController::class, 'test'])->name('auth.test');
 
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
