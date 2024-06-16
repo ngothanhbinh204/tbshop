@@ -101,21 +101,7 @@ class GalleryController extends Controller
         $output = '
          <form>
                 ' . csrf_field() . '
-        <table class="table table-bordered table-stripped">
-        <thead>
-            <tr>
-                <th>
-                    Thứ tự
-                </th>
-                <th>
-                    Hình ảnh
-                </th>
-                <th>
-                    Thao tác
-                </th>
-            </tr>
-        </thead>
-        <tbody>
+       
         ';
 
         if ($gallery_count > 0) {
@@ -123,27 +109,22 @@ class GalleryController extends Controller
             foreach ($gallery as $key => $gal) {
                 $i++;
                 $output .= '
-
-                <tr>
-                    <td>' . $i . '</td>
-                    <td>
-                    <img width="120px" height="130px" src="' . asset('uploads/gallery/' . $gal->image) . '">
-                    <input width="40%" 
+            <div class="gallery-item" style="position: relative; display: inline-block; margin: 10px;">
+                <a href="' . asset('uploads/gallery/' . $gal->image) . '" title="Image from Unsplash" data-gallery="">
+                    <img src="' . asset('uploads/gallery/' . $gal->image) . '" style="width: 150px; height: 150px; object-fit: cover;">
+                </a>
+                <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                   <input  width="40%" 
                     data-gal_id="' . $gal->id . '" 
                     type="file" 
                     class="file_image" 
                     name="file" 
                     id="file-' . $gal->id . '" 
                     accept="image/*" />
-                     <button style="position: absoluted " type="button" data-gal_id="' . $gal->id . '"  class="btn btn-white delete-gallery "><i class="fa fa-trash"></i>
-                        </button>
-                    </td>
-                  
-                    <td>
-                       
-                    </td>
-                </tr> 
-                ';
+                    <button type="button" data-gal_id="' . $gal->id . '" class="btn btn-white delete-gallery" style="position: absolute; top: 10px; right: 10px;"><i class="fa fa-trash"></i> Xóa</button>
+                </div>
+            </div>
+        ';
             };
         } else {
             $output .= '

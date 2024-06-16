@@ -6,6 +6,8 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Api\OrderController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,6 +19,16 @@ use App\Http\Controllers\Backend\PostController;
 |
 */
 
+// Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/usersAPI', [UserController::class, 'userAPI'])->name('user.index')->middleware('admin');
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::get('/orders', [OrderController::class, 'index']);
+
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::post('/get60DaysOrder', [DashboardController::class, 'get60DaysOrderAPI']);
+
+// });
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });

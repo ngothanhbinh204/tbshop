@@ -1,15 +1,15 @@
 @extends('frontend.client.layout')
 
-@section('title', 'Trang chủuu')
+@section('title', 'Trang chủ')
 
 @section('content')
-
     @php
         $productFilters = [
-            'is_hot' => 'HOT',
-            'is_sale' => 'New',
+            'new' => 'New',
+            'is_sale' => 'Sale',
             'best_order' => 'Bestseller',
         ];
+
     @endphp
     <!-- Hero Section Begin -->
     <section class="hero">
@@ -23,7 +23,8 @@
                                 <h2>Bộ Sưu Tập Thu - Đông 2030</h2>
                                 <p>Nhãn hiệu chuyên tạo ra các sản phẩm cao cấp. Sản xuất có đạo đức với cam kết không ngừng
                                     nghỉ về chất lượng tuyệt hảo.</p>
-                                <a href="#" class="primary-btn">Mua ngay <span class="arrow_right"></span></a>
+                                <a href="{{ route('shop.index') }}" class="primary-btn">Mua ngay <span
+                                        class="arrow_right"></span></a>
                                 <div class="hero__social">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
@@ -110,7 +111,7 @@
                     <ul class="filter__controls">
                         <li class="active" data-filter="*">Tất cả</li>
                         <li data-filter=".New">Sản phẩm mới</li>
-                        <li data-filter=".HOT">Khuyến mãi hot</li>
+                        <li data-filter=".Sale">Khuyến mãi hot</li>
                         <li data-filter=".Bestseller">Bán chạy nhất</li>
                     </ul>
                 </div>
@@ -118,6 +119,7 @@
 
             {{-- {{ dd($productsNew_hotSale[0]->is_hot) }} --}}
             <div class="row product__filter">
+
                 @if (isset($productsNew_hotSale))
                     @foreach ($productsNew_hotSale as $product)
                         @php
@@ -125,12 +127,12 @@
                             foreach ($productFilters as $key => $filter) {
                                 if ($product->$key) {
                                     $classSp .= $filter . ' ';
-                                    // echo "aa";
                                 }
                             }
                         @endphp
+
                         <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix {{ trim($classSp) }}">
-                            <div class="product__item">
+                            {{-- <div class="product__item">
                                 <div class="product__item__pic set-bg"
                                     data-setbg="{{ asset('uploads/product/' . $product->image) }}">
                                     <span class="{{ trim($classSp) ? 'is_sale' : 'label' }} ">
@@ -178,10 +180,15 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
+                            @include('frontend.client.components.productSingle', [
+                                'product' => $product,
+                                'productFilters' => $productFilters,
+                            ])
                         </div>
                     @endforeach
                 @endif
+
             </div>
         </div>
     </section>
@@ -198,10 +205,10 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="categories__hot__deal">
-                        <img src="img/product-sale.png" alt="">
+                        <img src="{{ asset('frontend/img/product-sale.png') }}" alt="">
                         <div class="hot__deal__sticker">
                             <span>Giảm Giá</span>
-                            <h5>$29.99</h5>
+                            <h5>140.000vnđ</h5>
                         </div>
                     </div>
                 </div>
@@ -227,7 +234,7 @@
                                 <p>Giây</p>
                             </div>
                         </div>
-                        <a href="#" class="primary-btn">Mua ngay</a>
+                        <a href="{{ route('shop.index') }}" class="primary-btn">Mua ngay</a>
                     </div>
                 </div>
             </div>
@@ -241,12 +248,24 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="instagram__pic">
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/insta-1.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/insta-2.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/insta-3.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/insta-4.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/insta-5.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/insta-6.jpg"></div>
+                        <div class="instagram__pic__item set-bg"
+                            data-setbg="{{ asset('frontend/img/instagram/instagram-1.jpg') }}">
+                        </div>
+                        <div class="instagram__pic__item set-bg"
+                            data-setbg="{{ asset('frontend/img/instagram/instagram-2.jpg') }}">
+                        </div>
+                        <div class="instagram__pic__item set-bg"
+                            data-setbg="{{ asset('frontend/img/instagram/instagram-3.jpg') }}">
+                        </div>
+                        <div class="instagram__pic__item set-bg"
+                            data-setbg="{{ asset('frontend/img/instagram/instagram-4.jpg') }}">
+                        </div>
+                        <div class="instagram__pic__item set-bg"
+                            data-setbg="{{ asset('frontend/img/instagram/instagram-5.jpg') }}">
+                        </div>
+                        <div class="instagram__pic__item set-bg"
+                            data-setbg="{{ asset('frontend/img/instagram/instagram-6.jpg') }}">
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -254,7 +273,7 @@
                         <h2>Instagram</h2>
                         <p>Đăng kí theo dõi Instagram của chúng tôi để không bỏ lỡ những cập nhật mới nhất về sản phẩm và ưu
                             đãi đặc biệt.</p>
-                        <h3>#MYINSTAGRAM</h3>
+                        <h3>#ngothanhbinh</h3>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,7 @@
 <div class="offcanvas-menu-wrapper">
     <div class="offcanvas__option">
         <div class="offcanvas__links">
-            <a href="{{ route('login.client.index') }}">Đăng Nhập / Đăng Ký</a>
+            <a href="{{ route('account.login') }}">Đăng Nhập / Đăng Ký</a>
             <a href="#">FAQs</a>
         </div>
         <div class="offcanvas__top__hover">
@@ -28,7 +28,7 @@
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__text">
-        <p>Free shipping, 30-day return or refund guarantee.</p>
+        <p>Miễn phí vận chuyển. Hoàn trả trong 30 ngày.</p>
     </div>
 </div>
 <!-- Offcanvas Menu End -->
@@ -40,14 +40,14 @@
             <div class="row">
                 <div class="col-lg-6 col-md-7">
                     <div class="header__top__left">
-                        <p>Free shipping, 30-day return or refund guarantee.</p>
+                        <p>Miễn phí vận chuyển. Hoàn trả trong 30 ngày.</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
                         <div class="header__top__links">
                             @if (empty(auth()->user()))
-                                <a href="{{ route('login.client.index') }}">Đăng nhập / Đăng ký</a>
+                                <a href="{{ route('account.login') }}">Đăng nhập / Đăng ký</a>
                             @endif
                             <a href="#">FAQs</a>
                         </div>
@@ -68,7 +68,7 @@
         <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="header__logo">
-                    <a href="{{ route('home.index') }}"><img src=" {{ asset('frontend/img/logo.png') }}"
+                    <a href="{{ route('home.index') }}"><img src=" {{ asset('frontend/img/logo-tbshop.png') }}"
                             alt=""></a>
                 </div>
             </div>
@@ -76,19 +76,20 @@
             <div class="col-lg-8 col-md-8">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li class="active"><a href="{{ route('home.index') }}">Trang chủ</a></li>
-                        <li><a href="{{ route('shop.index') }}">Cửa hàng</a></li>
-                        <li><a href="{{ route('about.index') }}">Về chúng tôi</a></li>
-                        <li><a href="{{ route('blogs.index') }}">Tin tức</a></li>
-                        <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
+                        <li class="{{ Request::routeIs('home.index') ? 'active' : '' }}"><a
+                                href="{{ route('home.index') }}">Trang chủ</a></li>
+                        <li class="{{ Request::routeIs('shop.index') ? 'active' : '' }}"><a href="{{ route('shop.index') }}">Cửa hàng</a></li>
+                        <li class="{{ Request::routeIs('about.index') ? 'active' : '' }}"><a href="{{ route('about.index') }}">Về chúng tôi</a></li>
+                        <li class="{{ Request::routeIs('blogs.index') ? 'active' : '' }}"><a href="{{ route('blogs.index') }}">Tin tức</a></li>
+                        <li class="{{ Request::routeIs('contact.index') ? 'active' : '' }}"><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
                         @if (auth()->user())
                             <li><a href="#">{{ auth()->user()->username }}</a>
                                 <ul class="dropdown">
-                                    <li><a href="">Tài khoản của tôi</a></li>
+                                    <li><a href="{{ route('account.profile') }}">Tài khoản của tôi</a></li>
                                     <li><a href="{{ route('client.cart.index') }}">Giỏ hàng của tôi</a></li>
                                     <li><a href="{{ route('client.orders.index') }}">Hoá đơn của tôi</a></li>
-                                    <li><a href="{{ route('client.logout') }}">Đăng xuất</a></li>
+                                    <li><a href="{{ route('account.logout') }}">Đăng xuất</a></li>
                                 </ul>
                             </li>
                         @endif

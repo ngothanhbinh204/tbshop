@@ -43,7 +43,7 @@
         <div class="forms">
             <div class="form-content">
 
-                <form action="{{ route('client.auth.login') }}" method="post" class="login-form">
+                <form action="{{ route('account.check_login') }}" method="post" class="login-form">
                     @csrf
                     <div class="title">Đăng Nhập</div>
                     <form action="#">
@@ -61,7 +61,7 @@
                             @error('password')
                                 <p style="color: red" class="text-danger text-xs pt-1"> {{ $message }} </p>
                             @enderror
-                            <div class="text"><a href="{{ route('password.request') }}">Quên mật khẩu?</a></div>
+                            <div class="text"><a href="{{ route('account.forgot') }}">Quên mật khẩu?</a></div>
                             <div class="button input-box">
                                 <input type="submit" value="Đăng Nhập">
                             </div>
@@ -73,7 +73,7 @@
                     </form>
                 </form>
 
-                <form action="{{ route('client.auth.register') }}" method="post" class="signup-form">
+                <form action="{{ route('account.register') }}" method="post" class="signup-form">
                     @csrf
                     <div class="title">Đăng Ký</div>
                     <div class="input-boxes">

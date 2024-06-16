@@ -34,7 +34,7 @@
         </div>
         <div class="forms">
             <div class="form-content">
-                <form action="{{ route('password.email') }}" method="post" class="login-form">
+                <form action="{{ route('account.check_forgot') }}" method="post" class="login-form">
                     @csrf
                     <div class="title">Quên mật khẩu</div>
 

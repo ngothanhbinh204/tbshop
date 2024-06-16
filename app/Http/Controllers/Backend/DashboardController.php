@@ -125,6 +125,7 @@ class DashboardController extends Controller
                 'quantity' => $value->quantity,
             );
         };
+
         echo $data = json_encode($chart_data);
     }
 
@@ -132,7 +133,6 @@ class DashboardController extends Controller
     {
         $data = $request->all();
         // dd($data);
-
         $dauthangnay = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
         $dau_thangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
         $cuoi_thangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->endOfMonth()->toDateString();
@@ -182,6 +182,23 @@ class DashboardController extends Controller
         echo $data = json_encode($chart_data);
     }
 
+    public function get60DaysOrderAPI()
+    {
+        $sub60days = Carbon::now('Asia/Ho_Chi_Minh')->subDays(60)->toDateString();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+        $get = Statistic::whereBetween('order_date', [$sub60days, $now])->orderBy('order_date', 'ASC')->get();
+        foreach ($get as $key => $value) {
+            $chart_data[] = array(
+                'period' => $value->order_date,
+                'order' => $value->total_order,
+                'sales' => $value->sales,
+                'profit' => $value->profit,
+                'quantity' => $value->quantity,
+            );
+        };
+        return response()->json(['data' => $chart_data]);
+        // echo $data = json_encode($chart_data);
+    }
     public function show_dashboard(Request $request)
     {
         $this->AuthLogin();

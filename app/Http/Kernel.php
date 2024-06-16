@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'cart' => \App\Http\Middleware\CartMiddleware::class,
         'user.can_checkout_cart' => \App\Http\Middleware\UserCheckoutMiddleware::class,
         'check_payment' => \App\Http\Middleware\RedirectAfterPayment::class,
+        'user.profile' => \App\Http\Middleware\UserMiddleWare::class,
     ];
 }

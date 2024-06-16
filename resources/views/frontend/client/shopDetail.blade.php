@@ -97,7 +97,7 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-o"></i>
-                                        <span> - 5 Reviews</span>
+                                        <span> - {{ $product->views }} Lượt xem</span>
                                         @if (isset($product->price_sale))
                                             <span
                                                 style="
@@ -380,7 +380,7 @@
                                                 <span class="text-danger">Vui lòng đăng nhập để đánh giá sản phẩm
                                                     <div class="ml-2">
                                                         <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                                        <a href="{{ route('login.client.index') }}">Đăng nhập ngay</a>
+                                                        <a href="{{ route('account.login') }}">Đăng nhập ngay</a>
                                                     </div>
                                                 </span>
                                             @endif

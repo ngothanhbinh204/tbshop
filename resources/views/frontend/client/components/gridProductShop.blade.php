@@ -84,7 +84,9 @@
         @if (isset($products))
             @foreach ($products as $product)
                 <div class="col-lg-4 col-md-6 col-sm-6">
-                    @include('frontend.client.components.productSingle')
+                    @include('frontend.client.components.productSingle', [
+                        'product' => $product,
+                    ])
                 </div>
             @endforeach
         @endif

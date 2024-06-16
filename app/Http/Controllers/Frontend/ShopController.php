@@ -46,9 +46,8 @@ class ShopController extends Controller
             $keywords = $request->input('keywords');
         }
         $products = $this->getProduct($filters);
-
         // Lọc màu duy nhất từ danh sách sản phẩm
-
+        // dd($products);
         return view('frontend.client.shop', compact(
             'products',
             'categories',
@@ -61,7 +60,7 @@ class ShopController extends Controller
     public function getProduct($filters = [])
     {
 
-        $query = Product::with(['attribute']);
+        $query = Product::with(['attribute', 'comments']);
         // nếu tồn tại danh mục id
         if (isset($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);
@@ -178,8 +177,8 @@ class ShopController extends Controller
 
     public function productDetail($id)
     {
-
         $product = Product::with(['attribute', 'categories', 'brands', 'product_attribute'])->findOrFail($id);
+        $product->increment('views'); // Tăng số lượng sản phẩm bằng increment
         if ($product) {
             // gallery
             $gallery = Gallery::where('product_id', $id)->get();

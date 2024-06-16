@@ -960,13 +960,26 @@ ol {
 	color: #ffffff;
 	background: #111111;
 }
-
+.label-checkout {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 4px 15px 2px;
+	background: #ffffff;
+	/* position: absolute;
+	right: 30px;
+	top: 10px; */
+	color: #ffffff;
+	background: #111111;
+}
 .product__item.sale .product__item__text .rating i {
 	color: #f7941d;
 }
 
 .product__item.sale .product__item__text .rating i:nth-last-child(1) {
-	color: #b7b7b7;
+	/* color: #b7b7b7; */
 }
 
 .product__item:hover .product__item__pic .product__hover {
@@ -4092,6 +4105,10 @@ ol {
 	border-radius: 50%;
 	line-height: 30px;
 	text-align: center;
+}
+
+.views{
+	font-size: 0.75rem;
 }
 
   

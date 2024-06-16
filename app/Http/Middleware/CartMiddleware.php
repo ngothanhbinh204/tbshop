@@ -13,7 +13,7 @@ class CartMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::check()) {
-            return redirect()->route('login.client.index')->with('error', 'Bạn cần đăng nhập trước khi thực hiện thao tác');
+            return redirect()->route('account.login')->with('error', 'Bạn cần đăng nhập trước khi thực hiện thao tác');
         }
 
         return $next($request);

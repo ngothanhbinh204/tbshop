@@ -34,7 +34,7 @@
         </div>
         <div class="forms">
             <div class="form-content">
-                <form action="{{ route('password.update') }}" method="post" class="login-form">
+                <form action="{{ route('account.check_forgot') }}" method="post" class="login-form">
                     @csrf
                     <input type="hidden" name="token" value="{{ $token }}">
 

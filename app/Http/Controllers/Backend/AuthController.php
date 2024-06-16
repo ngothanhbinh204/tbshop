@@ -70,9 +70,7 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request)
     // Trước khi vào được phương thức login -> chạy qua AuthRequest sau đó mơi tới login ( check form )
-    // Pass được request -> chạy login
     {
-        // dd("ádasd");
         $credentials = [
             'email' => $request->input('email'),
             'password' => $request->input('password'),

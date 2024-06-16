@@ -5,7 +5,6 @@
 
     TB.getLocation = () => {
         $(document).on('change', '.location', function () {
-            // console.log(123);
             let option = {
                 'data': {
                     'location_id': $(this).val()

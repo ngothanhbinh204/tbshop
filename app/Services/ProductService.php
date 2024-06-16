@@ -62,6 +62,8 @@ class ProductService implements ProductServiceInterface
             $skus = $payload['sku'];
             $attributes = [];
             $priceIndex = 0;
+            // dd($payload);
+
             for ($i = 0; $i < count($attributeTypes); $i += 2) {
                 if (!empty($prices[$priceIndex]) && !empty($stocks[$priceIndex]) && !empty($skus[$priceIndex])) {
                     $randomSku = Str::random(4);
@@ -83,8 +85,11 @@ class ProductService implements ProductServiceInterface
                 }
                 $priceIndex++;
             }
+            // dd($attributes);
+
             $product = $this->productRepository->create($payload);
             foreach ($attributes as $attribute) {
+                // dd($attributes);
                 ProductAttribute::create([
                     'product_id' => $product->id,
                     'price' => $attribute['price'],

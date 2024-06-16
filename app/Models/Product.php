@@ -58,7 +58,7 @@ class Product extends Model
         return $this->belongsToMany(Order::class, 'product_order', 'id_product', 'id_order');
     }
 
-    public function comment()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }

@@ -25,13 +25,13 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\CheckoutController;
-use App\Http\Controllers\Frontend\AuthController as AuthClientController;
+use App\Http\Controllers\Frontend\AuthController as AccountController;
 use App\Http\Controllers\Frontend\CommentController as CommentClientController;
 use App\Http\Controllers\Frontend\BaseClientController;
 
 
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
+// use App\Http\Controllers\Auth\ForgotPasswordController;
+// use App\Http\Controllers\Auth\ResetPasswordController;
 
 /* AJAX */
 
@@ -54,6 +54,33 @@ Route::group(['prefix' => 'user'], function () {
     Route::put('update/{id}', [UserController::class, 'updateUser'])->name('user.update')->middleware('admin');
     Route::post('updateAvatar/{id}', [UserController::class, 'updateAvatar'])->name('user.updateAvatar')->middleware('admin');
     Route::delete('delete/{id}', [UserController::class, 'deleteUser'])->name('user.delete')->middleware('admin');
+});
+
+Route::group(['prefix' => 'account'], function () {
+    Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index');
+    Route::get('/login', [AccountController::class, 'index'])->name('account.login');
+    Route::get('/verify-account/{email}', [AccountController::class, 'verify'])->name('account.verify');
+    Route::post('/login', [AccountController::class, 'login'])->name('account.check_login');
+
+    Route::post('/register', [AccountController::class, 'register'])->name('account.register');
+    Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout');
+
+    Route::group(['middleware' => 'user.profile'], function () {
+        Route::get('/profile', [AccountController::class, 'profile'])->name('account.profile');
+        Route::post('/profile', [AccountController::class, 'profile'])->name('account.profile_update');
+
+        Route::get('/change-password', [AccountController::class, 'change_password'])->name('account.change_password');
+        Route::post('/change-password', [AccountController::class, 'check_change_password'])->name('account.check_change_password');
+    });
+
+
+
+    Route::get('/forgot-password', [AccountController::class, 'index'])->name('account.forgot');
+    Route::post('/forgot-password', [AccountController::class, 'index'])->name('account.check_forgot');
+
+    // sau khi nhấn vào forgot -> gửi mail tạoo mk mới
+    Route::get('/reset-password', [AccountController::class, 'index'])->name('account.reset');
+    Route::post('/reset-password', [AccountController::class, 'index'])->name('account.check_reset');
 });
 
 /* POSTS */
@@ -153,6 +180,9 @@ Route::middleware(['cart'])->group(function () {
     // Checkout
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index')->middleware('user.can_checkout_cart', 'check_payment');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('client.checkout.store')->middleware('user.can_checkout_cart');
+
+    // DONE CHECKOUT
+    Route::get('/checkout-success', [CheckoutController::class, 'checkoutSuccess'])->name('checkout.success');
 });
 //  ORDER CLIENT
 Route::get('/list-order', [OrderController::class, 'index'])->name('client.orders.index');
@@ -184,20 +214,13 @@ Route::group(['prefix' => 'ajax'], function () {
     Route::get('/get-infoproduct-by-color-size', [ShopController::class, 'getInfoProByAttribute'])->name('client.getInfoProductByAttribute');
 });
 
-Route::get('/login-client', [AuthClientController::class, 'index'])->name('login.client.index');
-Route::post('/login-client', [AuthClientController::class, 'login'])->name('client.auth.login');
-Route::post('/register-client', [AuthClientController::class, 'register'])->name('client.auth.register');
-Route::get('/logout-client', [AuthClientController::class, 'logout'])->name('client.logout');
-Route::get('/password/reset', [AuthClientController::class, 'logout'])->name('client.logout');
 
-
-
-Route::group(['prefix' => 'password'], function () {
-    Route::get('reset', [ForgotPasswordController::class, 'index'])->name('password.request');
-    Route::post('email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-    Route::get('reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-    Route::post('reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-});
+// Route::group(['prefix' => 'password'], function () {
+//     Route::get('reset', [ForgotPasswordController::class, 'index'])->name('password.request');
+//     Route::post('email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+//     Route::get('reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+//     Route::post('reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+// });
 
 
 

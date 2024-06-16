@@ -38,6 +38,12 @@ class UserController extends Controller
         $this->provinceReponsitory = $provinceReponsitory;
     }
 
+    public function userAPI()
+    {
+        $user = User::all();
+        return response()->json(['user' => $user], 200);
+    }
+
     public function index(Request $request)
     {
         $template = 'backend.user.index';
@@ -96,7 +102,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        
+
         if ($this->userService->create($request)) {
             session()->push('notifications', ['message' => 'Thêm người dùng thành công', 'type' => 'success']);
             return redirect()->route('user.index')->with('success', 'Thêm mới người dùng thành công');

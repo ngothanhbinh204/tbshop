@@ -4,9 +4,18 @@
 //     }
 // });
 $(document).ready(function () {
-        // alert("âcsd");
-
     load_gallery();
+
+    // Xử lý hover cho các phần tử được tải động
+    $(document).on('mouseenter', '.gallery-item', function() {
+        $(this).find('.overlay').css('opacity', '1');
+    });
+
+    $(document).on('mouseleave', '.gallery-item', function() {
+        $(this).find('.overlay').css('opacity', '0');
+    });
+
+
 
     // Hàm load table gallery
    function load_gallery(){
