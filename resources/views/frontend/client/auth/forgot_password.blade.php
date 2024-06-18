@@ -27,41 +27,39 @@
             <div class="back">
                 <img class="backImg" src="{{ asset('frontend/img/hero/hero-1.jpg') }}" alt="">
                 <div class="text">
-                    <span class="text-1">Complete miles of journey <br> with one step</span>
-                    <span class="text-2">Let's get started</span>
+                    {{-- <span class="text-1">Complete miles of journey <br> with one step</span>
+                    <span class="text-2">Let's get started</span> --}}
                 </div>
             </div>
         </div>
         <div class="forms">
             <div class="form-content">
-                <form action="{{ route('account.check_forgot') }}" method="post" class="login-form">
+                <form action="{{ route('account.post_forgot') }}" method="post" class="login-form">
                     @csrf
                     <div class="title">Quên mật khẩu</div>
-
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
 
-                        <div class="input-boxes">
-                            <div class="input-box">
-                                <i class="fas fa-envelope"></i>
-                                <input name="email" value="{{ old('email') }}" type="email"
-                                    class="form-control @error('email') is-invalid @enderror"
-                                    placeholder="Địa chỉ email" required autocomplete="email" autofocus>
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="button input-box">
-                                <input type="submit" value="Gửi liên kết đặt lại mật khẩu">
-                            </div>
-                            <div class="text sign-up-text "> <label for="flip">
-                                    <a href="{{ route('home.index') }}">Về trang chủ</a></label></div>
+                    <div class="input-boxes">
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input name="email" value="{{ old('email') }}" type="email" class="form-control"
+                                placeholder="Địa chỉ email" required autocomplete="email" autofocus>
                         </div>
+                        @error('email')
+                            <p style="color: rgb(177, 7, 7)" class="invalid-feedback text-danger" role="alert">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                        <div class="button input-box">
+                            <input type="submit" value="Gửi liên kết đặt lại mật khẩu">
+                        </div>
+                        <div class="text sign-up-text "> <label for="flip">
+                                <a href="{{ route('home.index') }}">Về trang chủ</a></label></div>
+                    </div>
                 </form>
             </div>
         </div>

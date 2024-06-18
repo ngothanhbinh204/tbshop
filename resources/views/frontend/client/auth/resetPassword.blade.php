@@ -34,47 +34,37 @@
         </div>
         <div class="forms">
             <div class="form-content">
-                <form action="{{ route('account.check_forgot') }}" method="post" class="login-form">
+                <form action="{{ route('account.post_reset_password') }}" method="post" class="login-form">
                     @csrf
                     <input type="hidden" name="token" value="{{ $token }}">
 
                     <div class="title">Đặt lại mật khẩu</div>
                     <div class="input-boxes">
+                        <input name="token" value="{{ $token }}" type="hidden"class="form-control">
+                        <input name="email" value="{{ $email }}" type="hidden"class="form-control">
                         <div class="input-box">
-                            <i class="fas fa-envelope"></i>
-                            <input name="email" value="{{ old('email') }}" type="email"
-                                class="form-control @error('email') is-invalid @enderror" placeholder="Địa chỉ email"
-                                required autocomplete="email" autofocus>
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
-                        <div class="input-box">
-                            <i class="fas fa-envelope"></i>
+                            <i class="fas fa-lock"></i>
                             <input name="password" type="password"
                                 class="form-control @error('password') is-invalid @enderror"
                                 placeholder="Nhập mật khẩu mới" required autocomplete="password" autofocus>
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
+                        @error('password')
+                        <p style="color: rgb(177, 7, 7)" class="invalid-feedback text-danger" role="alert">
+                            {{ $message }}
+                        </p>
+                    @enderror
 
                         <div class="input-box">
-                            <i class="fas fa-envelope"></i>
+                            <i class="fas fa-lock"></i>
                             <input name="password_confirm" type="password"
                                 class="form-control @error('password_confirm') is-invalid @enderror"
                                 placeholder="Xác nhận mật khẩu" required autocomplete="password_confirm" autofocus>
-                            @error('password_confirm')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
+                        @error('password_confirm')
+                            <p style="color: rgb(177, 7, 7)" class="invalid-feedback text-danger" role="alert">
+                                {{ $message }}
+                            </p>
+                        @enderror
                         <div class="button input-box">
                             <input type="submit" value="Đặt lại mật khẩu">
                         </div>

@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -21,7 +21,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif --}}
     <div class="container">
         <input type="checkbox" id="flip">
         <div class="cover">

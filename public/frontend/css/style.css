@@ -4111,4 +4111,17 @@ ol {
 	font-size: 0.75rem;
 }
 
+
+.bank-button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	margin: 0 10px 0 0;
+}
+
+.bank-button img {
+	width: 40%;
+	height: auto;
+}
   

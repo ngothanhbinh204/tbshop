@@ -8,15 +8,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\AuthRequest;
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use Illuminate\Support\Facades\Session;
 use App\Mail\VerifyAccount;
-use Mail;
+use Illuminate\Support\Facades\Mail;
+use App\Models\PasswordReset;
 
 
 
@@ -76,7 +77,7 @@ class AuthController extends Controller
                     // Chuyển dữ liệu từ session cart sang database
                     $this->migrateSessionCartToDatabase();
                     // chuyểh hướng tới trang cố đăng nhập trước đó
-                    if ($productPageUrl && $productPageUrl != url('/account/login') && strpos($productPageUrl, '/account/verify-account') === false) {
+                    if ($productPageUrl && $productPageUrl != url('/account/login') && strpos($productPageUrl, '/account/verify-account') === false  && strpos($productPageUrl, '/account/reset-password') === false) {
                         return redirect()->intended($productPageUrl)->with('success', 'Đăng Nhập Thành Công');
                     } else {
                         return redirect('/')->with('success', 'Đăng Nhập Thành Công');
@@ -189,31 +190,84 @@ class AuthController extends Controller
             'provinces',
         ));
     }
-    public function check_profile()
+
+    public function post_profile()
     {
     }
 
-    public function change_pasword()
+    public function change_password()
     {
         // return view('frontend.client.auth.forgot_password');
     }
-    public function check_change_pasword()
+    public function post_change_password()
     {
     }
 
-    public function forgot_pasword()
+    public function forgot_password()
     {
         return view('frontend.client.auth.forgot_password');
     }
-    public function check_forgot_pasword()
+    public function post_forgot_password(Request $request)
     {
+        // dd(1);
+        $request->validate([
+            'email' => 'required|exists:users'
+        ], [
+            'email.required' => 'Vui lòng nhập email',
+            'email.exists' => 'Email này không tồn tại trong hệ thống'
+        ]);
+        $token = strtoupper(Str::random(10));
+        $user = User::where('email', $request->email)->first();
+        // dd($user);
+        PasswordReset::updateOrCreate(
+            ['email' => $request->email],
+            ['token' => $token, 'created_at' => now()]
+        );
+
+        Mail::send('frontend.client.emails.check_email_forgot', compact('token', 'user'), function ($email) use ($user) {
+            $email->subject('TbShop - Lấy lại mật khẩu tài khoản');
+            $email->to($user->email);
+        });
+        return redirect()->route('account.login')->with('success', "Vui lòng kiểm tra email để thay đổi mật khẩu");
     }
 
-    public function reset_pasword()
+    public function reset_password($user, $token)
     {
-        return view('frontend.client.auth.resetPassword');
+        $user = User::findOrFail($user);
+        if ($user && $token) {
+            $email = $user->email;
+            return view('frontend.client.auth.resetPassword', compact(
+                'email',
+                'token'
+            ));
+        }
     }
-    public function check_reset_pasword()
+    public function post_reset_password(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+            'password_confirm' => 'required|min:8|same:password',
+            'token' => 'required'
+        ], [
+            'email.required' => "Vui lòng điền thông tin email",
+            'email.email' => "Email không đúng định dạng, vd : Example@gmail.com",
+
+            'password.required' => "Vui lòng điền mật khẩu",
+            'password.min' => "Mật khẩu ít nhất 8 ký tự",
+
+            'password_confirm.required' => "Vui lòng điền mật khẩu xác nhận",
+            'password_confirm.min' => "Mật khẩu xác nhận ít nhất 8 ký tự",
+            'password_confirm.same' => "Mật khẩu xác nhận không khớp",
+
+            'token.required' => "Không có token",
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return redirect()->route('account.login')->withErrors(['email' => 'Email không tồn tại']);
+        }
+        $user->update(['password' => Hash::make($request->password)]);
+        return redirect()->route('account.login')->with('success', 'Mật khẩu đã được thay đổi thành công. Vui lòng đăng nhập lại.');
     }
 }

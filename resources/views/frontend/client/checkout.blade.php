@@ -230,6 +230,7 @@
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
+
                                     <div class="checkout__input__checkbox">
                                         <label for="paypal">
                                             Thanh toán qua Paypal
@@ -238,11 +239,53 @@
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
+
+                                    <div class="checkout__input__checkbox d-flex">
+                                        <form action="{{ route('onepay_payment') }}" method="post">
+                                            @csrf
+                                            <input id="onepay_total" name="total_onepay" type="hidden" value="">
+                                            <button type="submit" name="payUrl" class="bank-button">
+                                                <img src="{{ asset('frontend/img/onepay2_Logo.png') }}" alt="OnePay">
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('momo_payment') }}" method="post">
+                                            @csrf
+                                            <input id="momo_total" name="total_momo" type="hidden" value="">
+                                            <button type="submit" name="payUrl" class="bank-button">
+                                                <img src="{{ asset('frontend/img/MoMo_logo.png') }}" alt="MoMo">
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('vnpay_payment') }}" method="post">
+                                            @csrf
+                                            <input id="vnpay_total" name="total_vnpay" type="hidden" value="">
+                                            <button type="submit" name="redirect" class="bank-button">
+                                                <img src="{{ asset('frontend/img/vnpay_Logo.png') }}" alt="VNPay">
+                                            </button>
+                                        </form>
+                                    </div>
                                     {{-- <input type="hidden" name="order_code" id=""> --}}
                                     <button type="submit" class="site-btn text-uppercase">Thanh toán ngay</button>
                                 </div>
                             </div>
                         </div>
+                    </form>
+                    <form action="{{ route('vnpay_payment') }}" method="post">
+                        @csrf
+                        <input id="vnpay_total" name="total_vnpay" type="hidden" value="">
+                        <button type="submit" name="redirect" class="btn btn-primary">Thanh
+                            toán VNPay</button>
+                    </form>
+                    <form action="{{ route('momo_payment') }}" method="post">
+                        @csrf
+                        <input id="momo_total" name="total_momo" type="hidden" value="">
+                        <button type="submit" name="payUrl" class="btn btn-primary">Thanh
+                            toán MoMo</button>
+                    </form>
+                    <form action="{{ route('onepay_payment') }}" method="post">
+                        @csrf
+                        <input id="onepay_total" name="total_onepay" type="hidden" value="">
+                        <button type="submit" name="payUrl" class="btn btn-primary">Thanh
+                            toán OnePay</button>
                     </form>
                 </div>
             </div>
@@ -300,6 +343,9 @@
                 $('#selectedShippingMethod').text("Phương thức giao hàng : " + labelValue);
                 $('#ship').text(formatCurrency(ship));
                 $('#totalPriceInput').val(totalPrice);
+                $('#vnpay_total').val(totalPrice);
+                $('#momo_total').val(totalPrice);
+                $('#onepay_total').val(totalPrice);
                 console.log(labelValue);
             }
         }
