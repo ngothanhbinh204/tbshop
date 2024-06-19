@@ -28,35 +28,6 @@ class ShopController extends Controller
         $this->provinceRepository = $provinceRepository;
     }
 
-
-
-    public function index(Request $request)
-    {
-        // $products = Product::with(['attribute' => function ($query) {
-        //     $query->where('type', 'color');
-        // }])->get();
-        // dd($products);
-        $categories = Category::getCategories();
-        $brands = Brand::getBrands();
-        $colors = Attribute::getColors();
-        $sizes = Attribute::getSizes();
-        $keywords = "";
-        $filters = $request->only(['keywords', 'category_id', 'brand_id', 'price_min', 'price_max', 'color', 'size']);
-        if ($request->input('keywords')) {
-            $keywords = $request->input('keywords');
-        }
-        $products = $this->getProduct($filters);
-        // Lọc màu duy nhất từ danh sách sản phẩm
-        // dd($products);
-        return view('frontend.client.shop', compact(
-            'products',
-            'categories',
-            'brands',
-            'colors',
-            'sizes',
-            'keywords'
-        ));
-    }
     public function getProduct($filters = [])
     {
 
@@ -121,13 +92,34 @@ class ShopController extends Controller
 
         return $query->paginate(9);
     }
-
+    public function index(Request $request)
+    {
+        $categories = Category::getCategories();
+        $brands = Brand::getBrands();
+        $colors = Attribute::getColors();
+        $sizes = Attribute::getSizes();
+        $keywords = "";
+        $filters = $request->only(['keywords', 'category_id', 'brand_id', 'price_min', 'price_max', 'color', 'size']);
+        if ($request->input('keywords')) {
+            $keywords = $request->input('keywords');
+        }
+        $products = $this->getProduct($filters);
+        return view('frontend.client.shop', compact(
+            'products',
+            'categories',
+            'brands',
+            'colors',
+            'sizes',
+            'keywords'
+        ));
+    }
     public function filterProductByCategories(Request $request)
     {
         $categories = Category::getCategories();
         $brands = Brand::getBrands();
         $colors = Attribute::getColors();
         $sizes = Attribute::getSizes();
+        $keywords = $request->input('keywords', ''); // Lấy từ khóa tìm kiếm, nếu có
         $products = $this->getProduct(['category_id' => $request->category_id]);
         return view('frontend.client.shop', compact(
             'products',
@@ -135,6 +127,7 @@ class ShopController extends Controller
             'brands',
             'colors',
             'sizes',
+            'keywords'
         ));
     }
 
@@ -177,13 +170,13 @@ class ShopController extends Controller
 
     public function productDetail($id)
     {
-        $product = Product::with(['attribute', 'categories', 'brands', 'product_attribute'])->findOrFail($id);
+        $product = Product::with(['attribute', 'categories', 'brands', 'product_attribute', 'province'])->findOrFail($id);
         $product->increment('views'); // Tăng số lượng sản phẩm bằng increment
         if ($product) {
             // gallery
             $gallery = Gallery::where('product_id', $id)->get();
             $productAttr = $this->productService->getProductAttributePairs($id);
-            $comments = Comment::with('product', 'user')->where('product_id', $id)->orderByDesc('created_at')->get();
+            $comments = Comment::with('product', 'user.province')->where('product_id', $id)->orderByDesc('created_at')->get();
             $colorSizePrice = [];
             $colors = [];
             $sizes = [];
@@ -203,7 +196,6 @@ class ShopController extends Controller
             $sizeUnique = collect($sizes)->unique();
             $productLienQuan = Product::where('category_id', $product->category_id)
                 ->get();
-            // dd($productLienQuan);
             return view('frontend.client.shopDetail', compact(
                 'product',
                 'gallery',

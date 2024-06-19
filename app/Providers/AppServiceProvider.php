@@ -5,7 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Composers\CartComposer;
-
+use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 class AppServiceProvider extends ServiceProvider
 {
 
@@ -50,5 +51,8 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer("frontend.client.partials.header", CartComposer::class);
         View::composer("frontend.client.cart", CartComposer::class);
+
+        Carbon::setLocale('vi');
+        Schema::defaultStringLength(191);
     }
 }

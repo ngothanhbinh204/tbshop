@@ -95,7 +95,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="product__pagination">
-                {{ $products->appends(['keywords' => $keywords])->links('frontend.client.components.pagination') }}
+                {{ $products->appends(['keywords' => $keywords ?? ''])->links('frontend.client.components.pagination') }}
                 <!-- Hiển thị link phân trang -->
             </div>
         </div>

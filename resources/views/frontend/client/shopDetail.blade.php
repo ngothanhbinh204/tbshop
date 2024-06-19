@@ -1,7 +1,9 @@
 @extends('frontend.client.layout')
 
 @section('title', 'Trang Chi Tiết Shop')
-
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('frontend/css/comments.css') }}">
+@endpush
 @section('content')
     <!-- Shop Details Section Begin -->
     <!-- Input để hiển thị giá -->
@@ -82,21 +84,33 @@
                 </div>
             </div>
 
-            <form action="{{ route('client.cart.add') }}" method="post">
-                @csrf
-                <input name="id_product" type="hidden" value="{{ $product->id }}">
-                <div id="productInfo" class="product__details__content">
-                    <div class="container">
+
+            <div id="productInfo" class="product__details__content">
+                <div class="container">
+                    <form action="{{ route('client.cart.add') }}" method="post">
+                        @csrf
+                        <input name="id_product" type="hidden" value="{{ $product->id }}">
                         <div class="row d-flex justify-content-center">
                             <div class="col-lg-8">
                                 <div class="product__details__text">
                                     <h4>{{ $product->name }}</h4>
                                     <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        @if ($product->comments->avg('stars') > 0)
+                                            @php
+                                                $avgStar = $product->comments->avg('stars');
+                                            @endphp
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $avgStar)
+                                                    <i class="fa fa-star"></i>
+                                                @elseif ($i > $avgStar && $i < $avgStar + 1)
+                                                    <i class="fa fa-star-half-o"></i>
+                                                @else
+                                                    <i class="fa fa-star-o"></i>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            Chưa có đánh giá
+                                        @endif
                                         <span> - {{ $product->views }} Lượt xem</span>
                                         @if (isset($product->price_sale))
                                             <span
@@ -179,118 +193,64 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="product__details__tab">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="tab" href="#tabs-5"
-                                                role="tab">Mô
-                                                tả</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Khách
-                                                hàng
-                                                đánh giá</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">Thông
-                                                tin
-                                                thêm của sản phẩm</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tabs-5" role="tabpanel">
-                                            <div class="product__details__tab__content">
-                                                <div class="product__details__tab__content__item">
-                                                    <h5>Mô tả sản phẩm</h5>
-                                                    <p>{!! $product->description !!}</p>
-                                                </div>
+                    </form>
 
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product__details__tab">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tabs-5" role="tab">Mô
+                                            tả</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">
+                                            Đánh giá ({{ $comments->count() }})
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">
+                                            Thông tin bổ sung
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tabs-5" role="tabpanel">
+                                        <div class="product__details__tab__content">
+                                            <div class="product__details__tab__content__item">
+                                                <h5>Mô tả sản phẩm</h5>
+                                                <p>{!! $product->description !!}</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tabs-6" role="tabpanel">
+                                        <div class="product__details__tab__content">
+                                            <div class="product__details__tab__content__item">
+                                                @include('frontend.client.components.comments')
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="tabs-6" role="tabpanel">
-                                            <div class="product__details__tab__content">
-                                                <div class="product__details__tab__content__item">
-                                                    <h5>Products Infomation</h5>
-                                                    <p>A Pocket PC is a handheld computer, which features many of the same
-                                                        capabilities as a modern PC. These handy little devices allow
-                                                        individuals to retrieve and store e-mail messages, create a contact
-                                                        file, coordinate appointments, surf the internet, exchange text
-                                                        messages
-                                                        and more. Every product that is labeled as a Pocket PC must be
-                                                        accompanied with specific software to operate the unit and must
-                                                        feature
-                                                        a touchscreen and touchpad.</p>
-                                                    <p>As is the case with any new technology product, the cost of a Pocket
-                                                        PC
-                                                        was substantial during it’s early release. For approximately
-                                                        $700.00,
-                                                        consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                                        These days, customers are finding that prices have become much more
-                                                        reasonable now that the newness is wearing off. For approximately
-                                                        $350.00, a new Pocket PC can now be purchased.</p>
-                                                </div>
-                                                <div class="product__details__tab__content__item">
-                                                    <h5>Material used</h5>
-                                                    <p>Polyester is deemed lower quality due to its none natural quality’s.
-                                                        Made
-                                                        from synthetic materials, not natural like wool. Polyester suits
-                                                        become
-                                                        creased easily and are known for not being breathable. Polyester
-                                                        suits
-                                                        tend to have a shine to them compared to wool and cotton suits, this
-                                                        can
-                                                        make the suit look cheap. The texture of velvet is luxurious and
-                                                        breathable. Velvet is a great choice for dinner party jacket and can
-                                                        be
-                                                        worn all year round.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="tabs-7" role="tabpanel">
-                                            <div class="product__details__tab__content">
-                                                <p class="note">Nam tempus turpis at metus scelerisque placerat nulla
-                                                    deumantos
-                                                    solicitud felis. Pellentesque diam dolor, elementum etos lobortis des
-                                                    mollis
-                                                    ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                                    pharetras loremos.</p>
-                                                <div class="product__details__tab__content__item">
-                                                    <h5>Products Infomation</h5>
-                                                    <p>A Pocket PC is a handheld computer, which features many of the same
-                                                        capabilities as a modern PC. These handy little devices allow
-                                                        individuals to retrieve and store e-mail messages, create a contact
-                                                        file, coordinate appointments, surf the internet, exchange text
-                                                        messages
-                                                        and more. Every product that is labeled as a Pocket PC must be
-                                                        accompanied with specific software to operate the unit and must
-                                                        feature
-                                                        a touchscreen and touchpad.</p>
-                                                    <p>As is the case with any new technology product, the cost of a Pocket
-                                                        PC
-                                                        was substantial during it’s early release. For approximately
-                                                        $700.00,
-                                                        consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                                        These days, customers are finding that prices have become much more
-                                                        reasonable now that the newness is wearing off. For approximately
-                                                        $350.00, a new Pocket PC can now be purchased.</p>
-                                                </div>
-                                                <div class="product__details__tab__content__item">
-                                                    <h5>Material used</h5>
-                                                    <p>Polyester is deemed lower quality due to its none natural quality’s.
-                                                        Made
-                                                        from synthetic materials, not natural like wool. Polyester suits
-                                                        become
-                                                        creased easily and are known for not being breathable. Polyester
-                                                        suits
-                                                        tend to have a shine to them compared to wool and cotton suits, this
-                                                        can
-                                                        make the suit look cheap. The texture of velvet is luxurious and
-                                                        breathable. Velvet is a great choice for dinner party jacket and can
-                                                        be
-                                                        worn all year round.</p>
-                                                </div>
+                                    </div>
+                                    <div class="tab-pane" id="tabs-7" role="tabpanel">
+                                        <div class="product__details__tab__content">
+                                            <div class="product__details__tab__content__item">
+                                                <p>
+                                                    <strong>Trọng lượng</strong> :
+                                                    {{ number_format($product->weight, 0, '.', ',') }}g
+                                                    </tr>
+                                                </p>
+                                                <p>
+                                                    <strong>Xuất xứ</strong> :
+                                                    {{ $product->province->name }}
+                                                    </tr>
+                                                </p>
+                                                <p>
+                                                    <strong>Trọng lượng</strong> :
+                                                    {{ number_format($product->weight, 0, '.', ',') }}g
+                                                    </tr>
+                                                </p>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -298,104 +258,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </form>
-            <div class="product__details__content">
-                <div class="container">
-                    <div class="row d-flex justify-content-center">
-                        <div class="blog__details__comment">
-                            <h4>Khu vực bình luận</h4>
-                            <div class="row justify-content-center">
-                                <div class="col-lg-12 comments p-4 mb-3">
-                                    @if ($comments)
-                                        @foreach ($comments as $item)
-                                            <div class="blog__details__author mb-3">
-                                                <div class="blog__details__author__pic">
-                                                    @if (isset($item->user->image))
-                                                        <img src="{{ asset('uploads/user/' . $item->user->image) }}"
-                                                            alt="">
-                                                    @else
-                                                        <img src="{{ asset('uploads/user/user_default.jpg') }}"
-                                                            alt="">
-                                                    @endif
-
-                                                </div>
-                                                <div class="blog__details__author__text">
-                                                    <span class="mr-3">{{ $item->user->username }}</span>
-
-                                                    <span>
-                                                        <i style="color: #ffd43b" class="fa fa-clock-o"
-                                                            aria-hidden="true"></i>
-                                                        {{ date('d-m-Y, H:i:s', strtotime($item->created_at)) }}
-                                                    </span>
-                                                </div>
-                                                <p class="m-2"> <strong>Nội dung :</strong> {{ $item->comment }}</p>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                </div>
-                                <form method="POST" action="{{ route('client.comment.store', $id = $product->id) }}">
-                                    {{-- @method('POST') --}}
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 mb-3 block-comment">
-                                            @if (auth()->user())
-                                                <section class='rating-widget'>
-                                                    <div class='rating-stars text-center'>
-                                                        <p>Gửi đánh giá</p>
-                                                        <input type="hidden" class="star_rating_value" name="star">
-                                                        <ul id='stars'>
-                                                            <li class='star' title='Rất tệ' data-value='1'>
-                                                                <i class='fa fa-star fa-fw'></i>
-                                                            </li>
-                                                            <li class='star' title='Tệ' data-value='2'>
-                                                                <i class='fa fa-star fa-fw'></i>
-                                                            </li>
-                                                            <li class='star' title='Tốt' data-value='3'>
-                                                                <i class='fa fa-star fa-fw'></i>
-                                                            </li>
-                                                            <li class='star' title='Tuyệt' data-value='4'>
-                                                                <i class='fa fa-star fa-fw'></i>
-                                                            </li>
-                                                            <li class='star' title='Cực kỳ tốt!!!' data-value='5'>
-                                                                <i class='fa fa-star fa-fw'></i>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div style="display: none" class='success-box'>
-                                                        <div class='clearfix'></div>
-                                                        <img alt='tick image' width='32'
-                                                            src='data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0MjYuNjY3IDQyNi42NjciIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQyNi42NjcgNDI2LjY2NzsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxwYXRoIHN0eWxlPSJmaWxsOiM2QUMyNTk7IiBkPSJNMjEzLjMzMywwQzk1LjUxOCwwLDAsOTUuNTE0LDAsMjEzLjMzM3M5NS41MTgsMjEzLjMzMywyMTMuMzMzLDIxMy4zMzMgIGMxMTcuODI4LDAsMjEzLjMzMy05NS41MTQsMjEzLjMzMy0yMTMuMzMzUzMzMS4xNTcsMCwyMTMuMzMzLDB6IE0xNzQuMTk5LDMyMi45MThsLTkzLjkzNS05My45MzFsMzEuMzA5LTMxLjMwOWw2Mi42MjYsNjIuNjIyICBsMTQwLjg5NC0xNDAuODk4bDMxLjMwOSwzMS4zMDlMMTc0LjE5OSwzMjIuOTE4eiIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K' />
-                                                        <div class='text-message'></div>
-                                                        <div class='clearfix'></div>
-                                                    </div>
-                                                </section>
-                                                <div class="col-lg-12 text-center">
-                                                    <textarea placeholder="Đánh giá về sản phẩm" name="comment"></textarea>
-                                                    <button type="submit" class="site-btn write-comment">Gửi bình
-                                                        luận</button>
-                                                </div>
-                                            @else
-                                                <span class="text-danger">Vui lòng đăng nhập để đánh giá sản phẩm
-                                                    <div class="ml-2">
-                                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                                        <a href="{{ route('account.login') }}">Đăng nhập ngay</a>
-                                                    </div>
-                                                </span>
-                                            @endif
-
-                                        </div>
-
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
+            </div>
         </section>
 
     @endif

@@ -6,7 +6,7 @@
                 <input name="keywords" type="search" value="{{ request()->keywords }}" placeholder="Tìm kiếm...">
                 <button type="submit"><span class="icon_search"></span></button>
             </form>
-            
+
         </div>
         <div class="shop__sidebar__accordion">
             <div class="accordion" id="accordionExample">
@@ -108,7 +108,7 @@
                 </div>
                 <div class="card">
                     <div class="card-heading">
-                        <a data-toggle="collapse" data-target="#collapseFour">Size</a>
+                        <a data-toggle="collapse" data-target="#collapseFour">Kích thước</a>
                     </div>
                     <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
                         <div class="card-body">
@@ -126,7 +126,7 @@
                 </div>
                 <div class="card">
                     <div class="card-heading">
-                        <a data-toggle="collapse" data-target="#collapseFive">Colors</a>
+                        <a data-toggle="collapse" data-target="#collapseFive">Màu sắc</a>
                     </div>
                     <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
                         <div class="card-body">
@@ -144,7 +144,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-heading">
                         <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
                     </div>
@@ -161,7 +161,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

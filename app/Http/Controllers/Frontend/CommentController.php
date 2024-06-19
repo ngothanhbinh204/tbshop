@@ -15,6 +15,9 @@ class CommentController extends Controller
             // 'product_id' => 'required|exists:products,id',
             'star' => 'required',
             'comment' => 'required',
+        ], [
+            'comment.required' => 'Vui lòng điền đánh giá sản phẩm',
+            'star.required' => 'Vui lòng đánh giá sao sản phẩm'
         ]);
         $user = auth()->user();
         if (!$user) {
